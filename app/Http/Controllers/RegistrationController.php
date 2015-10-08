@@ -157,5 +157,20 @@ class RegistrationController extends BaseController
             return $this->error('Email code not provided, try email=<your email>',422);
         }
         $code= str_random(30);
+        try {
+            set_time_limit(60); //increase the timeout of php to send mail
+            Mail::send('email.ForgotPassword', array('forgot_password_code' => $code), function ($message) {
+                $message->to(Input::get('email'))
+                    ->subject('ForgotPassword');
+            });
+        }catch(\Exception $e){
+            return $this->response()->array($e);
+        }
+        if(User::where('email','=',$email)->first(['id'])){
+            User::where('email','=',$email)->update(['forgot_password_code'=>$code]);
+        }else{
+            return $this->error('Email does not match any records',404);
+        }
+        return $this->success('Success!Email also sent');
     }
 }
