@@ -50,7 +50,9 @@ class UserProfileController extends Controller
      */
     public function show($id)
     {
-        //
+        // show profile data
+        $profile = UserProfile::where('candybrush_users_profiles_users_id', $id)->get();
+        return $profile;
     }
 
     /**
@@ -73,7 +75,16 @@ class UserProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //dd($request->all());
+        $data = $request->all();
+
+        UserProfile::where('candybrush_users_profiles_users_id', $id)->update($data);
+
+
+        //$data = $this->getdata();
+        /*$profile = UserProfile::find($id);
+        $profile->update($data);*/
+        echo "success";
     }
 
     /**
@@ -85,5 +96,20 @@ class UserProfileController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getdata()
+    {
+
+        return [
+            UserProfile::CANDYBRUSH_USERS_PROFILES_FIRST_NAME => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_FIRST_NAME),
+            UserProfile::CANDYBRUSH_USERS_PROFILES_LAST_NAME => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_LAST_NAME),
+            UserProfile::CANDYBRUSH_USERS_PROFILES_MOBILE => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_MOBILE),
+            UserProfile::CANDYBRUSH_USERS_PROFILES_ADDRESS => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_ADDRESS),
+            UserProfile::CANDYBRUSH_USERS_PROFILES_STATE => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_STATE),
+            UserProfile::CANDYBRUSH_USERS_PROFILES_CITY => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_CITY),
+            UserProfile::CANDYBRUSH_USERS_PROFILES_PIN => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_PIN)
+
+        ];
     }
 }
