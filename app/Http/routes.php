@@ -50,6 +50,14 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
      * * for creating storing user forgot password code
      */
     $api->post('users/forgotPassword/','App\Http\Controllers\RegistrationController@forgotPassword');
+    /*
+     * for validating the forgot password code i.e. this checks if forgot password code exist in the database
+     */
+    $api->post('users/validateForgotPasswordCode/','App\Http\Controllers\RegistrationController@validateCode');
+    /*
+     * for password reset
+     */
+    $api->post('users/resetPassword/','App\Http\Controllers\RegistrationController@resetPassword');
 });
 /*
  * OAuth2 Server Routes

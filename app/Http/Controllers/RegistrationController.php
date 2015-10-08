@@ -136,7 +136,7 @@ class RegistrationController extends BaseController
     public function activateAccount(){
         $code=Input::get('confirmation_code','');
         if($code==''){
-            return $this->error('Confirmation code not provided, try confirmation_code=<your code>',422);
+            return $this->error('Code not provided, try confirmation_code=<your code>',422);
         }
         if($value=DB::table('users')->where('confirmation_code', $code)->value('confirmation_code')){
             if(DB::table('users')->where('confirmation_code', $code)->update(['confirmed'=>1,'confirmation_code'=>NULL])){
@@ -154,9 +154,16 @@ class RegistrationController extends BaseController
     public function forgotPassword(){
         $email=Input::get('email','');
         if($email==''){
-            return $this->error('Email code not provided, try email=<your email>',422);
+            return $this->error('Email not provided, try email=<your email>',422);
         }
-        $code= str_random(30);
+        $code='';
+        // check if email exist in database
+        if(User::where('email','=',$email)->first(['id'])){
+            $code= str_random(30); // make random code
+            User::where('email','=',$email)->update(['forgot_password_code'=>$code]); //code store in database
+        }else{
+            return $this->error('Email does not match any records',404); // error message on email not found
+        }
         try {
             set_time_limit(60); //increase the timeout of php to send mail
             Mail::send('email.ForgotPassword', array('forgot_password_code' => $code), function ($message) {
@@ -166,11 +173,66 @@ class RegistrationController extends BaseController
         }catch(\Exception $e){
             return $this->response()->array($e);
         }
-        if(User::where('email','=',$email)->first(['id'])){
-            User::where('email','=',$email)->update(['forgot_password_code'=>$code]);
-        }else{
-            return $this->error('Email does not match any records',404);
-        }
         return $this->success('Success!Email also sent');
+    }
+    /*
+     * function to validate the forgot password code
+     */
+    public function validateCode(){
+        $code=Input::get('forgot_password_code','');
+        if($code==''){
+            return $this->error('Code not provided, try forgot_password_code=<your code>',422);
+        }
+        if(User::where('forgot_password_code','=',$code)->first(['id'])){
+            return $this->success();
+        }else{
+            return $this->error('code expired');
+        }
+    }
+    /*
+     * function to reset the password
+     */
+    public function resetPassword(){
+        $str='';
+        $code=Input::get('forgot_password_code','');
+        $password=Input::get('password','');
+        $password_confirmation=Input::get('password_confirmation','');
+        $check_for_password_match=true;
+        if($code==''){
+            $str.='Code not provided, try forgot_password_code=<your code>';
+        }
+        if($password==''){
+            $str.='<br/>password not provided, try password=<your password><br/>';
+            $check_for_password_match=false;
+        }
+        if($password_confirmation==''){
+            $str.='<br/>password_confirmation not provided, try password_confirmation=<your confirm password><br/>';
+            $check_for_password_match=false;
+        }
+        if($check_for_password_match){
+            if($password!=$password_confirmation){
+                $str.='<br/>password and password_confirmation do not match<br/>';
+            }
+        }
+        if($str!=''){
+            return $this->error($str,422);
+        }
+        $rules=[
+            'password' => 'required|confirmed|min:6'
+        ];
+        $validator=Validator::make([
+            'password'=>$password,
+            'password_confirmation'=>$password_confirmation
+        ],$rules);
+        if($validator->fails()){
+            return $this->error('error! check password length must be greater than 6',422);
+        }
+        if(User::where('forgot_password_code','=',$code)->update([
+            'password'=>Hash::make($password)
+        ])){
+            return $this->success();
+        }else{
+            return $this->error('unknown error occurred! Try Again',520);
+        }
     }
 }
