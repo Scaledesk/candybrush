@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\libraries\Transformers\UserTransformer;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
     function __construct()
     {
@@ -22,8 +23,7 @@ class UserController extends Controller
     public function index()
     {
         // all users
-        return User::all();
-
+        return $this->response()->collection(User::all(),new UserTransformer());
     }
 
     /**
@@ -56,7 +56,7 @@ class UserController extends Controller
     public function show($id)
     {
         //
-        return User::findOrFail($id);
+        return $this->response()->item(User::findOrFail($id),new UserTransformer());
     }
 
     /**

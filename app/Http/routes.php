@@ -24,19 +24,23 @@ $api = app('Dingo\Api\Routing\Router');
 $api->version('v1',function($api){
 $api->get('users','App\Http\Controllers\UserController@index');
 $api->get('users/{id}', 'App\Http\Controllers\UserController@show');
-$api->post('auth/login', function () {
-    $credentials = Input::only('email', 'password');
-
-    if ( ! $token = \Tymon\JWTAuth\Facades\JWTAuth::attempt($credentials) )
-    {
-        // return the 401 response
-        return Response::json(['error' => 'invalid_credentials'], 401);
+$api->post('auth/login', function (\Illuminate\Http\Request $request) {
+    $credentials = $request->only('email', 'password');
+    try {
+        // verify the credentials and create a token for the user
+        if (! $token = \Tymon\JWTAuth\Facades\JWTAuth::attempt($credentials)) {
+            return response()->json(['error' => 'invalid_credentials'], 401);
+        }
+    } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
+        // something went wrong
+        return response()->json(['error' => 'could_not_create_token'], 500);
     }
 
-    return Response::json(compact('token'));
+    // if no errors are encountered we can return a JWT
+    return response()->json(compact('token'));
 });
+  $api->post('signup','App\Http\Controllers\RegistrationController@store');
 });
-
 /*
  * OAuth2 Server Routes
  */
