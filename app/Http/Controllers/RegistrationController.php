@@ -63,10 +63,9 @@ class RegistrationController extends BaseController
             'password',
             'password_confirmation'
         );*/
-        print_r(Input::get('name'));
-        die;
+      $input=$this->user_transformer->requestAdaptor();
         $validator=Validator::make($input,$rules);
-         if($validator->fails()){
+        if($validator->fails()){
              throw new StoreResourceFailedException;
          }
          $confirmation_code= str_random(30);

@@ -28,7 +28,7 @@ class UserTransformer extends TransformerAbstract{
             'name'=>Input::get('name'),
             'email'=>Input::get('email'),
             'password'=>Input::get('password'),
-            'password_confirmed'=>Input::get('password_confirmed')
+            'password_confirmation'=>Input::get('password_confirmation')
         ];
     }
 }
