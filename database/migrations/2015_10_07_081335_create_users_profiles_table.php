@@ -35,5 +35,6 @@ class CreateUsersProfilesTable extends Migration
     public function down()
     {
         //
+        Schema::drop('users_profiles');
     }
 }

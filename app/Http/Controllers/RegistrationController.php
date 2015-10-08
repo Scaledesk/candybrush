@@ -8,6 +8,7 @@ use Dingo\Api\Exception\StoreResourceFailedException;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Mail;
@@ -63,10 +64,9 @@ class RegistrationController extends BaseController
             'password',
             'password_confirmation'
         );*/
-        print_r(Input::get('name'));
-        die;
+      $input=$this->user_transformer->requestAdaptor();
         $validator=Validator::make($input,$rules);
-         if($validator->fails()){
+        if($validator->fails()){
              throw new StoreResourceFailedException;
          }
          $confirmation_code= str_random(30);
@@ -129,5 +129,33 @@ class RegistrationController extends BaseController
     public function destroy($id)
     {
         //
+    }
+    /*
+     * function to activate account
+     */
+    public function activateAccount(){
+        $code=Input::get('confirmation_code','');
+        if($code==''){
+            return $this->error('Confirmation code not provided, try confirmation_code=<your code>',422);
+        }
+        if($value=DB::table('users')->where('confirmation_code', $code)->value('confirmation_code')){
+            if(DB::table('users')->where('confirmation_code', $code)->update(['confirmed'=>1,'confirmation_code'=>NULL])){
+                return  $this->success();
+            }else{
+                return $this->response()->error('Try Again! unknown error occoured',520);
+            }
+        }else{
+            return $this->error('Code expires');
+        }
+    }
+    /*
+     * function to insert code for forgot password
+     */
+    public function forgotPassword(){
+        $email=Input::get('email','');
+        if($email==''){
+            return $this->error('Email code not provided, try email=<your email>',422);
+        }
+        $code= str_random(30);
     }
 }

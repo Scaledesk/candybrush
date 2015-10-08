@@ -38,8 +38,18 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
     // if no errors are encountered we can return a JWT
     return response()->json(compact('token'));
 });
+    /*
+     * for user registration or sign up
+     */
   $api->post('signup','App\Http\Controllers\RegistrationController@store');
-
+    /*
+     * * for user account activation
+     */
+    $api->post('users/activate/','App\Http\Controllers\RegistrationController@activateAccount');
+    /*
+     * * for creating storing user forgot password code
+     */
+    $api->post('users/forgotPassword/','App\Http\Controllers\RegistrationController@forgotPassword');
 });
 /*
  * OAuth2 Server Routes

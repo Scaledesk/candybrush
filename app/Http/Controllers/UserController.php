@@ -7,12 +7,14 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use Monolog\Handler\NullHandlerTest;
 
 class UserController extends BaseController
 {
     function __construct()
     {
-        $this->middleware('jwt.auth',['except'=>['authenticate']]);
+        //$this->middleware('jwt.auth',['except'=>['authenticate']]);
     }
 
     /**
@@ -24,6 +26,8 @@ class UserController extends BaseController
     {
         // all users
         return $this->response()->collection(User::all(),new UserTransformer());
+        /*$users=User::paginate(1);
+        return $this->response()->paginator($users,new UserTransformer());*/
     }
 
     /**
@@ -92,4 +96,5 @@ class UserController extends BaseController
     {
         //
     }
+
 }

@@ -17,8 +17,10 @@ class UserTransformer extends TransformerAbstract{
 
     public function transform(User $user){
         return [
+            'id'  =>$user->id,
             'name'=>$user->name,
-            'email'=>$user->email
+            'email'=>$user->email,
+            'password'=>$user->password
         ];
     }
     public function requestAdaptor(){
@@ -26,7 +28,7 @@ class UserTransformer extends TransformerAbstract{
             'name'=>Input::get('name'),
             'email'=>Input::get('email'),
             'password'=>Input::get('password'),
-            'password_confirmed'=>Input::get('password_confirmed')
+            'password_confirmation'=>Input::get('password_confirmation')
         ];
     }
 }
