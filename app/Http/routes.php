@@ -11,7 +11,6 @@
 |
 */
 
-
 use LucaDegasperi\OAuth2Server\Authorizer;
 
 Route::get('/', function () {
@@ -24,7 +23,7 @@ $api = app('Dingo\Api\Routing\Router');
 $api->version('v1',function($api){
 $api->get('users','App\Http\Controllers\UserController@index');
 $api->get('users/{id}', 'App\Http\Controllers\UserController@show');
-$api->post('auth/login', function (\Illuminate\Http\Request $request) {
+$api->post('auth/login', function (\Illuminate\Http\Request $request){
     $credentials = $request->only('email', 'password');
     try {
         // verify the credentials and create a token for the user
