@@ -68,13 +68,9 @@ class UserProfileController extends BaseController
         die;
        */
         $data = $request->all();
-        //$data = $this->userProfileTransformer->requestAdapter();
+      //$data = $this->userProfileTransformer->requestAdapter();
         UserProfile::where('candybrush_users_profiles_users_id', $id)->update($data);
 
-
-        //$data = $this->getdata();
-        /*$profile = UserProfile::find($id);
-        $profile->update($data);*/
         echo "success";
     }
 

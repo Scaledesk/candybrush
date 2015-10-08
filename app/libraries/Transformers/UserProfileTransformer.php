@@ -26,7 +26,6 @@ class UserProfileTransformer extends TransformerAbstract{
     }
     public function requestAdapter()
     {
-        dd(Input::all());
         return [
             UserProfile::CANDYBRUSH_USERS_PROFILES_FIRST_NAME => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_FIRST_NAME),
             UserProfile::CANDYBRUSH_USERS_PROFILES_LAST_NAME => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_LAST_NAME),
@@ -34,7 +33,9 @@ class UserProfileTransformer extends TransformerAbstract{
             UserProfile::CANDYBRUSH_USERS_PROFILES_ADDRESS => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_ADDRESS),
             UserProfile::CANDYBRUSH_USERS_PROFILES_STATE => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_STATE),
             UserProfile::CANDYBRUSH_USERS_PROFILES_CITY => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_CITY),
-            UserProfile::CANDYBRUSH_USERS_PROFILES_PIN => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_PIN)
+            UserProfile::CANDYBRUSH_USERS_PROFILES_PIN => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_PIN),
+            UserProfile::CANDYBRUSH_USERS_PROFILES_LANGUAGE_KNOWN => get(UserProfile::CANDYBRUSH_USERS_PROFILES_LANGUAGE_KNOWN),
+            UserProfile::CANDYBRUSH_USERS_PROFILES_DESCRIPTION => get(UserProfile::CANDYBRUSH_USERS_PROFILES_DESCRIPTION)
         ];
     }
 }

@@ -18,6 +18,9 @@ class UserProfile extends Model
     const CANDYBRUSH_USERS_PROFILES_STATE = 'candybrush_users_profiles_state';
     const CANDYBRUSH_USERS_PROFILES_CITY = 'candybrush_users_profiles_city';
     const CANDYBRUSH_USERS_PROFILES_PIN = 'candybrush_users_profiles_pin';
+    const CANDYBRUSH_USERS_PROFILES_LANGUAGE_KNOWN = 'candybrush_users_profiles_language_known';
+    const CANDYBRUSH_USERS_PROFILES_DESCRIPTION = 'candybrush_users_profiles_description';
+    const CANDYBRUSH_USERS_PROFILES_IMAGE = 'candybrush_users_profiles_image';
 
 
     protected $table = self::TABLE;
