@@ -133,8 +133,11 @@ class RegistrationController extends BaseController
     /*
      * function to activate account
      */
-    public function activateAccount($code){
-
+    public function activateAccount(){
+        $code=Input::get('confirmation_code','');
+        if($code==''){
+            return $this->error('Confirmation code not provided, try confirmation_code=<your code>',422);
+        }
         if($value=DB::table('users')->where('confirmation_code', $code)->value('confirmation_code')){
             if(DB::table('users')->where('confirmation_code', $code)->update(['confirmed'=>1,'confirmation_code'=>NULL])){
                 return  $this->success();
@@ -144,5 +147,15 @@ class RegistrationController extends BaseController
         }else{
             return $this->error('Code expires');
         }
+    }
+    /*
+     * function to insert code for forgot password
+     */
+    public function forgotPassword(){
+        $email=Input::get('email','');
+        if($email==''){
+            return $this->error('Email code not provided, try email=<your email>',422);
+        }
+        $code= str_random(30);
     }
 }

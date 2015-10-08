@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateUsersTable extends Migration
+class UpdateUsersTableAddForgotPasswordCode extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,7 @@ class UpdateUsersTable extends Migration
     {
         //
         Schema::table('users',function(Blueprint $table){
-            $table->integer('confirmed')->default(0)->after('password');
-           $table->string('confirmation_code')->after('confirmed')->nullable();
+            $table->string('forgot_password_code')->after('confirmation_code')->nullable();
         });
     }
 
@@ -28,7 +27,7 @@ class UpdateUsersTable extends Migration
     {
         //
         Schema::table('users',function(Blueprint $table){
-            $table->dropColumn(['confirmed','confirmation_code']);
+            $table->dropColumn(['forgot_password_code']);
         });
     }
 }
