@@ -1,45 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
+/*
+*
+ * Created by PhpStorm.
+ * User: Javed
+ * Date: 7/10/15
+ * Time: 7:23 PM
+ */
 
+namespace App\Http\Controllers;
+use App\libraries\Transformers\UserProfileTransformer;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Response;
 use App\UserProfile;
-
-class UserProfileController extends Controller
+class UserProfileController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    function __construct()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        // store user profile in database
+       // $this->middleware('jwt.auth',['except'=>['authenticate']]);
     }
 
     /**
@@ -52,7 +33,8 @@ class UserProfileController extends Controller
     {
         // show profile data
         $profile = UserProfile::where('candybrush_users_profiles_users_id', $id)->get();
-        return $profile;
+        return $this->response()->item($profile,new UserProfileTransformer());
+
     }
 
     /**
@@ -98,17 +80,5 @@ class UserProfileController extends Controller
         //
     }
 
-    public function getdata()
-    {
 
-        return [
-            UserProfile::CANDYBRUSH_USERS_PROFILES_FIRST_NAME => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_FIRST_NAME),
-            UserProfile::CANDYBRUSH_USERS_PROFILES_LAST_NAME => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_LAST_NAME),
-            UserProfile::CANDYBRUSH_USERS_PROFILES_MOBILE => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_MOBILE),
-            UserProfile::CANDYBRUSH_USERS_PROFILES_ADDRESS => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_ADDRESS),
-            UserProfile::CANDYBRUSH_USERS_PROFILES_STATE => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_STATE),
-            UserProfile::CANDYBRUSH_USERS_PROFILES_CITY => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_CITY),
-            UserProfile::CANDYBRUSH_USERS_PROFILES_PIN => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_PIN)
-        ];
-    }
 }
