@@ -228,11 +228,17 @@ class RegistrationController extends BaseController
             return $this->error('error! check password length must be greater than 6',422);
         }
         if(User::where('forgot_password_code','=',$code)->update([
-            'password'=>Hash::make($password)
+            'password'=>Hash::make($password),
+            'forgot_password_code'=>NULL
         ])){
             return $this->success();
         }else{
-            return $this->error('unknown error occurred! Try Again',520);
+            if(User::where('forgot_password_code','=',$code)->first(['forgot_password_code'])){
+                return $this->error('unknown error occurred! Try Again',520);
+            }
+            else{
+                return $this->error('code expired');
+            }
         }
     }
 }
