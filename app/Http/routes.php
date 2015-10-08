@@ -39,7 +39,7 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
     return response()->json(compact('token'));
 });
   $api->post('signup','App\Http\Controllers\RegistrationController@store');
-    $api->post('users/activate/{code}','App\Http\Controllers\UserController@activateAccount');
+    $api->post('users/activate/{code}','App\Http\Controllers\RegistrationController@activateAccount');
 });
 /*
  * OAuth2 Server Routes

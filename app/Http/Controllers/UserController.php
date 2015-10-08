@@ -96,17 +96,5 @@ class UserController extends BaseController
     {
         //
     }
-    public function activateAccount($code){
 
-        if($value=DB::table('users')->where('confirmation_code', $code)->value('confirmation_code')){
-//           return  DB::table('users')->where('confirmation_code', $code)->update(['confirmed'=>1,'confirmation_code'=>NULL])?$this->response()->created('success')->statusCode(200):$this->response()->error('Code mismatch',500);
-            if(DB::table('users')->where('confirmation_code', $code)->update(['confirmed'=>1,'confirmation_code'=>NULL])){
-              return  $this->success();
-            }else{
-                return $this->response()->error('Try Again! unknown error occoured',520);
-            }
-        }else{
-            return $this->error('Code expires');
-        }
-    }
 }

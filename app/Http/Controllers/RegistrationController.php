@@ -8,6 +8,7 @@ use Dingo\Api\Exception\StoreResourceFailedException;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Mail;
@@ -128,5 +129,20 @@ class RegistrationController extends BaseController
     public function destroy($id)
     {
         //
+    }
+    /*
+     * function to activate account
+     */
+    public function activateAccount($code){
+
+        if($value=DB::table('users')->where('confirmation_code', $code)->value('confirmation_code')){
+            if(DB::table('users')->where('confirmation_code', $code)->update(['confirmed'=>1,'confirmation_code'=>NULL])){
+                return  $this->success();
+            }else{
+                return $this->response()->error('Try Again! unknown error occoured',520);
+            }
+        }else{
+            return $this->error('Code expires');
+        }
     }
 }
