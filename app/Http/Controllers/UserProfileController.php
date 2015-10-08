@@ -16,12 +16,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Response;
 use App\UserProfile;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 class UserProfileController extends BaseController
 {
-    function __construct()
+    protected $userProfileTransformer;
+    function __construct(UserProfileTransformer $userProfileTransformer)
     {
-       // $this->middleware('jwt.auth',['except'=>['authenticate']]);
+        $this->userProfileTransformer = $userProfileTransformer;
+        // $this->middleware('jwt.auth',['except'=>['authenticate']]);
     }
+
 
     /**
      * Display the specified resource.
@@ -57,9 +61,14 @@ class UserProfileController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        //dd($request->all());
-        $data = $request->all();
 
+        /*//print_r($request->file());
+        $file = $request->file();
+        print_r($file);
+        die;
+       */
+        $data = $request->all();
+        //$data = $this->userProfileTransformer->requestAdapter();
         UserProfile::where('candybrush_users_profiles_users_id', $id)->update($data);
 
 

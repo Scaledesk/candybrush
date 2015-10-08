@@ -12,6 +12,7 @@ namespace App\libraries\Transformers;
 
 
 use App\UserProfile;
+use Dingo\Api\Http\Request;
 use Illuminate\Support\Facades\Input;
 use League\Fractal\TransformerAbstract;
 
@@ -25,7 +26,7 @@ class UserProfileTransformer extends TransformerAbstract{
     }
     public function requestAdapter()
     {
-
+        dd(Input::all());
         return [
             UserProfile::CANDYBRUSH_USERS_PROFILES_FIRST_NAME => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_FIRST_NAME),
             UserProfile::CANDYBRUSH_USERS_PROFILES_LAST_NAME => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_LAST_NAME),
