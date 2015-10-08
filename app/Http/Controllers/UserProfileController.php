@@ -109,7 +109,6 @@ class UserProfileController extends Controller
             UserProfile::CANDYBRUSH_USERS_PROFILES_STATE => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_STATE),
             UserProfile::CANDYBRUSH_USERS_PROFILES_CITY => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_CITY),
             UserProfile::CANDYBRUSH_USERS_PROFILES_PIN => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_PIN)
-
         ];
     }
 }
