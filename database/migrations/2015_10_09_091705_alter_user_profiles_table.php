@@ -16,7 +16,6 @@ class AlterUserProfilesTable extends Migration
             //
         });
     }
-
     /**
      * Reverse the migrations.
      *
@@ -26,6 +25,7 @@ class AlterUserProfilesTable extends Migration
     {
         Schema::table('users_profiles', function (Blueprint $table) {
             // remove
+
         });
     }
 }
