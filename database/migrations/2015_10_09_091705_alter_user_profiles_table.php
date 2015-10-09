@@ -12,9 +12,7 @@ class AlterUserProfilesTable extends Migration
      */
     public function up()
     {
-        Schema::table('users_profiles', function (Blueprint $table) {
-            //
-        });
+
     }
 
     /**
@@ -24,8 +22,6 @@ class AlterUserProfilesTable extends Migration
      */
     public function down()
     {
-        Schema::table('users_profiles', function (Blueprint $table) {
-            // remove
-        });
+
     }
 }

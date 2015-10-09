@@ -36,4 +36,11 @@ class User extends Model implements AuthenticatableContract,
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
+    /*
+     * relation with profile
+     */
+    public function userProfiles(){
+        return $this->hasOne('App\UserProfile','candybrush_users_profiles_users_id');
+    }
 }

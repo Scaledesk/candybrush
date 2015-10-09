@@ -10,6 +10,7 @@
 
 namespace App\Http\Controllers;
 use App\libraries\Transformers\UserProfileTransformer;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -35,10 +36,7 @@ class UserProfileController extends BaseController
      */
     public function show($id)
     {
-        // show profile data
-        $profile = UserProfile::where('candybrush_users_profiles_users_id', $id)->get();
-        return $this->response()->collection($profile,new UserProfileTransformer());
-
+        return $this->response()->collection(User::find($id)->userprofiles()->get(),new UserProfileTransformer());
     }
 
     /**
@@ -72,14 +70,13 @@ class UserProfileController extends BaseController
         }else{
             return $this->error('no adequate field passed',422);
         }
-
         if($result)
         {
             return $this->success();
         }
         else
         {
-            return $this->error();
+            return $this->error('Unknown error',520);
         }
 
 

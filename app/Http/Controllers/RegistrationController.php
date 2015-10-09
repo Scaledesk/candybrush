@@ -77,7 +77,8 @@ class RegistrationController extends BaseController
             'password'=>Hash::make(Input::get('password')),
             'confirmation_code'=>$confirmation_code
         ];
-         User::create($data);
+        $user= User::create($data);
+        $user->userProfiles()->create(['candybrush_users_profiles_users_id'=>$user->id]);
         set_time_limit(60); //increase the timeout of php to send mail
         Mail::send('email.verify',array('confirmation_code'=>$confirmation_code), function($message) {
             $message->to(Input::get('email'), Input::get('name'))
