@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\libraries\Transformers\UserTransformer;
 use App\User;
+use App\UserWallet;
 use Dingo\Api\Exception\StoreResourceFailedException;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -79,6 +80,12 @@ class RegistrationController extends BaseController
         ];
         $user= User::create($data);
         $user->userProfiles()->create(['candybrush_users_profiles_users_id'=>$user->id]);
+        $user->userWallet()->create(['candybrush_users_wallet_user_id'=>$user->id,'candybrush_users_wallet_amount'=>0]);
+        DB::table('candybrush_users_wallet_transactions')->insert([
+            'candybrush_users_wallet_transactions_wallet_id'=>$user->id,
+            'candybrush_users_wallet_transactions_description'=>'Create wallet with 0 credit',
+            'candybrush_users_wallet_transactions_type'=>'credit',
+            'candybrush_users_wallet_transactions_amount'=>0]);
         set_time_limit(60); //increase the timeout of php to send mail
         Mail::send('email.verify',array('confirmation_code'=>$confirmation_code), function($message) {
             $message->to(Input::get('email'), Input::get('name'))

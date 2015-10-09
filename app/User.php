@@ -43,4 +43,16 @@ class User extends Model implements AuthenticatableContract,
     public function userProfiles(){
         return $this->hasOne('App\UserProfile','candybrush_users_profiles_users_id');
     }
+    /*
+     * relation with UserWallet
+     */
+    public function userWallet(){
+        return $this->hasOne('App\UserWallet','candybrush_users_wallet_user_id');
+    }
+    /*
+     * relation with wallettransactions
+     */
+    public function transactions(){
+        return $this->hasManyThrough('UserWalletTransactions','UserWallet','candybrush_users_wallet_user_id','candybrush_users_wallet_transactions_wallet_id');
+    }
 }
