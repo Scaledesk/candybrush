@@ -82,6 +82,10 @@ class UserwalletController extends BaseController
      */
     public function update()
     {
+        /*
+         * $data=[my array in case of payment gateway integration,
+         * same will be used by debit and credit callable.]
+         */
         $data=$this->transformer->requestAdaptor();
         /*
          * lazy loading i.e. lazy mans method.....callable methods
