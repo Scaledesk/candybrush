@@ -27,6 +27,9 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
     $credentials = $request->only('email', 'password');
     try {
         // verify the credentials and create a token for the user
+        if(!(\App\User::where('email','=',$credentials['email'])->get(['confirmed'])[0]['confirmed'])){
+            return response()->json(['error'=>'Account not activated'],401);
+        }
         if (! $token = \Tymon\JWTAuth\Facades\JWTAuth::attempt($credentials)) {
             return response()->json(['error' => 'invalid_credentials'], 401);
         }
@@ -50,6 +53,14 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
      * * for creating storing user forgot password code
      */
     $api->post('users/forgotPassword/','App\Http\Controllers\RegistrationController@forgotPassword');
+    /*
+     * for validating the forgot password code i.e. this checks if forgot password code exist in the database
+     */
+    $api->post('users/validateForgotPasswordCode/','App\Http\Controllers\RegistrationController@validateCode');
+    /*
+     * for password reset
+     */
+    $api->post('users/resetPassword/','App\Http\Controllers\RegistrationController@resetPassword');
 });
 /*
  * OAuth2 Server Routes
