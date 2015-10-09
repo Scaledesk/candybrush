@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use app\libraries\Transformers\UserwalletTransformer;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 class UserwalletController extends Controller
 {
+    protected $transformer;
+
+    function __construct()
+    {
+        $this->transformer = new UserwalletTransformer();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -71,6 +79,9 @@ class UserwalletController extends Controller
     public function update(Request $request, $id)
     {
         //
+    $data=$this->transformer->requestAdaptor();
+        print_r($data);
+        die;
     }
 
     /**
