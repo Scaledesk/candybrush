@@ -17,6 +17,7 @@ class UserwalletController extends BaseController
 
     function __construct()
     {
+        //$this->middleware('jwt.auth',['except'=>['authenticate']]);
         $this->transformer = new UserwalletTransformer();
     }
 
