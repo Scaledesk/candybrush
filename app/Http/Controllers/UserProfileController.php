@@ -39,16 +39,6 @@ class UserProfileController extends BaseController
         return $this->response()->collection(User::find($id)->userprofiles()->get(),new UserProfileTransformer());
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -62,7 +52,9 @@ class UserProfileController extends BaseController
         /*
          * Update profile
          */
+
         $data = $this->userProfileTransformer->requestAdapter();
+        dd($data);
         $data=array_filter($data,'strlen'); // filter blank or null array
         if(sizeof($data)){ try{$result=UserProfile::where('candybrush_users_profiles_users_id', $id)->update($data);}catch(\Exception $e){
             return $this->error($e->getMessage(),$e->getCode());
@@ -82,17 +74,16 @@ class UserProfileController extends BaseController
 
     }
 
-    /*
+    /**
      * Function for uploading profile pic and store url in database
      *
      */
-    public function uploadProfilePic(Request $request, $id)
+    public function uploadFile(Request $request)
     {
+        dd($request->file());
+        //print_r(Input::file());
+        die;
 
-        dd($request->all());
-
-
-        //$data = $this->userProfileTransformer->requestAdapter();
     }
 
 

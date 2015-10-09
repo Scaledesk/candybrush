@@ -10,7 +10,7 @@ class UserProfile extends Model
     // define constants
     const TABLE = 'users_profiles';
     const USER_ID = 'candybrush_users_profiles_user_id';
-    const NAME = 'candybrush_users_profiles_first_name';
+    const NAME = 'candybrush_users_profiles_name';
     const MOBILE = 'candybrush_users_profiles_mobile';
     const ADDRESS = 'candybrush_users_profiles_address';
     const STATE = 'candybrush_users_profiles_state';

@@ -71,7 +71,7 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
     /*
      * for uploading profile pic
      */
-    $api->post('uploadProfilePic/{id}','App\Http\Controllers\UserProfileController@uploadProfilePic');
+    $api->post('uploadProfilePic/','App\Http\Controllers\UserProfileController@uploadProfilePic');
 
 });
 /*
@@ -91,7 +91,7 @@ Route::post('oauth/authorize', ['as' => 'oauth.authorize.post','middleware' => [
     $redirectUri = '';
 
     // if the user has allowed the client to access its data, redirect back to the client with an auth code
-    if (Input::get('approve') !== null) {
+    if(Input::get('approve') !== null) {
         $redirectUri = Authorizer::issueAuthCode('user', $params['user_id'], $params);
     }
 
