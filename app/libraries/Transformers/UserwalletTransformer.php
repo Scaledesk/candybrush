@@ -19,10 +19,26 @@ class UserwalletTransformer extends TransformerAbstract{
         //return [];
     }
     public function requestAdaptor(){
+        /*
+         * callable to set transaction type if no description given
+         */
+        $setDescription=function(){
+            switch(strtolower(Input::get('transaction_type'))){
+                case 'credit':{
+                    return 'Credit '.Input::get('amount').' to user wallet';
+                }
+                case 'debit':{
+                    return 'Debit '.Input::get('amount').' from user wallet';
+                }
+                default:{
+                    return 'unresolved transaction_type';
+                }
+            }
+        };
         return[
             UserWallet::ID => Input::get('user_id'),
             UserWallet::AMOUNT=>Input::get('amount'),
             UserWallet::TRANSTYPE=>Input::get('transaction_type'),//transaction_type
-            UserWallet::DESCRIPTON=>Input::get('description')];
+            UserWallet::DESCRIPTON=>Input::get('description',$setDescription())];
     }
 }

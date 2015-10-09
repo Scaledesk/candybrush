@@ -61,18 +61,22 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
      * for password reset
      */
     $api->post('users/resetPassword/','App\Http\Controllers\RegistrationController@resetPassword');
-
     /*
-     *  for user profile update and show profile
-     *
+     *  for user profile update
      */
     $api->put('userProfile/update/{id}','App\Http\Controllers\UserProfileController@update');
+    /*
+     * for show user profile
+     */
     $api->get('userProfile/{id}','App\Http\Controllers\UserProfileController@show');
     /*
      * for uploading profile pic
      */
     $api->post('uploadProfilePic/','App\Http\Controllers\UserProfileController@uploadProfilePic');
-
+    /*
+     * for wallet transactions i.e. credit/debit
+     */
+    $api->put('users/walletTransaction','App\Http\Controllers\UserwalletController@update');
 });
 /*
  * OAuth2 Server Routes

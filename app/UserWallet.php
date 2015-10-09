@@ -28,7 +28,7 @@ class UserWallet extends Model
     /*
      * relation with WalletTransactions
      */
-    public function transaction(){
+    public function transactions(){
         return $this->hasMany('App\UserWalletTransactions','candybrush_users_wallet_transactions_wallet_id');
     }
 
