@@ -68,6 +68,10 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
      */
     $api->put('userProfile/update/{id}','App\Http\Controllers\UserProfileController@update');
     $api->get('userProfile/{id}','App\Http\Controllers\UserProfileController@show');
+    /*
+     * for uploading profile pic
+     */
+    $api->post('uploadProfilePic/{id}','App\Http\Controllers\UserProfileController@uploadProfilePic');
 
 });
 /*

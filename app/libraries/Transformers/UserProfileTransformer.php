@@ -27,15 +27,18 @@ class UserProfileTransformer extends TransformerAbstract{
     public function requestAdapter()
     {
         return [
-            UserProfile::FIRST_NAME => Input::get('first_name'),
-            UserProfile::LAST_NAME => Input::get('last_name'),
+            UserProfile::NAME => Input::get('name'),
             UserProfile::MOBILE => Input::get('mobile'),
             UserProfile::ADDRESS => Input::get('address'),
             UserProfile::STATE => Input::get('state'),
             UserProfile::CITY => Input::get('city'),
             UserProfile::PIN => Input::get('pin'),
             UserProfile::LANGUAGE_KNOWN =>Input::get('language_known'),
-            UserProfile::DESCRIPTION => Input::get('description')
+            UserProfile::DESCRIPTION => Input::get('description'),
+            UserProfile::SOCIAL_ACCOUNT_INTEGRATION => Input::get('social_account_integration'),
+            UserProfile::CUSTOM_MESSAGE => Input::get('custom_message'),
+            UserProfile::BIRTH_DATE => Input::get('birth_date'),
+            UserProfile::SEX => Input::get('sex')
         ];
     }
 }

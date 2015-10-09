@@ -82,15 +82,17 @@ class UserProfileController extends BaseController
 
     }
 
-    /**
-     * Remove the specified resource from storage.
+    /*
+     * Function for uploading profile pic and store url in database
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function uploadProfilePic(Request $request, $id)
     {
-        //
+
+        dd($request->all());
+
+
+        //$data = $this->userProfileTransformer->requestAdapter();
     }
 
 
