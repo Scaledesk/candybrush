@@ -27,15 +27,15 @@ class UserProfileTransformer extends TransformerAbstract{
     public function requestAdapter()
     {
         return [
-            UserProfile::CANDYBRUSH_USERS_PROFILES_FIRST_NAME => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_FIRST_NAME),
-            UserProfile::CANDYBRUSH_USERS_PROFILES_LAST_NAME => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_LAST_NAME),
-            UserProfile::CANDYBRUSH_USERS_PROFILES_MOBILE => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_MOBILE),
-            UserProfile::CANDYBRUSH_USERS_PROFILES_ADDRESS => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_ADDRESS),
-            UserProfile::CANDYBRUSH_USERS_PROFILES_STATE => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_STATE),
-            UserProfile::CANDYBRUSH_USERS_PROFILES_CITY => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_CITY),
-            UserProfile::CANDYBRUSH_USERS_PROFILES_PIN => Input::get(UserProfile::CANDYBRUSH_USERS_PROFILES_PIN),
-            UserProfile::CANDYBRUSH_USERS_PROFILES_LANGUAGE_KNOWN => get(UserProfile::CANDYBRUSH_USERS_PROFILES_LANGUAGE_KNOWN),
-            UserProfile::CANDYBRUSH_USERS_PROFILES_DESCRIPTION => get(UserProfile::CANDYBRUSH_USERS_PROFILES_DESCRIPTION)
+            UserProfile::FIRST_NAME => Input::get('first_name'),
+            UserProfile::LAST_NAME => Input::get('last_name'),
+            UserProfile::MOBILE => Input::get('mobile'),
+            UserProfile::ADDRESS => Input::get('address'),
+            UserProfile::STATE => Input::get('state'),
+            UserProfile::CITY => Input::get('city'),
+            UserProfile::PIN => Input::get('pin'),
+            UserProfile::LANGUAGE_KNOWN =>Input::get('language_known'),
+            UserProfile::DESCRIPTION => Input::get('description')
         ];
     }
 }

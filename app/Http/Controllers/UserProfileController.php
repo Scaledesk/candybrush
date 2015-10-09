@@ -37,7 +37,7 @@ class UserProfileController extends BaseController
     {
         // show profile data
         $profile = UserProfile::where('candybrush_users_profiles_users_id', $id)->get();
-        return $this->response()->item($profile,new UserProfileTransformer());
+        return $this->response()->collection($profile,new UserProfileTransformer());
 
     }
 
@@ -61,17 +61,28 @@ class UserProfileController extends BaseController
      */
     public function update(Request $request, $id)
     {
+        /*
+         * Update profile
+         */
+        $data = $this->userProfileTransformer->requestAdapter();
+        $data=array_filter($data,'strlen'); // filter blank or null array
+        if(sizeof($data)){ try{$result=UserProfile::where('candybrush_users_profiles_users_id', $id)->update($data);}catch(\Exception $e){
+            return $this->error($e->getMessage(),$e->getCode());
+        }
+        }else{
+            return $this->error('no adequate field passed',422);
+        }
 
-        /*//print_r($request->file());
-        $file = $request->file();
-        print_r($file);
-        die;
-       */
-        $data = $request->all();
-      //$data = $this->userProfileTransformer->requestAdapter();
-        UserProfile::where('candybrush_users_profiles_users_id', $id)->update($data);
+        if($result)
+        {
+            return $this->success();
+        }
+        else
+        {
+            return $this->error();
+        }
 
-        echo "success";
+
     }
 
     /**

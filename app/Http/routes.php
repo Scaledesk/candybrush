@@ -61,6 +61,14 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
      * for password reset
      */
     $api->post('users/resetPassword/','App\Http\Controllers\RegistrationController@resetPassword');
+
+    /*
+     *  for user profile update and show profile
+     *
+     */
+    $api->put('userProfile/update/{id}','App\Http\Controllers\UserProfileController@update');
+    $api->get('userProfile/{id}','App\Http\Controllers\UserProfileController@show');
+
 });
 /*
  * OAuth2 Server Routes
@@ -93,4 +101,3 @@ Route::post('oauth/access_token', function() {
     return Response::json(Authorizer::issueAccessToken());
 });
 Route::controller('auth', 'Auth\AuthController');
-Route::resource("userProfiles", "UserProfileController");
