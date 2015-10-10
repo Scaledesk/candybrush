@@ -7,6 +7,7 @@ use App\Tag;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Mockery\CountValidator\Exception;
 
@@ -122,5 +123,35 @@ class TagController extends BaseController
     public function destroy()
     {
         //
+        $data=[Tag::ID=>Input::get('id')];
+        $rules=[
+            Tag::ID=>'required',
+
+        ];
+        $validator=Validator::make($data,$rules,[
+            Tag::ID.'.required'=>'The id is required try id=<id>',
+        ]);
+        $messages=function()use($validator){
+            $messages = $validator->messages();
+            $errors=[];
+            foreach ($messages->all() as $message)
+            {
+                array_push($errors,$message);
+            }
+            return $errors;
+        };
+        if($validator->fails()){
+            return $this->error($messages(),422);
+        }
+        if($tag=Tag::where(['candybrush_tags_id'=>$data[Tag::ID]])->first()){
+            try{
+                Tag::destroy($data);
+            }catch(Exception $e){
+                return $this->error('some unknown error occoured',520);
+            }
+        }else{
+            return $this->error('id do not match any records',404);
+        }
+        return $this->success();
     }
 }

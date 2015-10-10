@@ -90,7 +90,7 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
     /*
      * for deleting tags
      */
-    $api->delete('tag','App\Http\Controllers\TagController@delete');
+    $api->delete('tag','App\Http\Controllers\TagController@destroy');
     /*
      * for adding packages
      */
