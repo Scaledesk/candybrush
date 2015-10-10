@@ -16,6 +16,6 @@ class UserPortfolio extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User', 'id');
+        return $this->belongsTo('App\User', 'candybrush_users_portfolio_user_id', 'id');
     }
 }

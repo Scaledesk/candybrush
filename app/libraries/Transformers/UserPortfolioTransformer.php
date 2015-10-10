@@ -16,7 +16,7 @@ class UserPortfolioTransformer extends TransformerAbstract{
 
     public function transform(UserPortfolio $portfolio){
         return [
-            'name'=>$portfolio->candybrush_users_id,
+            'name'=>$portfolio->candybrush_users_portfolio_user_id,
             'mobile'=>$portfolio->candybrush_users_portfolio_description,
             'address'=>$portfolio->candybrush_users_portfolio_file
              ];
@@ -25,8 +25,8 @@ class UserPortfolioTransformer extends TransformerAbstract{
     {
         return [
             UserPortfolio::USER_ID => Input::get('user_id'),
-            UserPortfolio::DESCRIPTION => Input::get('portfolio_description'),
-            UserPortfolio::FILE => Input::get('portfolio_file'),
+            UserPortfolio::PORTFOLIO_DESCRIPTION => Input::get('portfolio_description'),
+            UserPortfolio::PORTFOLIO_FILE => Input::get('portfolio_file')
         ];
     }
 }
