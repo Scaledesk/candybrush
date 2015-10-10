@@ -69,11 +69,13 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
      * for show user profile
      */
     $api->get('userProfile/{id}','App\Http\Controllers\UserProfileController@show');
-    /*
-     * for uploading profile pic
+    /**
+     *  for show user portfolio and store portfolio
      */
-    $api->post('uploadProfilePic/','App\Http\Controllers\UserProfileController@uploadProfilePic');
-    /*
+    $api->get('userPortfolio/{id}','App\Http\Controllers\UserPortfolioController@show');
+    $api->post('userPortfolio','App\Http\Controllers\UserPortfolioController@store');
+
+    /**
      * for wallet transactions i.e. credit/debit
      */
     $api->put('users/walletTransaction','App\Http\Controllers\UserwalletController@update');

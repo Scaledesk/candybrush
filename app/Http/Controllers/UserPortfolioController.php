@@ -7,14 +7,12 @@ use App\UserPortfolio;
 use App\User;
 class UserPortfolioController extends BaseController
 {
-
     protected $userPortfolioTransformer;
     function __construct(UserPortfolioTransformer $userPortfolioTransformer)
     {
         $this->userPortfolioTransformer = $userPortfolioTransformer;
         // $this->middleware('jwt.auth',['except'=>['authenticate']]);
     }
-
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +20,9 @@ class UserPortfolioController extends BaseController
      */
     public function show($id)
     {
-        return $this->response()->collection(User::find($id)->userPortfolio()->get(),new UserPortfolioTransformer());
+        $portfolio = UserPortfolio::where('candybrush_users_portfolio_user_id', $id)->get();
+        dd($portfolio);
+        //return $this->response()->collection(User::find($id)->userPortfolio()->get(),new UserPortfolioTransformer());
     }
 
     /**
@@ -38,13 +38,10 @@ class UserPortfolioController extends BaseController
          */
 
         $data = $this->userPortfolioTransformer->requestAdapter();
-
         $portfolio = UserPortfolio::create($data);
 
         print_r($portfolio);
         die;
-
-
 
     }
     /**
