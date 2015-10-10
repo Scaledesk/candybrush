@@ -20,9 +20,8 @@ class UserPortfolioController extends BaseController
      */
     public function show($id)
     {
-        $portfolio = UserPortfolio::where('candybrush_users_portfolio_user_id', $id)->get();
-        dd($portfolio);
-        //return $this->response()->collection(User::find($id)->userPortfolio()->get(),new UserPortfolioTransformer());
+
+        return $this->response()->collection(UserPortfolio::where('candybrush_users_portfolio_user_id', $id)->get(), new UserPortfolioTransformer());
     }
 
     /**
@@ -37,12 +36,22 @@ class UserPortfolioController extends BaseController
          *  store user port folio
          */
 
+
         $data = $this->userPortfolioTransformer->requestAdapter();
-        $portfolio = UserPortfolio::create($data);
+        try{
+            $portfolio = UserPortfolio::create($data);
+        }
+        catch(\Exception $e){
+            return $this->error($e->getMessage(),$e->getCode());
+        }
 
-        print_r($portfolio);
-        die;
-
+        if(!$portfolio)
+        {
+            return $this->error();
+        }
+        else{
+            return $this->success();
+        }
     }
     /**
      * Remove the specified resource from storage.
