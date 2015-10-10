@@ -43,4 +43,5 @@ class User extends Model implements AuthenticatableContract,
     public function userProfiles(){
         return $this->hasOne('App\UserProfile','candybrush_users_profiles_users_id');
     }
+
 }
