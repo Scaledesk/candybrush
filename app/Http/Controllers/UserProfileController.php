@@ -14,8 +14,6 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Response;
 use App\UserProfile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 class UserProfileController extends BaseController
@@ -73,18 +71,5 @@ class UserProfileController extends BaseController
 
 
     }
-
-    /**
-     * Function for uploading profile pic and store url in database
-     *
-     */
-    public function uploadFile(Request $request)
-    {
-        dd($request->file());
-        //print_r(Input::file());
-        die;
-
-    }
-
 
 }
