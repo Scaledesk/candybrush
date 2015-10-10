@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
 use Monolog\Handler\NullHandlerTest;
 
 class UserController extends BaseController
@@ -81,9 +82,35 @@ class UserController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update()
     {
         //
+        $activate=function(){
+            $user_id=Input::get(strtolower('user_id'),'');
+            if($user_id==''){
+                return $this->error('User_id not provided! Try user_id=<user_id>',422);
+            }
+            return User::find($user_id)->update(['confirmed'=>1])?$this->success():$this->error('unknown error occoured',520);
+        };
+        $deactivate=function(){
+            $user_id=Input::get(strtolower('user_id'),'');
+            if($user_id==''){
+                return $this->error('User_id not provided! Try user_id=<user_id>',422);
+            }
+            return User::find($user_id)->update(['confirmed'=>'0'])?$this->success():$this->error('unknown error occoured',520);
+        };
+        switch(Input::get('todo','')){
+            case 'activate':{
+                return $activate();
+                break;
+            }
+            case 'deactivate':{
+                return $deactivate();
+                break;
+            }
+            default : return $this->error('unknown action requested try todo=<activate/deactivate>',422);
+        }
+
     }
     /**
      * Remove the specified resource from storage.
