@@ -151,6 +151,10 @@ return [
          * Dingo Provider
          */
         Dingo\Api\Provider\LaravelServiceProvider::class,
+        /*
+         * for roles and permissions - bican/roles
+         */
+        Bican\Roles\RolesServiceProvider::class,
 
         /*
          * Application Service Providers...
