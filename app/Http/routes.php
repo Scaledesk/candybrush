@@ -83,6 +83,10 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
      * for activate and  inactivate user
      */
     $api->put('users/changeStatus','App\Http\Controllers\UserController@update');
+    /*
+     * for create tags
+     */
+    $api->post('tag','App\Http\Controllers\TagController@create');
 });
 /*
  * OAuth2 Server Routes
