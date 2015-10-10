@@ -7,14 +7,22 @@ use App\UserPortfolio;
 use App\User;
 class UserPortfolioController extends BaseController
 {
+
+    protected $userPortfolioTransformer;
+    function __construct(UserPortfolioTransformer $userPortfolioTransformer)
+    {
+        $this->userPortfolioTransformer = $userPortfolioTransformer;
+        // $this->middleware('jwt.auth',['except'=>['authenticate']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function show($id)
     {
-
+        return $this->response()->collection(User::find($id)->userPortfolio()->get(),new UserPortfolioTransformer());
     }
 
     /**
@@ -25,7 +33,19 @@ class UserPortfolioController extends BaseController
      */
     public function store(Request $request)
     {
-        //
+        /**
+         *  store user port folio
+         */
+
+        $data = $this->userPortfolioTransformer->requestAdapter();
+
+        $portfolio = UserPortfolio::create($data);
+
+        print_r($portfolio);
+        die;
+
+
+
     }
     /**
      * Remove the specified resource from storage.

@@ -1,13 +1,10 @@
 <?php
 
 namespace App;
-
 use Illuminate\Database\Eloquent\Model;
-
 class UserPortfolio extends Model
 {
     // defining constant
-
     const TABLE = 'users_portfolio';
     const USER_ID = 'candybrush_users_portfolio_user_id';
     const PORTFOLIO_DESCRIPTION = 'candybrush_users_portfolio_description';
@@ -19,6 +16,6 @@ class UserPortfolio extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User', 'candybrush_users_portfolio_user_id');
+        return $this->belongsTo('App\User', 'id');
     }
 }
