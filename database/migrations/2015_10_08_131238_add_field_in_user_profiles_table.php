@@ -31,7 +31,7 @@ class AddFieldInUserProfilesTable extends Migration
     {
         Schema::table('users_profiles', function (Blueprint $table) {
 
-            $table->dropColumn('id');
+            $table->dropColumn(['candybrush_users_profiles_language_known','candybrush_users_profiles_description','candybrush_users_profiles_image']);
 
         });
 
