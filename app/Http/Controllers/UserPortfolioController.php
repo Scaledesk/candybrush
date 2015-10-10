@@ -36,8 +36,15 @@ class UserPortfolioController extends BaseController
          *  store user port folio
          */
 
+
         $data = $this->userPortfolioTransformer->requestAdapter();
-        $portfolio = UserPortfolio::create($data);
+        try{
+            $portfolio = UserPortfolio::create($data);
+        }
+        catch(\Exception $e){
+            return $this->error($e->getMessage(),$e->getCode());
+        }
+
         if(!$portfolio)
         {
             return $this->error();
@@ -45,8 +52,6 @@ class UserPortfolioController extends BaseController
         else{
             return $this->success();
         }
-
-
     }
     /**
      * Remove the specified resource from storage.
