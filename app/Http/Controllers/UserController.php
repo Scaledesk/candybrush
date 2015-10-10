@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Mockery\CountValidator\Exception;
 use Monolog\Handler\NullHandlerTest;
 
 class UserController extends BaseController
@@ -90,14 +91,32 @@ class UserController extends BaseController
             if($user_id==''){
                 return $this->error('User_id not provided! Try user_id=<user_id>',422);
             }
-            return User::find($user_id)->update(['confirmed'=>1])?$this->success():$this->error('unknown error occoured',520);
+            if($user=User::where('id',$user_id)->first()){
+                try{
+                    User::where('id',$user_id)->update(['confirmed'=>1,'confirmation_code'=>Null]);
+                }catch(Exception $e){
+                    return $this->error('unknown error occoured',520);
+                }
+                return $this->success();
+            }else{
+                return $this->error('user_id do not match any records',404);
+            }
         };
         $deactivate=function(){
             $user_id=Input::get(strtolower('user_id'),'');
             if($user_id==''){
                 return $this->error('User_id not provided! Try user_id=<user_id>',422);
             }
-            return User::find($user_id)->update(['confirmed'=>'0'])?$this->success():$this->error('unknown error occoured',520);
+            if($user=User::where('id',$user_id)->first()){
+                try{
+                    User::where('id',$user_id)->update(array('confirmed'=>0));
+                }catch(Exception $e){
+                    return $this->error('unknown error occoured',520);
+                }
+                    return $this->success();
+            }else{
+                return $this->error('user_id do not match any records',404);
+            }
         };
         switch(Input::get('todo','')){
             case 'activate':{
