@@ -1,7 +1,6 @@
 <?php
 
 namespace App;
-
 use Bican\Roles\Traits\HasRoleAndPermission;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;

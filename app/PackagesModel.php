@@ -24,13 +24,13 @@ class PackagesModel extends Model
     const PAYMENT_TYPE = 'candybrush_packages_payment_type';
     const MAXIMUM_DELIVERY_DAYS = 'candybrush_packages_maximum_delivery_days';
     protected $table = self::TABLE;
-
+    public $timestamps = false;
     protected $fillable = [self::NAME, self::DESCRIPTION, self::CATEGORY, self::SUB_CATEGORY,
         self::PRICE, self::BONUS, self::OFFER, self::DEAL_PRICE, self::AVAILABLE_DATE, self::TERM_CONDITION,
         self::PAYMENT_TYPE, self::MAXIMUM_DELIVERY_DAYS];
 
     public function userPackages(){
-        return $this->hasOne('App\UserPackages','candybrush_users_packages_package_id');
+        return $this->hasOne('App\PackegesUserModel','candybrush_users_packages_package_id');
     }
 
 }

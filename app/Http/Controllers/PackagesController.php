@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\libraries\Transformers\PackagesTransformer;
+use App\PackegesUserModel;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -19,8 +20,6 @@ class PackagesController extends BaseController
         $this->packageTransformer = $packageTransformer;
         // $this->middleware('jwt.auth',['except'=>['authenticate']]);
     }
-
-
 
     /**
      * Display a listing of the resource.
@@ -50,18 +49,21 @@ class PackagesController extends BaseController
      */
     public function store(Request $request)
     {
-        // storing packages details.
-        $data = $this->userProfileTransformer->requestAdapter();
+        $u_id = $request->user_id;
+        $data = $this->packageTransformer->requestAdapter();
         $data=array_filter($data,'strlen'); // filter blank or null array
-        print_r($data);
-        die;
         $result = PackagesModel::create($data);
+        /*print_r($result);
+        die;*/
+        $data1 = [
+            'candybrush_users_packages_user_id' => $u_id,
+            'candybrush_users_packages_package_id' => $result->id,
+            'candybrush_users_packages_status' => 0
+        ];
+        $userpackage=new PackegesUserModel($data1);
+//        $userpackage->save();
         try{
-            $result->userPackages()->create([
-                'candybrush_users_packages_package_id' => $result->id,
-                'candybrush_users_packages_user_id' => $request->user_id,
-                'candybrush_users_packages_status' => 1
-            ]);
+            $result->userPackages()->create($userpackage);
         }
         catch(\Exception $e){
             return $this->error($e->getMessage(),$e->getCode());
