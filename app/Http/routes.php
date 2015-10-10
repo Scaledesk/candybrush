@@ -87,7 +87,12 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
      * for create tags
      */
     $api->post('tag','App\Http\Controllers\TagController@create');
+    /*
+     * for deleting tags
+     */
+    $api->delete('tag','App\Http\Controllers\TagController@delete');
 });
+
 /*
  * OAuth2 Server Routes
  */
