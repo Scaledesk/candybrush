@@ -77,6 +77,10 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
      * for wallet transactions i.e. credit/debit
      */
     $api->put('users/walletTransaction','App\Http\Controllers\UserwalletController@update');
+    /*
+     * for activate and  inactivate user
+     */
+    $api->put('users/activeInactive','App\Http\Controllers\UserController@update');
 });
 /*
  * OAuth2 Server Routes
