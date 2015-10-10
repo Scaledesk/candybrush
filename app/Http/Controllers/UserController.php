@@ -90,7 +90,7 @@ class UserController extends BaseController
             if($user_id==''){
                 return $this->error('User_id not provided! Try user_id=<user_id>',422);
             }
-            return User::find($user_id)->update(['confirmed'=>'1'])?$this->success():$this->error('unknown error occoured',520);
+            return User::find($user_id)->update(['confirmed'=>1])?$this->success():$this->error('unknown error occoured',520);
         };
         $deactivate=function(){
             $user_id=Input::get(strtolower('user_id'),'');
