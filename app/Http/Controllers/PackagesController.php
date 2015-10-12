@@ -71,8 +71,6 @@ class PackagesController extends BaseController
 
        $this->success();
 
-
-
     }
 
     /**
@@ -113,7 +111,6 @@ class PackagesController extends BaseController
         {
             return $this->error('Unknown error',520);
         }
-
 
     }
 
