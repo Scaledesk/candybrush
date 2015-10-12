@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\libraries\Transformers\CategoryTransformer;
+use App\Tag;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
+use Mockery\CountValidator\Exception;
 
 class CategoryController extends BaseController
 {
@@ -52,11 +55,24 @@ class CategoryController extends BaseController
             Category::PARENT_ID=>'required',
         ],
             [
-            Category::Name.'.required'=>'Category name is required try name=<name>',
-            Category::PARENT_ID.'.required'=>'parent id is required try parent_id=<parent id>',
+            Category::NAME.'.required'=>'Category name is required try name=<name>',
+            Category::PARENT_ID.'.required'=>'parent id is required try parent_id=<parent id> or parent_id=none in case of no parent',
         ]);
         if($validator->passes()){
-
+            $insert=function($data){
+                $category=new Category($data);
+                return  $category->save()?$this->success():$this->error('unknown error occurred',520);
+            };
+            if($data[Category::PARENT_ID]=='none')
+            {
+                $data[Category::PARENT_ID]=NULL;
+               return $insert($data);
+            }
+            elseif(Category::where('candybrush_categories_id','=',$data[Category::PARENT_ID])->exists()){
+                return $insert($data);
+            }else{
+                return $this->error('parent_id not exists! Try with another parent id',404);
+            }
         }else{
             return $this->error(call_user_func('App\libraries\Messages::showErrorMessages',$validator),422);
         }
@@ -85,15 +101,65 @@ class CategoryController extends BaseController
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * Up
+     * date the specified resource in storage.
      * @return \Illuminate\Http\Response
+     * @internal param Request $request
+     * @internal param int $id
      */
-    public function update(Request $request, $id)
+    public function update()
     {
         //
+        $id=Input::get('id',NULL);
+        if(is_null($id)){
+            return $this->error('Category Id required try id=<id>',422);
+        }
+        $validator=Validator::make(['id'=>$id],[
+            'id'=>'numeric'
+        ],
+            [
+                'id.numeric'=>'only numbers are allowed as id',
+            ]);
+        if($validator->fails()){
+            return $this->error(call_user_func('App\libraries\Messages::showErrorMessages',$validator),422);
+        }
+        if(Category::where('candybrush_categories_id','=',$id)->exists()){ //check for record need to update
+            $update=function($data)use($id){
+                try{Category::where('candybrush_categories_id','=',$id)->update($data);
+                   return $this->success();
+                }catch(Exception $e){
+                    return $this->error('unknown error occurred',520);
+                }
+            };
+            $data=$this->category_transformer->requestAdaptor();
+            $data=array_filter($data,'strlen');
+            $validator=Validator::make($data,[
+                Category::NAME=>'required',
+                Category::PARENT_ID=>'required|numeric',
+            ],
+                [
+                    Category::NAME.'.required'=>'Category name is required try name=<name>',
+                    Category::PARENT_ID.'.required'=>'parent id is required try parent_id=<parent id> or parent_id=none in case of no parent',
+                    Category::PARENT_ID.'.numeric'=>'only numbers are allowed as parent id'
+                ]);
+            if($validator->passes()){
+                if($data[Category::PARENT_ID]=='none')
+                {
+                    $data[Category::PARENT_ID]=NULL;
+                    return $update($data);
+                }
+                elseif(Category::where('candybrush_categories_id','=',$data[Category::PARENT_ID])->exists()){ // check for the parent if exist
+                    return $update($data);
+                }else{
+                    return $this->error('parent_id not exists! Try with another parent id',404);
+                }
+            }else{
+                return $this->error(call_user_func('App\libraries\Messages::showErrorMessages',$validator),422);
+            }
+        }else{
+            return $this->error('id do not match any records! Try with different id.',404);
+        }
+
     }
 
     /**

@@ -111,6 +111,10 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
      * for creating new category
      */
     $api->post('category','App\Http\Controllers\CategoryController@store');
+    /*
+     * for updating categories
+     */
+    $api->put('category','App\Http\Controllers\CategoryController@update');
     /**
      * for adding comment and rating package
      */
