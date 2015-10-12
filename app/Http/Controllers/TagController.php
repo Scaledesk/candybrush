@@ -29,6 +29,7 @@ class TagController extends BaseController
     public function index()
     {
         //
+        return $this->response()->collection(Tag::all(),$this->tag_transformer);
     }
 
     /**
@@ -37,6 +38,17 @@ class TagController extends BaseController
      * @return \Illuminate\Http\Response
      */
     public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
     {
         $data=array_filter($this->tag_transformer->requestAdaptor(),'strlen');
         $rules=[
@@ -62,17 +74,6 @@ class TagController extends BaseController
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -80,7 +81,12 @@ class TagController extends BaseController
      */
     public function show($id)
     {
-        //
+        $tag=Tag::find($id);
+        if(isset($tag->candybrush_tags_id)){
+            return $this->response()->item(Tag::find($id),$this->tag_transformer);
+        }
+        return $this->error('id do not match any records',404);
+
     }
 
     /**
@@ -117,9 +123,9 @@ class TagController extends BaseController
         ]);
         if($validator->passes()){
             try{
-
+                Tag::find($id)->update($data);
             }catch(Exception $e){
-
+                return $this->error('some unknown error occurred',520);
             }
         }else{
             return $this->error(call_user_func('App\libraries\Messages::showErrorMessages',$validator),422);

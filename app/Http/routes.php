@@ -86,7 +86,7 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
     /*
      * for create tags
      */
-    $api->post('tag','App\Http\Controllers\TagController@create');
+    $api->post('tag','App\Http\Controllers\TagController@store');
     /*
      * for deleting tags
      */
@@ -96,9 +96,21 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
      */
     $api->put('tag','App\Http\Controllers\TagController@update');
     /*
+     *for get all tags
+     */
+    $api->get('tag','App\Http\Controllers\TagController@index');
+    /*
+     * for get specific tag
+     */
+    $api->get('tag/{id}','App\Http\Controllers\TagController@show');
+    /*
      * for adding packages
      */
     $api->post('user/packages','App\Http\Controllers\PackagesController@store');
+    /*
+     * for creating new category
+     */
+    $api->post('category','App\Http\Controllers\CategoryController@store');
 });
 
 /*
