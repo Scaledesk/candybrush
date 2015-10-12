@@ -53,13 +53,12 @@ class PackagesController extends BaseController
         $data = $this->packageTransformer->requestAdapter();
         $data=array_filter($data,'strlen'); // filter blank or null array
         $result = PackagesModel::create($data);
-        /*print_r($result);
-        die;*/
         $data1 = [
             'candybrush_users_packages_user_id' => $u_id,
             'candybrush_users_packages_package_id' => $result->id,
             'candybrush_users_packages_status' => 0
         ];
+
         $userpackage=new PackegesUserModel($data1);
 //        $userpackage->save();
         try{
