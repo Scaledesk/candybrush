@@ -86,7 +86,7 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
     /*
      * for create tags
      */
-    $api->post('tag','App\Http\Controllers\TagController@create');
+    $api->post('tag','App\Http\Controllers\TagController@store');
     /*
      * for deleting tags
      */
@@ -102,7 +102,7 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
     /*
      * for get specific tag
      */
-    $api->get('tag','App\Http\Controllers\TagController@show');
+    $api->get('tag/{id}','App\Http\Controllers\TagController@show');
     /*
      * for adding packages
      */

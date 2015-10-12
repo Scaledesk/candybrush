@@ -17,6 +17,7 @@ class TagTransformer extends TransformerAbstract{
 
     public function transform($data){
         return [
+            'id'=>$data[Tag::ID],
             'name'=>$data[Tag::NAME],
             'description'=>$data[Tag::DESCRIPTON]
         ];

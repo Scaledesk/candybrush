@@ -39,6 +39,17 @@ class TagController extends BaseController
      */
     public function create()
     {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
         $data=array_filter($this->tag_transformer->requestAdaptor(),'strlen');
         $rules=[
             Tag::NAME=>'required|unique:candybrush_tags',
@@ -63,17 +74,6 @@ class TagController extends BaseController
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -81,7 +81,12 @@ class TagController extends BaseController
      */
     public function show($id)
     {
-        //
+        $tag=Tag::find($id);
+        if(isset($tag->candybrush_tags_id)){
+            return $this->response()->item(Tag::find($id),$this->tag_transformer);
+        }
+        return $this->error('id do not match any records',404);
+
     }
 
     /**
