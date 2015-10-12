@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 use App\libraries\Transformers\ReviewTransformer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Input;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\ReviewModel;
+use App\PackagesModel;
 
 class ReviewController extends BaseController
 {
@@ -26,6 +29,16 @@ class ReviewController extends BaseController
     public function index()
     {
         //
+        if((Input::get('package_id'))!='')
+        {
+            $id = Input::get('package_id');
+            return $this->response()->collection(ReviewModel::where('candybrush_reviews_package_id', $id)->get(),new ReviewTransformer());
+        }
+        elseif((Input::get('user_id'))!=''){
+            $id = Input::get('user_id');
+            return $this->response()->collection(ReviewModel::where('candybrush_reviews_user_id', $id)->get(),new ReviewTransformer());
+        }
+        return $this->error('user_id or package_id must be required');
     }
 
     /**

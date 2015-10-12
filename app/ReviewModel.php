@@ -22,9 +22,7 @@ class ReviewModel extends Model
     /*
      * relation with user
      */
-    public function packageModel(){
-        return $this->belongsTo('App\PackagesModel','candybrush_reviews_package_id');
-    }
+
 
 
 }
