@@ -107,6 +107,10 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
      * for adding packages
      */
     $api->post('user/packages','App\Http\Controllers\PackagesController@store');
+    /*
+     * for creating new category
+     */
+    $api->post('category','App\Http\Controllers\CategoryController@store');
 });
 
 /*
