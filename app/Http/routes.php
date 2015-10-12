@@ -116,6 +116,7 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
      */
     $api->post('packages/reviews/store','App\Http\Controllers\ReviewController@store');
     $api->post('packages/reviews','App\Http\Controllers\ReviewController@index');
+    $api->get('packages/reviews/adminVerify/{id}','App\Http\Controllers\ReviewController@admin_verified');
 
 });
 

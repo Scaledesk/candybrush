@@ -26,7 +26,8 @@ class ReviewTransformer extends TransformerAbstract{
             ReviewModel::USER_ID => Input::get('user_id'),
             ReviewModel::PACKAGE_ID => Input::get('package_id'),
             ReviewModel::RATING => Input::get('rating'),
-            ReviewModel::COMMENT => Input::get('comment')
+            ReviewModel::COMMENT => Input::get('comment'),
+            ReviewModel::ADMIN_VERIFIED => 0
         ];
     }
 }

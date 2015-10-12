@@ -32,11 +32,11 @@ class ReviewController extends BaseController
         if((Input::get('package_id'))!='')
         {
             $id = Input::get('package_id');
-            return $this->response()->collection(ReviewModel::where('candybrush_reviews_package_id', $id)->get(),new ReviewTransformer());
+            return $this->response()->collection(ReviewModel::where('candybrush_reviews_package_id', $id)->where('candybrush_reviews_admin_verified',1)->get(),new ReviewTransformer());
         }
         elseif((Input::get('user_id'))!=''){
             $id = Input::get('user_id');
-            return $this->response()->collection(ReviewModel::where('candybrush_reviews_user_id', $id)->get(),new ReviewTransformer());
+            return $this->response()->collection(ReviewModel::where('candybrush_reviews_user_id', $id)->where('candybrush_reviews_admin_verified',1)->get(),new ReviewTransformer());
         }
         return $this->error('user_id or package_id must be required');
     }
@@ -101,7 +101,6 @@ class ReviewController extends BaseController
 
     /**
      * Show the form for editing the specified resource.
-     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -131,4 +130,20 @@ class ReviewController extends BaseController
     {
         //
     }
+
+    public function admin_verified($id)
+    {
+        $res = ReviewModel::find($id);
+        $res->candybrush_reviews_admin_verified = 1;
+        if($res->save())
+        {
+            return $this->success();
+        }
+        else{
+            return $this->error('some unknown error occurred rating not verified');
+        }
+    }
+
+
+
 }
