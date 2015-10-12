@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\libraries\Messages;
 use App\libraries\Transformers\TagTransformer;
 use App\Tag;
 use Illuminate\Http\Request;
@@ -47,17 +48,8 @@ class TagController extends BaseController
             Tag::DESCRIPTON.'.required'=>'The description is required try description=<description>',
             Tag::NAME.'.unique'=>'The name already already exist, try different tag name'
         ]);
-        $messages=function()use($validator){
-            $messages = $validator->messages();
-            $errors=[];
-            foreach ($messages->all() as $message)
-            {
-                array_push($errors,$message);
-            }
-            return $errors;
-        };
         if($validator->fails()){
-            return $this->error($messages(),422);
+            return $this->error(call_user_func('App\libraries\Messages::showErrorMessages',$validator),422);
         }
         $tag=new Tag($data);
         try{
@@ -104,21 +96,40 @@ class TagController extends BaseController
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @internal param Request $request
+     * @internal param int $id
      */
-    public function update(Request $request, $id)
+    public function update()
     {
-        //
+        $id = Input::get('id','');
+        if($id==''){
+            return $this->error('Tag Id nopt provided try id=<id>');
+        }
+        $data=$this->tag_transformer->requestAdaptor();
+        $validator=Validator::make($data,[
+            Tag::NAME=>'required|unique:candybrush_tags',
+            Tag::DESCRIPTON=>'required',
+        ],[
+            Tag::NAME.'.required'=>'The name is required try name=<name>',
+            Tag::DESCRIPTON.'.required'=>'The description is required try description=<description>',
+            Tag::NAME.'.unique'=>'The name already already exist, try different tag name'
+        ]);
+        if($validator->passes()){
+            try{
+
+            }catch(Exception $e){
+
+            }
+        }else{
+            return $this->error(call_user_func('App\libraries\Messages::showErrorMessages',$validator),422);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @internal param int $id
      */
     public function destroy()
     {
@@ -131,17 +142,8 @@ class TagController extends BaseController
         $validator=Validator::make($data,$rules,[
             Tag::ID.'.required'=>'The id is required try id=<id>',
         ]);
-        $messages=function()use($validator){
-            $messages = $validator->messages();
-            $errors=[];
-            foreach ($messages->all() as $message)
-            {
-                array_push($errors,$message);
-            }
-            return $errors;
-        };
         if($validator->fails()){
-            return $this->error($messages(),422);
+            return $this->error(call_user_func('App\libraries\Messages::showErrorMessages',$validator),422);
         }
         if($tag=Tag::where(['candybrush_tags_id'=>$data[Tag::ID]])->first()){
             try{

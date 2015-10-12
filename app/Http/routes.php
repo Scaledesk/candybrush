@@ -92,6 +92,10 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
      */
     $api->delete('tag','App\Http\Controllers\TagController@destroy');
     /*
+     * for update tags
+     */
+    $api->put('tag','App\Http\Controllers\TagController@update');
+    /*
      * for adding packages
      */
     $api->post('user/packages','App\Http\Controllers\PackagesController@store');
