@@ -29,6 +29,7 @@ class TagController extends BaseController
     public function index()
     {
         //
+        return $this->response()->collection(Tag::all(),$this->tag_transformer);
     }
 
     /**
@@ -117,9 +118,9 @@ class TagController extends BaseController
         ]);
         if($validator->passes()){
             try{
-
+                Tag::find($id)->update($data);
             }catch(Exception $e){
-
+                return $this->error('some unknown error occurred',520);
             }
         }else{
             return $this->error(call_user_func('App\libraries\Messages::showErrorMessages',$validator),422);

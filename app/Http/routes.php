@@ -96,6 +96,14 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
      */
     $api->put('tag','App\Http\Controllers\TagController@update');
     /*
+     *for get all tags
+     */
+    $api->get('tag','App\Http\Controllers\TagController@index');
+    /*
+     * for get specific tag
+     */
+    $api->get('tag','App\Http\Controllers\TagController@show');
+    /*
      * for adding packages
      */
     $api->post('user/packages','App\Http\Controllers\PackagesController@store');

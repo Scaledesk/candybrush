@@ -15,8 +15,11 @@ use League\Fractal\TransformerAbstract;
 
 class TagTransformer extends TransformerAbstract{
 
-    public function transform(){
-        return [];
+    public function transform($data){
+        return [
+            'name'=>$data[Tag::NAME],
+            'description'=>$data[Tag::DESCRIPTON]
+        ];
     }
     public function requestAdaptor(){
         return [
