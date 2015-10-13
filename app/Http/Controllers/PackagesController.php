@@ -53,19 +53,17 @@ class PackagesController extends BaseController
         $data = $this->packageTransformer->requestAdapter();
         $data=array_filter($data,'strlen'); // filter blank or null array
         $result = PackagesModel::create($data);
-        print_r($u_id);
         $data1 = [
             'candybrush_users_packages_user_id' => $u_id,
             'candybrush_users_packages_package_id' => $result->id,
             'candybrush_users_packages_status' => 0
         ];
         $userpackage=new PackegesUserModel($data1);
-        print_r($userpackage);
         try{
             $result->userPackages()->save($userpackage);
         }
         catch(\Exception $e){
-            return $this->error($e->getMessage(),404);
+            return $this->error('unknown error occurred! Try Again',520);
         }
        return $this->success();
     }
