@@ -60,4 +60,8 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->hasMany('App\UserPortfolio', 'candybrush_users_portfolio_user_id');
     }
+    public function messagesUserModel()
+    {
+        return $this->hasMany('App\MessagesUserModel', 'candybrush_messages_user_id');
+    }
 }
