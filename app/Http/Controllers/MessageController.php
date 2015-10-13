@@ -26,11 +26,12 @@ class MessageController extends BaseController
     public function inbox()
     {
         $user_id = Input::get('user_id');
-        $inbox = MessagesUserModel::with('messagesModel')->with('user')->where('candybrush_messages_user_id','=', $user_id)
+        /*$inbox = MessagesUserModel::with('messagesModel')->with('user')->where('candybrush_messages_user_id','=', $user_id)
+            ->where('candybrush_messages_message_type', 'In')->get();*/
+        /*print_r($inbox);*/
+        $inbox = MessagesUserModel::with('messagesModel')->where('candybrush_messages_user_id','=', $user_id)
             ->where('candybrush_messages_message_type', 'In')->get();
-        print_r($inbox);
-        die;
-
+        $this->response()->collection($inbox,$this->messageTransformer);
     }
     /**
      * function for getting all sent box messages

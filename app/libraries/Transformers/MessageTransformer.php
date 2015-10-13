@@ -16,7 +16,8 @@ class MessageTransformer extends TransformerAbstract{
         return [
             'subject'=>$message->candybrush_messages_subject,
             'body'=>$message->candybrush_messages_body,
-            'status'=>$message->candybrush_messages_status ];
+            'status'=>$message->candybrush_messages_status ,
+            'user'=>self::includeUser($message)];
     }
     public function requestAdapter()
     {
@@ -25,5 +26,11 @@ class MessageTransformer extends TransformerAbstract{
             MessagesModel::BODY => Input::get('body'),
             MessagesModel::STATUS => 0
         ];
+    }
+    public function includeUser(MessagesModel $message)
+    {
+        $user = $message->user;
+
+        return $this->item($user, new UserTransformer());
     }
 }
