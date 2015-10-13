@@ -29,6 +29,7 @@ class CategoryController extends BaseController
     public function index()
     {
         //
+        return $this->response()->collection(Category::all(),$this->category_transformer);
     }
 
     /**
@@ -87,6 +88,12 @@ class CategoryController extends BaseController
     public function show($id)
     {
         //
+        $category=Category::find($id);
+        if(is_null($category)){
+            return $this->error('record not found');
+        }else{
+            return $this->response()->item($category,$this->category_transformer);
+        }
     }
 
     /**

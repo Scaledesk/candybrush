@@ -75,46 +75,54 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
     $api->get('userPortfolio/{id}','App\Http\Controllers\UserPortfolioController@show');
     $api->post('userPortfolio','App\Http\Controllers\UserPortfolioController@store');
 
-    /**
+    /***
      * for wallet transactions i.e. credit/debit
      */
     $api->put('users/walletTransaction','App\Http\Controllers\UserwalletController@update');
-    /*
+    /**
      * for activate and  inactivate user
      */
     $api->put('users/changeStatus','App\Http\Controllers\UserController@update');
-    /*
+    /**
      * for create tags
      */
     $api->post('tag','App\Http\Controllers\TagController@store');
-    /*
+    /**
      * for deleting tags
      */
     $api->delete('tag','App\Http\Controllers\TagController@destroy');
-    /*
+    /**
      * for update tags
      */
     $api->put('tag','App\Http\Controllers\TagController@update');
-    /*
+    /**
      *for get all tags
      */
     $api->get('tag','App\Http\Controllers\TagController@index');
-    /*
+    /**
      * for get specific tag
      */
     $api->get('tag/{id}','App\Http\Controllers\TagController@show');
-    /*
+    /**
      * for adding packages
      */
     $api->post('user/packages','App\Http\Controllers\PackagesController@store');
-    /*
+    /**
      * for creating new category
      */
     $api->post('category','App\Http\Controllers\CategoryController@store');
-    /*
+    /**
      * for updating categories
      */
     $api->put('category','App\Http\Controllers\CategoryController@update');
+    /**
+     * for getting all categories
+     */
+    $api->get('category','App\Http\Controllers\CategoryController@index');
+    /**
+     * for getting particular category
+     */
+    $api->get('category/{id}','App\Http\Controllers\CategoryController@show');
     /**
      * for adding comment and rating package
      */
