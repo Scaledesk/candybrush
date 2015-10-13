@@ -23,15 +23,28 @@ class MessageController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function inbox()
     {
         $user_id = Input::get('user_id');
-        $res = MessagesUserModel::where('candybrush_messages_user_id','=', $user_id)->get();
-        //$inbox = $res->messagesModel;
-        print_r($res[0]->messagesModel()->get());
-       die;
+        $inbox = MessagesUserModel::with('messagesModel')->with('user')->where('candybrush_messages_user_id','=', $user_id)
+            ->where('candybrush_messages_message_type', 'In')->get();
+        print_r($inbox);
+        die;
 
     }
+    /**
+     * function for getting all sent box messages
+     */
+    public function sentBox()
+    {
+        $user_id = Input::get('user_id');
+        $sent_box = MessagesUserModel::with('messagesModel')->with('user')->where('candybrush_messages_user_id','=', $user_id)
+            ->where('candybrush_messages_message_type', 'Out')->get();
+        print_r($sent_box);
+        die;
+
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -125,6 +138,13 @@ class MessageController extends BaseController
      */
     public function destroy($id)
     {
-        //
+        // delete messages
+        if(MessagesUserModel::destroy($id))
+        {
+            return $this->success();
+        }
+        else{
+            return $this->error();
+        }
     }
 }

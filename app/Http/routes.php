@@ -136,10 +136,21 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
     $api->get('packages/reviews/adminVerify/{id}','App\Http\Controllers\ReviewController@admin_verified');
 
     /**
-     * for messaging system
+     * for sending message
      */
     $api->post('messages/send','App\Http\Controllers\MessageController@store');
-    $api->post('messages/inbox','App\Http\Controllers\MessageController@index');
+    /**
+     * for getting inbox messages
+     */
+    $api->post('messages/inbox','App\Http\Controllers\MessageController@inbox');
+    /**
+     * for getting out box messages
+     */
+    $api->post('messages/sentbox','App\Http\Controllers\MessageController@sentBox');
+    /**
+     * for deleting  messages
+     */
+    $api->post('messages/delete/{id}','App\Http\Controllers\MessageController@destroy');
 
 });
 
