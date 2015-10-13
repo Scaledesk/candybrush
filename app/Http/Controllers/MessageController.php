@@ -2,13 +2,14 @@
 namespace App\Http\Controllers;
 use App\libraries\Transformers\MessageTransformer;
 use App\MessagesModel;
+use App\MessagesUserModel;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
 
-class MessageController extends Controller
+class MessageController extends BaseController
 {
-
 
     protected $messageTransformer;
     function __construct(MessageTransformer $messageTransformer)
@@ -24,7 +25,12 @@ class MessageController extends Controller
      */
     public function index()
     {
-        //
+        $user_id = Input::get('user_id');
+        $res = MessagesUserModel::where('candybrush_messages_user_id','=', $user_id)->get();
+        //$inbox = $res->messagesModel;
+        print_r($res[0]->messagesModel()->get());
+       die;
+
     }
 
     /**
@@ -47,6 +53,26 @@ class MessageController extends Controller
         // storing messages
         $data = $this->messageTransformer->requestAdapter();
         $result = MessagesModel::create($data);
+        $receiver = $request->receiver;
+        $sender = $request->sender;
+        if($sender!='') {
+            $data1 = [
+                'candybrush_messages_user_id' => $sender,
+                'candybrush_messages_message_id' => $result->id,
+                'candybrush_messages_message_type' => 'Out'
+            ];
+            $result->messagesUserModel()->create($data1);
+        }
+        if($receiver!='') {
+            $data2 = [
+                'candybrush_messages_user_id' => $receiver,
+                'candybrush_messages_message_id' => $result->id,
+                'candybrush_messages_message_type' => 'In'
+            ];
+            $result->messagesUserModel()->create($data2);
+        }
+        return $this->success();
+
 
         /*$rules=[
 

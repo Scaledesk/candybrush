@@ -135,6 +135,12 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
     $api->post('packages/reviews','App\Http\Controllers\ReviewController@index');
     $api->get('packages/reviews/adminVerify/{id}','App\Http\Controllers\ReviewController@admin_verified');
 
+    /**
+     * for messaging system
+     */
+    $api->post('messages/send','App\Http\Controllers\MessageController@store');
+    $api->post('messages/inbox','App\Http\Controllers\MessageController@index');
+
 });
 
 /*

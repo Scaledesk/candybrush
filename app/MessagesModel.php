@@ -16,6 +16,7 @@ class MessagesModel extends Model
     protected $table=self::TABLE;
     protected $fillable=[self::SUBJECT, self::BODY, self::STATUS];
     public $timestamps=false;
+
     public function messagesUserModel()
     {
         return $this->hasMany('App\MessagesUserModel', 'candybrush_messages_message_id');
