@@ -178,5 +178,12 @@ class CategoryController extends BaseController
     public function destroy($id)
     {
         //
+        $category=Category::find($id);
+        if(is_null($category)){
+            return $this->error('record not found');
+        }else{
+            $category->delete();
+            return $this->success();
+        }
     }
 }
