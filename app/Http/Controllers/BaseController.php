@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use app\libraries\Messages;
+use App\libraries\Messages;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Validation\Factory;
 use Illuminate\Http\Request;
@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Validator;
 
 class BaseController extends Controller
 {
-        use Helpers;
+    use Helpers;
+
     /*
      * success response method with default message and success code
      */
@@ -53,6 +54,16 @@ class BaseController extends Controller
             'message'=>$message,
             'status_code'=>$status_code
         ])->statusCode($status_code);
+    }
+
+    public function my_validate($data_array){
+        $validate=Validator::make($data_array['data'],$data_array['rules'],$data_array['messages']);
+        /*return $validate->passes()?true:false;*/
+        if($validate->fails()){
+        return ['result'=>false,'error'=>$this->error(Messages::showErrorMessages($validate),422)];
+        }else{
+            return ['result'=>true,'error'=>'no error'];
+        }
     }
 
 //    protected static function myValidate($data_array,$rules,$messages, $error_code){

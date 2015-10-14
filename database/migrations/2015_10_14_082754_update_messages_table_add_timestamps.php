@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddUpdatedAtCreatedAtUserPackagesTable extends Migration
+class UpdateMessagesTableAddTimestamps extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AddUpdatedAtCreatedAtUserPackagesTable extends Migration
     public function up()
     {
         //
-        Schema::table('candybrush_users_packages',function(Blueprint $table){
+        Schema::table('candybrush_messages',function(Blueprint $table){
             $table->timestamps();
         });
     }
@@ -26,7 +26,7 @@ class AddUpdatedAtCreatedAtUserPackagesTable extends Migration
     public function down()
     {
         //
-        Schema::table('candybrush_users_packages',function(Blueprint $table){
+        Schema::table('candybrush_messages',function(Blueprint $table){
             $table->dropColumn(['updated_at','created_at']);
         });
     }
