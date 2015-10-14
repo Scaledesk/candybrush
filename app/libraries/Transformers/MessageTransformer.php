@@ -14,8 +14,10 @@ use League\Fractal\TransformerAbstract;
 use App\Message;
 
 class MessageTransformer extends TransformerAbstract{
-    public function transform(){
-        return [];
+    public function transform(Message $message){
+        return [
+            'subject'=>$message[Message::SUBJECT]
+        ];
     }
     public function requestAdaptor(){
         return [

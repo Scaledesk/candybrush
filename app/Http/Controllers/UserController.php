@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\libraries\Transformers\MessageTransformer;
 use App\libraries\Transformers\UserTransformer;
 use App\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -140,6 +142,43 @@ class UserController extends BaseController
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     *return inbox messages
+     * @param $id
+     * @return
+     */
+    public function getInboxMessages($id){
+         $validation_result=$this->my_validate([
+            'data'=>[
+                'user_id'=>$id
+            ],
+            'rules'=>[
+            'user_id'=>'required|exists:users,id',
+            ],
+            'messages'=>[
+                'user_id.required'=>'user_id is required try user_id = user_id',
+                'user_id.exists'=>'user_id do not match any records, try with different user_id',
+            ]
+        ]);
+        if($validation_result['result']){
+            //do
+            $user=User::find($id);
+            $messages=$user->recieversMessage;
+           /* print_r($messages);
+            die;*/
+            return $this->response()->collection($messages,new MessageTransformer());
+            /*return response($messages);*/
+        }else{
+            return $validation_result['error'];
+        }
+    }
+    /**
+     *return sent messages
+     */
+    public function getSentMessages(){
+
     }
 
 }

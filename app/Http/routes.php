@@ -20,7 +20,10 @@ Route::get('/', function () {
  *  Dingo Api Routes
  */
 $api = app('Dingo\Api\Routing\Router');
-$api->version('v1',function($api){
+$api->version('v1', /**
+ * @param $api
+ */
+    function($api){
 $api->get('users','App\Http\Controllers\UserController@index');
 $api->get('users/{id}', 'App\Http\Controllers\UserController@show');
 $api->post('auth/login', function (\Illuminate\Http\Request $request){
@@ -151,7 +154,14 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
      * for deleting  messages
      */
     $api->post('messages/delete/{id}','App\Http\Controllers\MessageController@destroy');
-
+        /**
+         * get Inbox messages
+         */
+    $api->get('user/{id}/inbox/','App\Http\Controllers\UserController@getInboxMessages');
+    /**
+    * get Sent box messages
+    */
+    $api->get('user/{id}/sentMessages/','App\Http\Controllers\UserController@getSentMessages');
 });
 
 /*
