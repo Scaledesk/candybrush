@@ -21,6 +21,6 @@ class Message extends Model
         return $this->belongsTo('App\User','candybrush_messages_user_id');
     }
     public function recieverUsers(){
-        return $this->belongsToMany('App\User', 'candybrush_messages_receivers','candybrush_messages_recievers_message_id','candybrush_messages_recievers_user_id');
+        return $this->belongsToMany('App\User', 'candybrush_messages_receivers','candybrush_messages_recievers_message_id','candybrush_messages_recievers_user_id')->withTimestamps();
     }
 }
