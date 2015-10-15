@@ -61,12 +61,15 @@ class MessageController extends BaseController
             Message::USER_ID.'.exists'=>'user_id do not match any records! try with different user_id',
             Message::USER_ID.'.required'=>'user_id is required try user_id=<user_id>',
             Message::USER_ID.'.numeric'=>'Only numbers are allowed in user_id',
-            Message::RECIEVER_ID.'.required'=>'Required Array of receivers try recievers_id=<array of one or more receivers id>',
+            Message::RECIEVER_ID.'.required'=>'Required Array of receivers try receivers_id=<array of one or more receivers id>',
             Message::RECIEVER_ID.'.min:1'=>'minimum one receiver in receiver array is required'
         ];
         $validate=$this->my_validate(['data'=>$data,'rules'=>$rules,'messages'=>$messages]);
         if($validate['result']){
             //do
+            if(!is_array($data[Message::RECIEVER_ID])){
+                return $this->error('receivers_id must be in array try receivers_id=[1,2,3]',422);
+            }
             $user=User::find($data[Message::USER_ID]);
             $message=new Message($data);
             $user->messages()->save($message);

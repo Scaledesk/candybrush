@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\libraries\Transformers\MessageTransformer;
+use App\libraries\Transformers\SentMessagesTransformer;
 use App\libraries\Transformers\UserTransformer;
+use App\Message;
 use App\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -155,21 +157,31 @@ class UserController extends BaseController
                 'user_id'=>$id
             ],
             'rules'=>[
-            'user_id'=>'required|exists:users,id',
+            'user_id'=>'required|exists:users,id|numeric',
             ],
             'messages'=>[
-                'user_id.required'=>'user_id is required try user_id = user_id',
+                'user_id.required'=>'user_id is required pass user_id in url as user/{id}/inbox/',
                 'user_id.exists'=>'user_id do not match any records, try with different user_id',
+                'user_id.numeric'=>'Only numbers are requires as id',
             ]
         ]);
         if($validation_result['result']){
             //do
-            $user=User::find($id);
-            $messages=$user->recieversMessage;
+         /*   $user=User::find($id);
+            $messages=$user->recieversMessage;*/
            /* print_r($messages);
             die;*/
-            return $this->response()->collection($messages,new MessageTransformer());
+            /*return $this->response()->collection($messages,new MessageTransformer());*/
             /*return response($messages);*/
+            $messages_id=DB::table('candybrush_messages_receivers')->where('candybrush_messages_recievers_user_id','=',$id)->get(['candybrush_messages_recievers_message_id']);
+            $messages_id1=[];
+            foreach($messages_id as $id){
+                array_push($messages_id1,$id->candybrush_messages_recievers_message_id);
+            }
+            $messages_id=$messages_id1;
+            unset($messages_id1);
+            $messages=Message::whereIn('id',$messages_id)->get();
+            return $this->response()->collection($messages,new MessageTransformer());
         }else{
             return $validation_result['error'];
         }
@@ -177,8 +189,25 @@ class UserController extends BaseController
     /**
      *return sent messages
      */
-    public function getSentMessages(){
-
+    public function getSentMessages($id){
+        $validation_result=$this->my_validate([
+            'data'=>[
+                'user_id'=>$id
+            ],
+            'rules'=>[
+                'user_id'=>'required|exists:users,id|numeric',
+            ],
+            'messages'=>[
+                'user_id.required'=>'user_id is required pass user_id in url as user/{id}/sentMessages/',
+                'user_id.exists'=>'user_id do not match any records, try with different user_id',
+                'user_id.numeric'=>'Only numbers are requires as id',
+            ]
+        ]);
+        if($validation_result['result']){
+           $message=Message::where('candybrush_messages_user_id','=',$id)->get();
+            return $this->response()->collection($message,new SentMessagesTransformer());
+        }else{
+            return $validation_result['error'];
+        }
     }
-
 }

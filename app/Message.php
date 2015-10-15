@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Message extends Model
 {
     //
+    const ID = 'id';
     const TABLE = 'candybrush_messages';
     const SUBJECT = 'candybrush_messages_subject';
     const BODY = 'candybrush_messages_body';
