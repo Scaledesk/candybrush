@@ -20,7 +20,7 @@ class UserController extends BaseController
 {
     function __construct()
     {
-        //$this->middleware('jwt.auth',['except'=>['authenticate']]);
+        $this->middleware('api.auth',['except'=>['authenticate']]);
     }
 
     /**
@@ -31,9 +31,12 @@ class UserController extends BaseController
     public function index()
     {
         // all users
-        return $this->response()->collection(User::all(),new UserTransformer());
+//        return $this->response()->collection(User::all(),new UserTransformer());
         /*$users=User::paginate(1);
         return $this->response()->paginator($users,new UserTransformer());*/
+        $user = $this->auth->user();
+
+        return $user;
     }
 
     /**
