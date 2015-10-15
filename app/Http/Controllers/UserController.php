@@ -82,10 +82,9 @@ class UserController extends BaseController
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @internal param Request $request
+     * @internal param int $id
      */
     public function update()
     {
@@ -149,7 +148,7 @@ class UserController extends BaseController
     /**
      *return inbox messages
      * @param $id
-     * @return
+     * @return \Dingo\Api\Http\Response
      */
     public function getInboxMessages($id){
          $validation_result=$this->my_validate([

@@ -23,7 +23,6 @@ class MessageTransformer extends TransformerAbstract{
             'body'=>$message[Message::BODY],
             'read_status'=>$message[Message::STATUS]==0?'Unread':'read',
         ];
-
     }
     public function requestAdaptor(){
         return [
@@ -37,5 +36,4 @@ class MessageTransformer extends TransformerAbstract{
         $user = $message->user;
         return $this->item($user, new UserTransformer());
     }
-
 }

@@ -54,47 +54,70 @@ class RegistrationController extends BaseController
      */
     public function store(Request $request)
     {
-        //
-        $rules=[
+      $input=$this->user_transformer->requestAdaptor();
+        $validator=Validator::make(
+            $input,
+            [
             'name'=>'required|min:6|unique:users',
             'email' => 'required|email|unique:users',
             'password' => 'required|confirmed|min:6'
-        ];
-        /*$input = Input::only('name',
-            'email',
-            'password',
-            'password_confirmation'
-        );*/
-      $input=$this->user_transformer->requestAdaptor();
-        $validator=Validator::make($input,$rules);
-        if($validator->fails()){
-             throw new StoreResourceFailedException;
-         }
-        $confirmation_code= str_random(30);
-        DB::transaction(function()use($confirmation_code) {
+        ],['name.required'=>'Name is required try name=<name>',
+            'email.required'=>'Email is required try email=<email>',
+            'password.required'=>'Password is required try password=<password>',
+            'password_confirmation.required'=>'Password_confirmation is required try password_confirmation=<retype passward>',
+            'name.unique'=>'Name already exists. Try with different name',
+            'email.unique'=>'Email already exists. Try with different email',
+            'name.min'=>'Minimum six characters must be required in name',
+            'password.min'=>'Minimum six characters must be required in password'
 
-            //prepare record to enter in database
-            $data=[
-                'name'=>Input::get('name'),
-                'email'=>Input::get('email'),
-                'password'=>Hash::make(Input::get('password')),
-                'confirmation_code'=>$confirmation_code
-            ];
-            $user= User::create($data);
-            $user->userProfiles()->create(['candybrush_users_profiles_users_id'=>$user->id]);
-            $user->userWallet()->create(['candybrush_users_wallet_user_id'=>$user->id,'candybrush_users_wallet_amount'=>0]);
-            DB::table('candybrush_users_wallet_transactions')->insert([
-                'candybrush_users_wallet_transactions_wallet_id'=>$user->id,
-                'candybrush_users_wallet_transactions_description'=>'Create wallet with 0 credit',
-                'candybrush_users_wallet_transactions_type'=>'credit',
-                'candybrush_users_wallet_transactions_amount'=>0]);
-        });
-        set_time_limit(60); //increase the timeout of php to send mail
-        Mail::send('email.verify',array('confirmation_code'=>$confirmation_code), function($message) {
-            $message->to(Input::get('email'), Input::get('name'))
-                ->subject('Verify your email address');
-        });
-        return "Thanks for signing up! Please check your email";
+        ]);
+        $validate_result=$this->my_validate([
+            'data'=>$input,
+            'rules'=>[
+                'name'=>'required|min:6|unique:users',
+                'email' => 'required|email|unique:users',
+                'password' => 'required|confirmed|min:6'
+            ],
+            'messages'=>[
+                'name.required'=>'Name is required try name=<name>',
+                'email.required'=>'Email is required try email=<email>',
+                'password.required'=>'Password is required try password=<password>',
+                'password.confirmed'=>'Password_confirmation do not match try password_confirmation=<retype passward>',
+                'name.unique'=>'Name already exists. Try with different name',
+                'email.unique'=>'Email already exists. Try with different email',
+                'name.min'=>'Minimum six characters must be required in name',
+                'password.min'=>'Minimum six characters must be required in password'
+            ]
+        ]);
+        if($validate_result['result']){
+            $confirmation_code= str_random(30);
+            DB::transaction(function()use($confirmation_code) {
+
+                //prepare record to enter in database
+                $data=[
+                    'name'=>Input::get('name'),
+                    'email'=>Input::get('email'),
+                    'password'=>Hash::make(Input::get('password')),
+                    'confirmation_code'=>$confirmation_code
+                ];
+                $user= User::create($data);
+                $user->userProfiles()->create(['candybrush_users_profiles_users_id'=>$user->id]);
+                $user->userWallet()->create(['candybrush_users_wallet_user_id'=>$user->id,'candybrush_users_wallet_amount'=>0]);
+                DB::table('candybrush_users_wallet_transactions')->insert([
+                    'candybrush_users_wallet_transactions_wallet_id'=>$user->id,
+                    'candybrush_users_wallet_transactions_description'=>'Create wallet with 0 credit',
+                    'candybrush_users_wallet_transactions_type'=>'credit',
+                    'candybrush_users_wallet_transactions_amount'=>0]);
+            });
+            set_time_limit(60); //increase the timeout of php to send mail
+            Mail::send('email.verify',array('confirmation_code'=>$confirmation_code), function($message) {
+                $message->to(Input::get('email'), Input::get('name'))
+                    ->subject('Verify your email address');
+            });
+            return $this->success('Thanks for signing up! Please check your email');
+        }else{
+            return $validate_result['error'];
+        }
     }
 
     /**
