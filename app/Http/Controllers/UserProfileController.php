@@ -34,7 +34,7 @@ class UserProfileController extends BaseController
      */
     public function show($id)
     {
-        return $this->response()->collection(User::find($id)->userprofiles()->get(),new UserProfileTransformer());
+        return $this->response()->item(User::find($id)->userprofiles()->first(),new UserProfileTransformer());
     }
 
 

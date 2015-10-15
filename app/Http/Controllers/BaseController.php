@@ -58,7 +58,6 @@ class BaseController extends Controller
 
     public function my_validate($data_array){
         $validate=Validator::make($data_array['data'],$data_array['rules'],$data_array['messages']);
-        /*return $validate->passes()?true:false;*/
         if($validate->fails()){
         return ['result'=>false,'error'=>$this->error(Messages::showErrorMessages($validate),422)];
         }else{

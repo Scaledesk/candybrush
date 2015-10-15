@@ -179,7 +179,7 @@ class UserController extends BaseController
             }
             $messages_id=$messages_id1;
             unset($messages_id1);
-            $messages=Message::whereIn('id',$messages_id)->get();
+            $messages=Message::whereIn('id',$messages_id)->withTrashed()->get();
             return $this->response()->collection($messages,new MessageTransformer());
         }else{
             return $validation_result['error'];

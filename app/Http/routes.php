@@ -162,6 +162,10 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
     * get Sent box messages
     */
     $api->get('user/{id}/sentMessages/','App\Http\Controllers\UserController@getSentMessages');
+        /**
+         * for deleting messages
+         */
+        $api->delete('message/{id}','App\Http\Controllers\MessageController@destroy');
 });
 
 /*

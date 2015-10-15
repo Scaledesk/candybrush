@@ -10,6 +10,7 @@ namespace app\libraries\Transformers;
 
 
 use App\Message;
+use App\User;
 use League\Fractal\TransformerAbstract;
 use App\libraries\Transformers\UserTransformer;
 
@@ -20,11 +21,18 @@ public function transform(Message $message){
         'id'=>$message[Message::ID],
         'subject'=>$message[Message::SUBJECT],
         'body'=>$message[Message::BODY],
-        'read_status'=>$message[Message::STATUS]==0?'Unread':'read',
         ];
     }
     public function includeUser(Message $message){
-        $user=$message->recieverUsers()->get();
-        return $this->collection($user,new UserTransformer());
+        $users=$message->candybrush_messages_receivers_user_id;
+        if($users!='draft'){
+            $users=explode(',',$users);
+          $user=User::whereIn('id',$users)->get();
+            return $this->collection($user,new UserTransformer());
+        }else{
+        return;
+        }
+
+
     }
 }
