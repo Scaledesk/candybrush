@@ -24,7 +24,9 @@ class Kernel extends HttpKernel
         /*
          * OAuth2 server
          */
-        \LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware::class
+        \LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware::class,
+
+        'Barryvdh\Cors\HandleCors',
     ];
 
     /**
@@ -51,7 +53,7 @@ class Kernel extends HttpKernel
         /*
          * In order to make some the authorization and resource server work correctly with Laravel5
          */
-        'csrf' => \App\Http\Middleware\VerifyCsrfToken::class
-
+//        'csrf' => \App\Http\Middleware\VerifyCsrfToken::class
+//
     ];
 }

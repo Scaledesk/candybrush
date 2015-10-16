@@ -33,6 +33,6 @@ class UserProfile extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User', 'id');
+        return $this->belongsTo('App\User', 'candybrush_users_profiles_users_id');
     }
 }
