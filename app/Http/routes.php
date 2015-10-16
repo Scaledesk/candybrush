@@ -166,6 +166,22 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
          * for deleting messages
          */
         $api->delete('message/{id}','App\Http\Controllers\MessageController@destroy');
+        /**
+         * add addon to the package
+         */
+        $api->post('addon','App\Http\Controllers\AddonController@store');
+        /**
+         * delete addon
+         */
+        $api->delete('addon/{id}','App\Http\Controllers\AddonController@destroy');
+        /**
+         * show all packages
+         */
+        $api->get('package','App\Http\Controllers\PackagesController@index');
+        /**
+         * show specific package
+         */
+        $api->get('package/{id}','App\Http\Controllers\PackagesController@show');
 });
 
 /*

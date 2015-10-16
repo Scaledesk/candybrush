@@ -33,5 +33,9 @@ class PackagesModel extends Model
         return $this->hasOne('App\PackegesUserModel','candybrush_users_packages_package_id');
     }
 
+    public function addons(){
+        return $this->hasMany('App\Addon','candybrush_addons_package_id');
+    }
+
 
 }

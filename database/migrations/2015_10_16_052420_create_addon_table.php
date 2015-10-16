@@ -6,6 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateAddonTable extends Migration
 {
+    const TABLE_PREFIX='addons_';
     /**
      * Run the migrations.
      *
@@ -14,10 +15,10 @@ class CreateAddonTable extends Migration
     public function up()
     {
         Schema::create(Constants::PREFIX.'addons',function(Blueprint $table){
-           $table->increments(Constants::PREFIX.'addon_id');
-            $table->string(Constants::PREFIX.'name',80);
-            $table->string(Constants::PREFIX.'description');
-            $table->string( Constants::PREFIX.'package_id');
+           $table->increments(Constants::PREFIX.self::TABLE_PREFIX.'id');
+            $table->string(Constants::PREFIX.self::TABLE_PREFIX.'name',80);
+            $table->string(Constants::PREFIX.self::TABLE_PREFIX.'description');
+            $table->string( Constants::PREFIX.self::TABLE_PREFIX.'package_id');
         });
     }
 

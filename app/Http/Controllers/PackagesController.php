@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\PackagesModel;
+use App\libraries\Constants;
 
 class PackagesController extends BaseController
 {
@@ -28,7 +29,7 @@ class PackagesController extends BaseController
      */
     public function index()
     {
-        //
+    return $this->response()->collection(PackagesModel::all(),$this->packageTransformer);
     }
 
     /**
@@ -58,7 +59,7 @@ class PackagesController extends BaseController
             'candybrush_users_packages_package_id' => $result->id,
             'candybrush_users_packages_status' => 0
         ];
-        $userpackage=new PackegesUserModel($data1);
+        $userpackage = new PackegesUserModel($data1);
         try{
             $result->userPackages()->save($userpackage);
         }
@@ -77,6 +78,22 @@ class PackagesController extends BaseController
     public function show($id)
     {
         //
+        $data=['id'=>$id];
+        $validation_result=$this->my_validate(['data'=>$data,
+            'rules'=>[
+                'id'=>'required|exists:'.Constants::PREFIX.'packages,id'
+            ],
+            'messages'=>[
+                'id.required'=>'package id is required to show package try in url package/<id>',
+                'id.exists'=>'package id do not match any records, it not exists or already deleted'
+            ]
+        ]);
+        if($validation_result['result']){
+           return $this->response()->item(PackagesModel::find($id),$this->packageTransformer);
+        }else{
+            return $validation_result['error'];
+        }
+
     }
 
     /**
@@ -88,7 +105,6 @@ class PackagesController extends BaseController
 
     public function update(Request $request, $id)
     {
-        //
         $data = $this->packageTransformer->requestAdapter();
         dd($data);
         $data=array_filter($data,'strlen'); // filter blank or null array

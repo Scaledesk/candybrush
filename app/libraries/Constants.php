@@ -10,5 +10,5 @@ namespace app\libraries;
 
 
 class Constants {
- const PREFIX = 'candybrush';
+ const PREFIX = 'candybrush_';
 }

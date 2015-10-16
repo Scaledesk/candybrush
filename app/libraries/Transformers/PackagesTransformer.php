@@ -7,21 +7,24 @@
  */
 namespace App\libraries\Transformers;
 use App\PackagesModel;
+use App\Addon;
+use App\libraries\Transformers\AddonTransformer;
 use Dingo\Api\Http\Request;
 use Illuminate\Support\Facades\Input;
 use League\Fractal\TransformerAbstract;
 
 class PackagesTransformer extends TransformerAbstract{
+    protected $defaultIncludes = ['Addons'];
     public function transform(PackagesModel $package){
         return [
             'name'=>$package->candybrush_packages_name,
             'description'=>$package->candybrush_packages_description,
             'category'=>$package->candybrush_packages_category,
             'sub_category'=>$package->candybrush_packages_sub_category,
-            'price'=>$package->candybrush_packages_price,
+            'price'=>(integer)$package->candybrush_packages_price,
             'bonus'=>$package->candybrush_packages_bonus,
             'offer'=>$package->candybrush_packages_offer,
-            'deal_price'=>$package->candybrush_packages_deal_price,
+            'deal_price'=>(integer)$package->candybrush_packages_deal_price,
             'available_date'=>$package->candybrush_packages_available_date,
             'term_condition'=>$package->candybrush_packages_term_condition,
             'payment_type'=>$package->candybrush_packages_payment_type,
@@ -44,5 +47,8 @@ class PackagesTransformer extends TransformerAbstract{
             PackagesModel::PAYMENT_TYPE => Input::get('payment_type'),
             PackagesModel::MAXIMUM_DELIVERY_DAYS => Input::get('maximum_delivery_days')
         ];
+    }
+    public function includeAddons(PackagesModel $package){
+        return $this->collection($package->addons()->get(),new AddonTransformer());
     }
 }
