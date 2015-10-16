@@ -71,7 +71,7 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
     /*
      * for show user profile
      */
-    $api->get('userProfile/{id}','App\Http\Controllers\UserProfileController@show');
+    $api->get('userProfile','App\Http\Controllers\UserProfileController@show');
     /**
      *  for show user portfolio and store portfolio
      */

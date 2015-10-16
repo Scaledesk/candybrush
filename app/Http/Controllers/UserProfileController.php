@@ -21,8 +21,8 @@ class UserProfileController extends BaseController
     protected $userProfileTransformer;
     function __construct(UserProfileTransformer $userProfileTransformer)
     {
+        $this->middleware('api.auth');
         $this->userProfileTransformer = $userProfileTransformer;
-        // $this->middleware('jwt.auth',['except'=>['authenticate']]);
     }
 
 
@@ -32,9 +32,9 @@ class UserProfileController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        return $this->response()->item(User::find($id)->userprofiles()->first(),new UserProfileTransformer());
+        return $this->response()->item($this->auth()->user()->userprofiles()->first(),new UserProfileTransformer());
     }
 
 
