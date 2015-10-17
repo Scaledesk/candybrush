@@ -64,7 +64,7 @@ class AddonController extends BaseController
                 Addon::PACKAGE_ID.'.required'=>'Package Id is required try package_id=<package_id>',
                 Addon::NAME.'.unique'=>'Addon Name already exist in related package try with different name',
                 Addon::PACKAGE_ID.'.exists'=>'Package id do not match any records, try with different package id',
-                Addon::NAME.'.required'=>'Number of days required for Addon try days=<no of days>',
+                Addon::DAYS.'.required'=>'Number of days required for Addon try days=<no of days>',
                 Addon::PRICE.'.required'=>'Price of Addon required, try price=<price of addon>',
                 Addon::DAYS.'.numeric'=>'Only numbers are required as number of days',
                 Addon::PRICE.'.numeric'=>'Only numbers are required as price of Addon',

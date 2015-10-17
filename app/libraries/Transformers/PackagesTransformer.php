@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Input;
 use League\Fractal\TransformerAbstract;
 
 class PackagesTransformer extends TransformerAbstract{
-    protected $defaultIncludes = ['Addons'];
+    protected $defaultIncludes = ['Addons','Bonus'];
     public function transform(PackagesModel $package){
         return [
             'name'=>$package->candybrush_packages_name,
@@ -48,7 +48,17 @@ class PackagesTransformer extends TransformerAbstract{
             PackagesModel::MAXIMUM_DELIVERY_DAYS => Input::get('maximum_delivery_days')
         ];
     }
+
+    /**
+     * for including Addons
+     * @param PackagesModel $package
+     * @return \League\Fractal\Resource\Collection
+     */
     public function includeAddons(PackagesModel $package){
         return $this->collection($package->addons()->get(),new AddonTransformer());
+    }
+    
+    public function includeBonus(PackagesModel $package){
+        return $this->collection($package->bonus()->get(),new BonusTransformer());
     }
 }

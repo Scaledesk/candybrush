@@ -36,6 +36,9 @@ class PackagesModel extends Model
     public function addons(){
         return $this->hasMany('App\Addon','candybrush_addons_package_id');
     }
+    public function bonus(){
+        return $this->hasMany('App\Bonus','candybrush_bonus_package_id');
+    }
 
 
 }

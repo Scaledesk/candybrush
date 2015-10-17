@@ -182,6 +182,14 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
          * show specific package
          */
         $api->get('package/{id}','App\Http\Controllers\PackagesController@show');
+        /**
+         * add bonus to the package
+         */
+        $api->post('bonus','App\Http\Controllers\BonusController@store');
+        /**
+         * delete bonus
+         */
+        $api->delete('bonus/{id}','App\Http\Controllers\BonusController@destroy');
 });
 
 /*
