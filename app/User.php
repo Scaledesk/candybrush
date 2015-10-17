@@ -68,4 +68,7 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->belongsToMany('App\Message', 'candybrush_messages_receivers','candybrush_messages_recievers_user_id','candybrush_messages_recievers_message_id')->withTimestamps();
     }
+    public function packages(){
+        return $this->hasMany('App\PackagesModel', 'candybrush_packages_user_id');
+    }
 }

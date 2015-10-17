@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\libraries\Transformers\PackagesTransformer;
 use App\PackegesUserModel;
+use App\Tag;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\PackagesModel;
 use App\libraries\Constants;
+use Illuminate\Support\Facades\DB;
+use Mockery\CountValidator\Exception;
 
 class PackagesController extends BaseController
 {
@@ -53,20 +57,50 @@ class PackagesController extends BaseController
         $u_id = $request->user_id;
         $data = $this->packageTransformer->requestAdapter();
         $data=array_filter($data,'strlen'); // filter blank or null array
-        $result = PackagesModel::create($data);
-        $data1 = [
-            'candybrush_users_packages_user_id' => $u_id,
-            'candybrush_users_packages_package_id' => $result->id,
-            'candybrush_users_packages_status' => 0
-        ];
-        $userpackage = new PackegesUserModel($data1);
-        try{
-            $result->userPackages()->save($userpackage);
+        $validation_result=$this->my_validate([
+            'data'=>$data,
+            'rules'=>[
+                PackagesModel::NAME=>'required',
+                PackagesModel::DESCRIPTION=>'required',
+                PackagesModel::User_ID=>'required|exists:users,id',
+                PackagesModel::CATEGORY_ID=>'required|min:1|exists:candybrush_categories,candybrush_categories_id'
+            ],
+            'messages'=>[
+                PackagesModel::NAME.'.required'=>'Name of package is required, try name=<name>',
+                PackagesModel::DESCRIPTION.'.required|Name of package is required, try description=<description>',
+                PackagesModel::User_ID.'.required'=>'seller_id is required try user_id=<user_id>',
+                PackagesModel::User_ID.'.exists'=>'seller_id do not match any records, please check',
+                PackagesModel::CATEGORY_ID.'.required'=>'Category_id is required try category_id=<array od category_ids>',
+                PackagesModel::CATEGORY_ID.'.min'=>'At least 1 category id has to be given in array',
+                PackagesModel::CATEGORY_ID.'.exists'=>'Category _id do not match any records, please check',
+            ]
+
+        ]);
+        if($validation_result['result']){
+            try{
+            $tag_avilable=false;
+            $tags_id=NULL;
+            if(isset($data[PackagesModel::TAG_ID])){
+            $tags_id=explode(',',$data[PackagesModel::TAG_ID]);
+                unset($data[PackagesModel::TAG_ID]);
+                $tag_avilable=true;
+            }
+            DB::transaction(function ()use($data,$tag_avilable,$tags_id) {
+                $category=Category::find($data[PackagesModel::CATEGORY_ID]);
+                $package = new PackagesModel($data);
+                $category->packages()->save($package);
+                if ($tag_avilable) {
+
+                    $package->tags()->attach($tags_id);
+                }
+            });
+            return $this->success();}catch(Exception $e){
+                return $this->error('unknown error occurred!Might wrong tag id passed, please check',520);
+            }
+        }else{
+            return $validation_result['error'];
         }
-        catch(\Exception $e){
-            return $this->error('unknown error occurred! Try Again',520);
-        }
-       return $this->success();
+
     }
 
     /**

@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class AddPackegesUsersTable extends Migration
 {
@@ -31,7 +32,8 @@ class AddPackegesUsersTable extends Migration
      */
     public function down()
     {
-        //
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
         Schema::drop('candybrush_users_packages');
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 }

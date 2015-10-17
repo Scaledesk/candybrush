@@ -20,7 +20,7 @@ class UserController extends BaseController
 {
     function __construct()
     {
-        $this->middleware('api.auth');
+       // $this->middleware('api.auth');
     }
 
     /**

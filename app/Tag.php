@@ -18,4 +18,8 @@ class Tag extends Model
     const NAME='candybrush_tags_name';
     const DESCRIPTON = 'candybrush_tags_description';
 
+    public function packages(){
+            return $this->belongsToMany('App\Tag','candybrush_packages_tags','candybrush_packages_tags_tag_id','candybrush_packages_tags_package_id');
+    }
+
 }
