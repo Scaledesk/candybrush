@@ -12,9 +12,10 @@ namespace app\libraries\Transformers;
 use App\Tag;
 use Illuminate\Support\Facades\Input;
 use League\Fractal\TransformerAbstract;
+use App\libraries\Transformers\PackagesTransformer;
 
 class TagTransformer extends TransformerAbstract{
-
+    protected $availableIncludes=['Packages'];
     public function transform($data){
         return [
             'id'=>$data[Tag::ID],
@@ -27,5 +28,8 @@ class TagTransformer extends TransformerAbstract{
             Tag::NAME => Input::get('name',''),
             Tag::DESCRIPTON => Input::get('description','')
         ];
+    }
+    public function includePackages(Tag $tag){
+                return $this->collection($tag->packages()->get(),new PackagesTransformer());
     }
 }

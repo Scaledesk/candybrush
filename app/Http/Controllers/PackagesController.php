@@ -13,6 +13,7 @@ use App\PackagesModel;
 use App\libraries\Constants;
 use Illuminate\Support\Facades\DB;
 use Mockery\CountValidator\Exception;
+use Psy\Command\ListCommand\Enumerator;
 
 class PackagesController extends BaseController
 {
@@ -31,9 +32,14 @@ class PackagesController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-    return $this->response()->collection(PackagesModel::all(),$this->packageTransformer);
+        if($request->has('status')){
+            return $this->response()->collection(PackagesModel::where("candybrush_packages_status",$request->status)->get(),$this->packageTransformer);
+        }
+            return $this->response()->collection(PackagesModel::all(),$this->packageTransformer);
+
+
     }
 
     /**
@@ -147,6 +153,7 @@ class PackagesController extends BaseController
         if(sizeof($data)) {
            $result= DB::transaction(function()use($package,$data){
             try {
+
                 $result =/*PackagesModel::where('id', $id)->*/
                     $package->update($data);
                 if($result)
@@ -170,12 +177,25 @@ class PackagesController extends BaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param $user_id
+     * @param $package_id
      * @return \Illuminate\Http\Response
+     * @internal param int $id
      */
-    public function destroy($id)
+    public function destroy($user_id,$package_id)
     {
         //
+        $package=PackagesModel::where('id',$package_id)->where('candybrush_packages_user_id',$user_id)->first();
+        if(is_null($package)){
+            return $this->error('PackageId with given user_id do nat match any records, please try again',404);
+        }
+        $result=DB::transaction(function()use($package){
+            if($package->delete()){return $this->success('package deleted successfully',200);}else{
+                return $this->error('unknown error occurred!Try again',520);
+            }
+
+        });
+        return $result;
     }
 
     /**
@@ -189,7 +209,7 @@ class PackagesController extends BaseController
         }
         try{
             $result=DB::transaction(function()use($package){
-                $package->candybrush_packages_completed="yes";
+                $package->candybrush_packages_status=PackagesModel::PENDING_APPROVAL;
                 $package->update();
                 /**
                  * code here to send review request to admin
@@ -200,5 +220,22 @@ class PackagesController extends BaseController
         }catch(Exception $e){
             return $this->error('some unknown error occurred',520);
         }
+    }
+
+    public function changePackageStatus($package_id,$status){
+        $package=PackagesModel::where('id',$package_id)->first();
+        if(is_null($package)){
+            return $this->error('PackageId do nat match any records, please try again',404);
+        }
+      $result =  DB::transaction(function()use($package,$status){
+          try{
+              $package->candybrush_package_status=$status;
+              $package->update();
+           return $this->success('Package '.$package->candybrush_packages_name." status changed to ".$package->candybrush_package_status." successfully",200);
+          }catch(Exception $e){
+              return $this->error('Unknown error occurred! Try again',520);
+          }
+        });
+        return $result;
     }
 }

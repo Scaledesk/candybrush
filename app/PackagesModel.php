@@ -9,7 +9,18 @@ class PackagesModel extends Model
     /**
      *  define constant
      */
+    /**
+     * Packages Status
+     */
+    const ACTIVE ='ACTIVE';
+    const PENDING_APPROVAL ='PENDING_APPROVAL';
+    const REQUIRES_MODIFICATION ='REQUIRES_MODIFICATION';
+    const DENIED ='DENIED';
+    const PAUSED ='PAUSED';
 
+    /**
+     * table constants
+     */
     const TABLE = 'candybrush_packages';
     const NAME = 'candybrush_packages_name';
     const DESCRIPTION = 'candybrush_packages_description';
@@ -18,18 +29,17 @@ class PackagesModel extends Model
     /*const SUB_CATEGORY = 'candybrush_packages_sub_category';*/
     const PRICE = 'candybrush_packages_price';
     const DEAL_PRICE = 'candybrush_packages_deal_price';
-    const AVAILABLE_DATE = 'candybrush_packages_available_date';
+    const AVAILABLE_DATE = 'candybrush_packages_available_dates';
     const TERM_CONDITION = 'candybrush_packages_term_condition';
     const PAYMENT_TYPE = 'candybrush_packages_payment_type';
     const MAXIMUM_DELIVERY_DAYS = 'candybrush_packages_maximum_delivery_days';
     const User_ID='candybrush_packages_user_id';
     const STATUS='candybrush_packages_status';
-    const READY_TO_PUBLISH='candybrush_packages_completed';
     protected $table = self::TABLE;
     public $timestamps = false;
     protected $fillable = [self::NAME, self::DESCRIPTION, self::CATEGORY_ID, self::TAG_ID,
         self::PRICE, self::DEAL_PRICE, self::AVAILABLE_DATE, self::TERM_CONDITION,
-        self::PAYMENT_TYPE, self::MAXIMUM_DELIVERY_DAYS,self::User_ID,self::STATUS,self::READY_TO_PUBLISH];
+        self::PAYMENT_TYPE, self::MAXIMUM_DELIVERY_DAYS,self::User_ID,self::STATUS];
 
     public function seller(){
         return $this->belongsTo('App\User','candybrush_packages_user_id');

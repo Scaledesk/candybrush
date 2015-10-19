@@ -198,6 +198,10 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
          * for setComplete the package and send for review
          */
         $api->put('user/completePackage/{id}','App\Http\Controllers\PackagesController@setCompleted');
+        /**
+         * for deleting package review
+         */
+        $api->delete('user/{user_id}/packages/{package_id}','App\Http\Controllers\PackagesController@destroy');
 
 });
 
