@@ -26,7 +26,8 @@ class PackagesTransformer extends TransformerAbstract{
             'available_date'=>$package->candybrush_packages_available_date,
             'term_condition'=>$package->candybrush_packages_term_condition,
             'payment_type'=>$package->candybrush_packages_payment_type,
-            'maximum_delivery_days'=>$package->candybrush_packages_maximum_delivery_days
+            'maximum_delivery_days'=>$package->candybrush_packages_maximum_delivery_days,
+            'ready_to_publish'=>$package->candybrush_packages_completed
              ];
     }
     public function requestAdapter()

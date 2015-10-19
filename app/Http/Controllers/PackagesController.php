@@ -90,7 +90,6 @@ class PackagesController extends BaseController
                 $package = new PackagesModel($data);
                 $category->packages()->save($package);
                 if ($tag_avilable) {
-
                     $package->tags()->attach($tags_id);
                 }
             });
@@ -137,26 +136,35 @@ class PackagesController extends BaseController
      * @return \Illuminate\Http\Response
      */
 
-    public function update(Request $request, $id)
+    public function update($id)
     {
-        $data = $this->packageTransformer->requestAdapter();
-        dd($data);
-        $data=array_filter($data,'strlen'); // filter blank or null array
-        if(sizeof($data)){ try{$result=PackagesModel::where('id', $id)->update($data);}catch(\Exception $e){
-            return $this->error($e->getMessage(),$e->getCode());
+        $package=PackagesModel::where('id',$id)->first();
+        if(is_null($package)){
+            return $this->error('PackageId do nat match any records, please try again',404);
         }
+        $data = $this->packageTransformer->requestAdapter();
+        $data=array_filter($data,'strlen'); // filter blank or null array
+        if(sizeof($data)) {
+           $result= DB::transaction(function()use($package,$data){
+            try {
+                $result =/*PackagesModel::where('id', $id)->*/
+                    $package->update($data);
+                if($result)
+                {
+                    return $this->success();
+                }
+                else
+                {
+                    return $this->error('Unknown error',520);
+                }
+            } catch (\Exception $e) {
+                return $this->error($e->getMessage(), $e->getCode());
+            }
+        });
+            return $result;
         }else{
             return $this->error('no adequate field passed',422);
         }
-        if($result)
-        {
-            return $this->success();
-        }
-        else
-        {
-            return $this->error('Unknown error',520);
-        }
-
     }
 
     /**
@@ -168,5 +176,29 @@ class PackagesController extends BaseController
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * function to set package ready to publish
+     * this function may also send review request to admin then it will be published on passed
+     */
+    public function setCompleted($id){
+        $package=PackagesModel::where('id',$id)->first();
+        if(is_null($package)){
+            return $this->error('PackageId do nat match any records, please try again',404);
+        }
+        try{
+            $result=DB::transaction(function()use($package){
+                $package->candybrush_packages_completed="yes";
+                $package->update();
+                /**
+                 * code here to send review request to admin
+                 */
+                return $this->success('Your package details submitted successfully and sent to admin for review, later published');
+            });
+            return $result;
+        }catch(Exception $e){
+            return $this->error('some unknown error occurred',520);
+        }
     }
 }

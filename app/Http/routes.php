@@ -190,6 +190,15 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
          * delete bonus
          */
         $api->delete('bonus/{id}','App\Http\Controllers\BonusController@destroy');
+        /**
+         * for updating package
+         */
+        $api->put('user/packages/{id}','App\Http\Controllers\PackagesController@update');
+        /**
+         * for setComplete the package and send for review
+         */
+        $api->put('user/completePackage/{id}','App\Http\Controllers\PackagesController@setCompleted');
+
 });
 
 /*
