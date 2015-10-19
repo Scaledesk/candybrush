@@ -116,9 +116,10 @@ class AddonController extends BaseController
             foreach($addon_bulk as $addon){
                 array_push($addon_names,$addon['candybrush_addons_name']);
             }
-            if(count(array_unique($addon_names))<count($addon_bulk))
+            if(count(array_unique($addon_names))<count($addon_names))
             {
                 // Array has duplicates
+                unset($addon_names);
                 return true;
             }
             else
