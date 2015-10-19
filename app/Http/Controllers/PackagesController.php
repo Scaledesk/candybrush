@@ -20,9 +20,9 @@ class PackagesController extends BaseController
      * creating constructor
      */
     protected $packageTransformer;
-    function __construct(PackagesTransformer $packageTransformer)
+    function __construct()
     {
-        $this->packageTransformer = $packageTransformer;
+        $this->packageTransformer = new PackagesTransformer();
         // $this->middleware('jwt.auth',['except'=>['authenticate']]);
     }
 
@@ -70,7 +70,7 @@ class PackagesController extends BaseController
                 PackagesModel::DESCRIPTION.'.required|Name of package is required, try description=<description>',
                 PackagesModel::User_ID.'.required'=>'seller_id is required try user_id=<user_id>',
                 PackagesModel::User_ID.'.exists'=>'seller_id do not match any records, please check',
-                PackagesModel::CATEGORY_ID.'.required'=>'Category_id is required try category_id=<array od category_ids>',
+                PackagesModel::CATEGORY_ID.'.required'=>'Category_id is required try category_id=<category_id>',
                 PackagesModel::CATEGORY_ID.'.min'=>'At least 1 category id has to be given in array',
                 PackagesModel::CATEGORY_ID.'.exists'=>'Category _id do not match any records, please check',
             ]
