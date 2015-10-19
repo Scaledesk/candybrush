@@ -149,11 +149,20 @@ class PackagesController extends BaseController
             return $this->error('PackageId do nat match any records, please try again',404);
         }
         $data = $this->packageTransformer->requestAdapter();
+        $tag_avilable=FALSE;
+        $tags_id=NULL;
+        if($data[PackagesModel::TAG_ID]){
+            $tags_id=explode(',',$data[PackagesModel::TAG_ID]);
+            unset($data[PackagesModel::TAG_ID]);
+            $tag_avilable=TRUE;}
         $data=array_filter($data,'strlen'); // filter blank or null array
-        if(sizeof($data)) {
-           $result= DB::transaction(function()use($package,$data){
+        if((sizeof($data)>0)||($tag_avilable)) {
+           $result= DB::transaction(function()use($package,$data,$tag_avilable,$tags_id){
             try {
 
+                if($tag_avilable){
+                    $package->tags()->sync($tags_id);
+                }
                 $result =/*PackagesModel::where('id', $id)->*/
                     $package->update($data);
                 if($result)
