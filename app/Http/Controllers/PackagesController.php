@@ -91,16 +91,17 @@ class PackagesController extends BaseController
                 unset($data[PackagesModel::TAG_ID]);
                 $tag_avilable=true;
             }
-            DB::transaction(function ()use($data,$tag_avilable,$tags_id) {
+          $result=  DB::transaction(function()use($data,$tag_avilable,$tags_id) {
                 $category=Category::find($data[PackagesModel::CATEGORY_ID]);
                 $package = new PackagesModel($data);
                 $category->packages()->save($package);
                 if ($tag_avilable) {
                     $package->tags()->attach($tags_id);
                 }
+              return $this->successWithData("","",['package_id'=>$package->id]);
             });
-            return $this->success();}catch(Exception $e){
-                return $this->error('unknown error occurred!Might wrong tag id passed, please check',520);
+            return $result;}catch(Exception $e){
+                $this->error('unknown error occurred!Might wrong tag id passed, please check',520);
             }
         }else{
             return $validation_result['error'];
