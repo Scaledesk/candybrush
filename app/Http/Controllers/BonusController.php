@@ -49,41 +49,93 @@ class BonusController extends BaseController
     public function store(Request $request)
     {
         $data=$this->bonus_transformer->requestAdaptor();
-        $validation_result=$this->my_validate([
-            'data'=>$data,
-            'rules'=>[
-                Bonus::NAME=>'required',
-                Bonus::DESCRIPTION=>'required|min:10',
-                Bonus::PACKAGE_ID=>'required|exists:candybrush_packages,id'
-            ],
-            'messages'=>[
-                Bonus::NAME.'.required'=>'Bonus Name must be required try name=<name>',
-                Bonus::DESCRIPTION.'.required'=>'Bonus Description must be required try description=<description>',
-                Bonus::PACKAGE_ID.'.required'=>'Package Id is required try package_id=<package_id>',
-                Bonus::NAME.'.unique'=>'Bonus Name already exist in related package try with different name',
-                Bonus::PACKAGE_ID.'.exists'=>'Package id do not match any records, try with different package id',
-            ]
-        ]);
-        $checkUniqueValidationForNameOfBonus =function($data){
-            if(DB::table('candybrush_bonus')->where('candybrush_bonus_name','=',$data[Bonus::NAME])->where('candybrush_bonus_package_id','=',$data[Bonus::PACKAGE_ID])->count()>0){
-                return false;
-            }else{
-                return true;
+        if(is_null($data)){
+            return $this->error('please give data in array like "package_id":"package_id",
+            data:[
+            ["name":"name of bonus1",
+            "description":"description of bonus 1",
+            "days":"days increased",
+            "price":"price of bonus"
+            ], [bonus2], [bonus3] etc]',422);
+        }
+        $package_id=$data['package_id'];
+        unset($data['package_id']);
+        $package=PackagesModel::where('id',$package_id)->first();
+        if(is_null($package)){
+            unset($package);
+            return $this->error('Package_id do not match any records!',404);
+        }
+        unset($package);
+        foreach($data as $bonus){
+            $validation_result=$this->my_validate([
+                'data'=>$bonus,
+                'rules'=>[
+                    Bonus::NAME=>'required',
+                    Bonus::DESCRIPTION=>'required|min:10',
+                ],
+                'messages'=>[
+                    Bonus::NAME.'.required'=>'Bonus Name must be required try name=<name>',
+                    Bonus::DESCRIPTION.'.required'=>'Bonus Description must be required try description=<description>',
+                    Bonus::NAME.'.unique'=>'Bonus Name already exist in related package try with different name'
+                ]
+            ]);
+            if(!$validation_result['result']){
+                return $validation_result['error'];
             }
-        };
-        if($validation_result['result']){
-            if($checkUniqueValidationForNameOfBonus($data)){
-                $package=PackagesModel::find($data[Bonus::PACKAGE_ID]);
-                $bonus=new Bonus($data);
-                $package->bonus()->save($bonus);
-                return $this->success();
+        }
+        $bonus_bulk=array();
+        foreach($data as $bonus){
+            $checkUniqueValidationForNameOfBonus =function($bonus)use($package_id){
+                if(DB::table('candybrush_bonus')->where('candybrush_bonus_name','=',$bonus[Bonus::NAME])->where('candybrush_bonus_package_id','=',$package_id)->count()>0){
+                    return false;
+                }else{
+                    return true;
+                }
+            };
+            if($checkUniqueValidationForNameOfBonus($bonus)){
+                /* $package=PackagesModel::find($bonus[Bonus::PACKAGE_ID]);
+                 $bonus=new Bonus($bonus);
+                 $package->bonus()->save($bonus);*/
+                $bonus[Bonus::PACKAGE_ID]=$package_id;
+                array_push($bonus_bulk,$bonus);
             }
             else{
                 return $this->error('Bonus with same name in the package already exists try with different name',422);
             }
-        }else{
-            return $validation_result['error'];
         }
+        $hasDuplicates=function($bonus_bulk){
+            $bonus_names=array();
+            foreach($bonus_bulk as $bonus){
+                array_push($bonus_names,$bonus['candybrush_bonus_name']);
+            }
+            if(count(array_unique($bonus_names))<count($bonus_names))
+            {
+                // Array has duplicates
+                unset($bonus_names);
+                return true;
+            }
+            else
+            {
+                // Array does not have duplicates
+                return false;
+            }
+        };
+        if($hasDuplicates($bonus_bulk)){
+            return $this->error('your given array of bonus has duplicate names! please check',422);
+        }
+        $result=DB::transaction(function()use($bonus_bulk){
+            try{
+                DB::table('candybrush_bonus')->insert($bonus_bulk);
+                return $this->success();
+            }catch(Exception $e){
+                return $this->error('unknown error occurred',520);
+            }
+        });
+        unset($package_id);
+        unset($bonus_bulk);
+        unset($bonus);
+        return $result;
+
     }
 
     /**
