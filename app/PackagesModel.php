@@ -57,4 +57,7 @@ class PackagesModel extends Model
     public function tags(){
         return $this->belongsToMany('App\Tag','candybrush_packages_tags','candybrush_packages_tags_package_id','candybrush_packages_tags_tag_id');
     }
+    public function bookings(){
+        return $this->hasMany('App\Booking','candybrush_bookings_package_id');
+    }
 }

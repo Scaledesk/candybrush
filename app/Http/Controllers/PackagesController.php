@@ -160,7 +160,6 @@ class PackagesController extends BaseController
         if((sizeof($data)>0)||($tag_avilable)) {
            $result= DB::transaction(function()use($package,$data,$tag_avilable,$tags_id){
             try {
-
                 if($tag_avilable){
                     $package->tags()->sync($tags_id);
                 }
