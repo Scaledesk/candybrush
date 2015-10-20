@@ -146,6 +146,14 @@ class RequestFeatureController extends BaseController
      */
     public function destroy($id)
     {
-        //
+        $request_feature=RequestFeature::where('candybrush_request_features_id',$id)->first();
+        if(is_null($request_feature)){return $this->error('Request feature id do not match any records, try again');}
+        $result=DB::transaction(function()use($request_feature){
+            try{$request_feature->delete();
+                return $this->success();}catch(\Exception $e){
+                return $this->error('some unknown error occurred, try again',520);
+            }
+        });
+        return $result;
     }
 }

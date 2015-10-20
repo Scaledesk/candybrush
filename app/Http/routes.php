@@ -242,6 +242,10 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
          * get specific Request Feature
          */
         $api->get('requestFeature/{id}','App\Http\Controllers\RequestFeatureController@show');
+        /**
+         * for delete requestFeature
+         */
+        $api->delete('requestFeature/{id}','App\Http\Controllers\RequestFeatureController@destroy');
 
 });
 
