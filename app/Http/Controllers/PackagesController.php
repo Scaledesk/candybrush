@@ -84,13 +84,12 @@ class PackagesController extends BaseController
         ]);
         if($validation_result['result']){
             try{
-            $tag_avilable=false;
+            $tag_avilable=FALSE;
             $tags_id=NULL;
-            if(isset($data[PackagesModel::TAG_ID])){
-            $tags_id=explode(',',$data[PackagesModel::TAG_ID]);
-                unset($data[PackagesModel::TAG_ID]);
-                $tag_avilable=true;
-            }
+                if($data[PackagesModel::TAG_ID]){
+                    $tags_id=explode(',',$data[PackagesModel::TAG_ID]);
+                    unset($data[PackagesModel::TAG_ID]);
+                    $tag_avilable=TRUE;}
           $result=  DB::transaction(function()use($data,$tag_avilable,$tags_id) {
                 $category=Category::find($data[PackagesModel::CATEGORY_ID]);
                 $package = new PackagesModel($data);

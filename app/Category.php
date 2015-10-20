@@ -22,4 +22,8 @@ class Category extends Model
     public function packages(){
         return $this->hasMany('App\PackagesModel','candybrush_packages_category_id');
     }
+
+    public function requestFeature(){
+        return $this->hasMany('App\RequestFeature','candybrush_request_features_category_id');
+    }
 }

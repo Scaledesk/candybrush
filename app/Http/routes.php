@@ -222,6 +222,18 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
          * for confirming the pament
          */
         $api->put('confirmBooking/{id}','App\Http\Controllers\BookingController@confirmPaymentStatus');
+        /**
+         * insert Request Feature
+         */
+        $api->post('requestFeature','App\Http\Controllers\RequestFeatureController@store');
+        /**
+         * get all Request Feature
+         */
+        $api->get('requestFeature','App\Http\Controllers\RequestFeatureController@index');
+        /**
+         * get specific Request Feature
+         */
+        $api->get('requestFeature/{id}','App\Http\Controllers\RequestFeatureController@show');
 
 });
 

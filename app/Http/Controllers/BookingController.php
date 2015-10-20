@@ -95,7 +95,9 @@ class BookingController extends BaseController
      */
     public function show($id)
     {
-        return $this->response()->item(Booking::find($id)->first(),$this->booking_transformer);
+        $booking=Booking::where('candybrush_bookings_id',$id)->first();
+        if(is_null($booking)){return $this->error('Booking id do not match any records');}
+        return $this->response()->item($booking,$this->booking_transformer);
     }
 
     /**
