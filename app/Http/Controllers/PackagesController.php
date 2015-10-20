@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\libraries\Transformers\PackagesTransformer;
 use App\PackegesUserModel;
+use App\Tag;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\PackagesModel;
 use App\libraries\Constants;
+use Illuminate\Support\Facades\DB;
+use Mockery\CountValidator\Exception;
+use Psy\Command\ListCommand\Enumerator;
 
 class PackagesController extends BaseController
 {
@@ -16,9 +21,9 @@ class PackagesController extends BaseController
      * creating constructor
      */
     protected $packageTransformer;
-    function __construct(PackagesTransformer $packageTransformer)
+    function __construct()
     {
-        $this->packageTransformer = $packageTransformer;
+        $this->packageTransformer = new PackagesTransformer();
         // $this->middleware('jwt.auth',['except'=>['authenticate']]);
     }
 
@@ -27,9 +32,14 @@ class PackagesController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-    return $this->response()->collection(PackagesModel::all(),$this->packageTransformer);
+        if($request->has('status')){
+            return $this->response()->collection(PackagesModel::where("candybrush_packages_status",$request->status)->get(),$this->packageTransformer);
+        }
+            return $this->response()->collection(PackagesModel::all(),$this->packageTransformer);
+
+
     }
 
     /**
@@ -53,20 +63,50 @@ class PackagesController extends BaseController
         $u_id = $request->user_id;
         $data = $this->packageTransformer->requestAdapter();
         $data=array_filter($data,'strlen'); // filter blank or null array
-        $result = PackagesModel::create($data);
-        $data1 = [
-            'candybrush_users_packages_user_id' => $u_id,
-            'candybrush_users_packages_package_id' => $result->id,
-            'candybrush_users_packages_status' => 0
-        ];
-        $userpackage = new PackegesUserModel($data1);
-        try{
-            $result->userPackages()->save($userpackage);
+        $validation_result=$this->my_validate([
+            'data'=>$data,
+            'rules'=>[
+                PackagesModel::NAME=>'required',
+                PackagesModel::DESCRIPTION=>'required',
+                PackagesModel::User_ID=>'required|exists:users,id',
+                PackagesModel::CATEGORY_ID=>'required|min:1|exists:candybrush_categories,candybrush_categories_id'
+            ],
+            'messages'=>[
+                PackagesModel::NAME.'.required'=>'Name of package is required, try name=<name>',
+                PackagesModel::DESCRIPTION.'.required|Name of package is required, try description=<description>',
+                PackagesModel::User_ID.'.required'=>'seller_id is required try user_id=<user_id>',
+                PackagesModel::User_ID.'.exists'=>'seller_id do not match any records, please check',
+                PackagesModel::CATEGORY_ID.'.required'=>'Category_id is required try category_id=<category_id>',
+                PackagesModel::CATEGORY_ID.'.min'=>'At least 1 category id has to be given in array',
+                PackagesModel::CATEGORY_ID.'.exists'=>'Category _id do not match any records, please check',
+            ]
+
+        ]);
+        if($validation_result['result']){
+            try{
+            $tag_avilable=false;
+            $tags_id=NULL;
+            if(isset($data[PackagesModel::TAG_ID])){
+            $tags_id=explode(',',$data[PackagesModel::TAG_ID]);
+                unset($data[PackagesModel::TAG_ID]);
+                $tag_avilable=true;
+            }
+          $result=  DB::transaction(function()use($data,$tag_avilable,$tags_id) {
+                $category=Category::find($data[PackagesModel::CATEGORY_ID]);
+                $package = new PackagesModel($data);
+                $category->packages()->save($package);
+                if ($tag_avilable) {
+                    $package->tags()->attach($tags_id);
+                }
+              return $this->successWithData("","",['package_id'=>$package->id]);
+            });
+            return $result;}catch(Exception $e){
+                $this->error('unknown error occurred!Might wrong tag id passed, please check',520);
+            }
+        }else{
+            return $validation_result['error'];
         }
-        catch(\Exception $e){
-            return $this->error('unknown error occurred! Try Again',520);
-        }
-       return $this->success();
+
     }
 
     /**
@@ -103,36 +143,108 @@ class PackagesController extends BaseController
      * @return \Illuminate\Http\Response
      */
 
-    public function update(Request $request, $id)
+    public function update($id)
     {
-        $data = $this->packageTransformer->requestAdapter();
-        dd($data);
-        $data=array_filter($data,'strlen'); // filter blank or null array
-        if(sizeof($data)){ try{$result=PackagesModel::where('id', $id)->update($data);}catch(\Exception $e){
-            return $this->error($e->getMessage(),$e->getCode());
+        $package=PackagesModel::where('id',$id)->first();
+        if(is_null($package)){
+            return $this->error('PackageId do nat match any records, please try again',404);
         }
+        $data = $this->packageTransformer->requestAdapter();
+        $tag_avilable=FALSE;
+        $tags_id=NULL;
+        if($data[PackagesModel::TAG_ID]){
+            $tags_id=explode(',',$data[PackagesModel::TAG_ID]);
+            unset($data[PackagesModel::TAG_ID]);
+            $tag_avilable=TRUE;}
+        $data=array_filter($data,'strlen'); // filter blank or null array
+        if((sizeof($data)>0)||($tag_avilable)) {
+           $result= DB::transaction(function()use($package,$data,$tag_avilable,$tags_id){
+            try {
+                if($tag_avilable){
+                    $package->tags()->sync($tags_id);
+                }
+                $result =/*PackagesModel::where('id', $id)->*/
+                    $package->update($data);
+                if($result)
+                {
+                    return $this->success();
+                }
+                else
+                {
+                    return $this->error('Unknown error',520);
+                }
+            } catch (\Exception $e) {
+                return $this->error($e->getMessage(), $e->getCode());
+            }
+        });
+            return $result;
         }else{
             return $this->error('no adequate field passed',422);
         }
-        if($result)
-        {
-            return $this->success();
-        }
-        else
-        {
-            return $this->error('Unknown error',520);
-        }
-
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param $user_id
+     * @param $package_id
      * @return \Illuminate\Http\Response
+     * @internal param int $id
      */
-    public function destroy($id)
+    public function destroy($user_id,$package_id)
     {
         //
+        $package=PackagesModel::where('id',$package_id)->where('candybrush_packages_user_id',$user_id)->first();
+        if(is_null($package)){
+            return $this->error('PackageId with given user_id do nat match any records, please try again',404);
+        }
+        $result=DB::transaction(function()use($package){
+            if($package->delete()){return $this->success('package deleted successfully',200);}else{
+                return $this->error('unknown error occurred!Try again',520);
+            }
+
+        });
+        return $result;
+    }
+
+    /**
+     * function to set package ready to publish
+     * this function may also send review request to admin then it will be published on passed
+     */
+    public function setCompleted($id){
+        $package=PackagesModel::where('id',$id)->first();
+        if(is_null($package)){
+            return $this->error('PackageId do nat match any records, please try again',404);
+        }
+        try{
+            $result=DB::transaction(function()use($package){
+                $package->candybrush_packages_status=PackagesModel::PENDING_APPROVAL;
+                $package->update();
+                /**
+                 * code here to send review request to admin
+                 */
+                return $this->success('Your package details submitted successfully and sent to admin for review, later published');
+            });
+            return $result;
+        }catch(Exception $e){
+            return $this->error('some unknown error occurred',520);
+        }
+    }
+
+    public function changePackageStatus($package_id,$status){
+        $package=PackagesModel::where('id',$package_id)->first();
+        if(is_null($package)){
+            return $this->error('PackageId do nat match any records, please try again',404);
+        }
+      $result =  DB::transaction(function()use($package,$status){
+          try{
+              $package->candybrush_package_status=$status;
+              $package->update();
+           return $this->success('Package '.$package->candybrush_packages_name." status changed to ".$package->candybrush_package_status." successfully",200);
+          }catch(Exception $e){
+              return $this->error('Unknown error occurred! Try again',520);
+          }
+        });
+        return $result;
     }
 }

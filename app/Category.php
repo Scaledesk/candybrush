@@ -18,4 +18,8 @@ class Category extends Model
     const ID = 'candybrush_categories_id';
     const NAME='candybrush_categories_name';
     const PARENT_ID = 'candybrush_categories_parent_id';
+
+    public function packages(){
+        return $this->hasMany('App\PackagesModel','candybrush_packages_category_id');
+    }
 }

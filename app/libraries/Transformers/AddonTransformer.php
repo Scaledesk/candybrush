@@ -10,6 +10,7 @@ namespace app\libraries\Transformers;
 
 
 use App\Addon;
+use App\Http\Controllers\BaseController;
 use Illuminate\Support\Facades\Input;
 use League\Fractal\TransformerAbstract;
 
@@ -24,12 +25,32 @@ class AddonTransformer extends TransformerAbstract{
         ];
     }
     public function requestAdaptor(){
-        return [
-            Addon::PACKAGE_ID=>Input::get('package_id',''),
-            Addon::NAME=>Input::get('name',''),
-            Addon::DESCRIPTION=>Input::get('description',''),
-            Addon::DAYS=>Input::get('days',''),
-            Addon::PRICE=>Input::get('price','')
-        ];
+        $data=array();
+        $process_data=Input::get('data','');
+        $package_id=Input::get('package_id',NULL);
+        if(is_null($package_id)){
+            unset($package_id);
+            unset($process_data);
+            return NULL;
+        }
+        if($process_data&&is_array($process_data)){
+            foreach ($process_data as $addon) {
+                array_push($data, [
+                    Addon::NAME => $addon['name'],
+                    Addon::DESCRIPTION => $addon['description'],
+                    Addon::DAYS => $addon['days'],
+                    Addon::PRICE => $addon['price']
+                ]);
+            }
+            unset($process_data);
+            $data['package_id']=$package_id;
+            unset($package_id);
+            return $data;
+        }
+        else{
+            unset($process_data);
+            unset($package_id);
+            return NULL;
+        }
     }
 }

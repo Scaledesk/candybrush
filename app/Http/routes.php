@@ -190,6 +190,39 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
          * delete bonus
          */
         $api->delete('bonus/{id}','App\Http\Controllers\BonusController@destroy');
+        /**
+         * for updating package
+         */
+        $api->put('user/packages/{id}','App\Http\Controllers\PackagesController@update');
+        /**
+         * for setComplete the package and send for review
+         */
+        $api->put('user/completePackage/{id}','App\Http\Controllers\PackagesController@setCompleted');
+        /**
+         * for deleting package review
+         */
+        $api->delete('user/{user_id}/packages/{package_id}','App\Http\Controllers\PackagesController@destroy');
+        /**
+         * for new booking
+         */
+        $api->post('booking','App\Http\Controllers\BookingController@store');
+        /**
+         * for get all bookings
+         */
+        $api->get('booking','App\Http\Controllers\BookingController@index');
+        /**
+         * for get specific booking
+         */
+        $api->get('booking/{id}','App\Http\Controllers\BookingController@show');
+        /**
+         * for updating booking
+         */
+        $api->put('booking/{id}','App\Http\Controllers\BookingController@update');
+        /**
+         * for confirming the pament
+         */
+        $api->put('confirmBooking/{id}','App\Http\Controllers\BookingController@confirmPaymentStatus');
+
 });
 
 /*

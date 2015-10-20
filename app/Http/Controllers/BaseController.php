@@ -19,10 +19,25 @@ class BaseController extends Controller
      * success response method with default message and success code
      */
     public function success($message='success',$status_code=200){
-        return $this->response()->array([
-            'message'=>$message,
-            'status_code'=>$status_code
-        ])->statusCode($status_code);
+            return $this->response()->array([
+                'message'=>$message,
+                'status_code'=>$status_code
+            ])->statusCode($status_code);
+    }
+
+    public function successWithData($message='success',$status_code=200){
+        if($message==""){
+            $message="success";
+        }
+        if($status_code==""){
+            $status_code=200;
+        }
+            return $this->response()->array([
+                'message'=>$message,
+                'status_code'=>$status_code,
+                key(func_get_arg(2))=>func_get_arg(2)[key(func_get_arg(2))]
+            ])->statusCode($status_code);
+
     }
     /**
      * error response method with default message and error code
