@@ -44,6 +44,14 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
     // if no errors are encountered we can return a JWT
     return response()->json(compact('token'));
 });
+        /**
+         * for list all users
+         */
+        $api->get('user','App\Http\Controllers\UserController@index');
+        /**
+         * for list specific user
+         */
+        $api->get('user/{id}','App\Http\Controllers\UserController@show');
     /*
      * for user registration or sign up
      */
