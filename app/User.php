@@ -74,4 +74,7 @@ class User extends Model implements AuthenticatableContract,
     public function bookings(){
         return $this->hasMany('App\Booking','candybrush_bookings_user_id');
     }
+    public function requestFeatures(){
+        return $this->hasMany('App\RequestFeature','candybrush_request_features_user_id');
+    }
 }

@@ -84,13 +84,12 @@ class PackagesController extends BaseController
         ]);
         if($validation_result['result']){
             try{
-            $tag_avilable=false;
+            $tag_avilable=FALSE;
             $tags_id=NULL;
-            if(isset($data[PackagesModel::TAG_ID])){
-            $tags_id=explode(',',$data[PackagesModel::TAG_ID]);
-                unset($data[PackagesModel::TAG_ID]);
-                $tag_avilable=true;
-            }
+                if($data[PackagesModel::TAG_ID]){
+                    $tags_id=explode(',',$data[PackagesModel::TAG_ID]);
+                    unset($data[PackagesModel::TAG_ID]);
+                    $tag_avilable=TRUE;}
           $result=  DB::transaction(function()use($data,$tag_avilable,$tags_id) {
                 $category=Category::find($data[PackagesModel::CATEGORY_ID]);
                 $package = new PackagesModel($data);
@@ -244,6 +243,21 @@ class PackagesController extends BaseController
           }catch(Exception $e){
               return $this->error('Unknown error occurred! Try again',520);
           }
+        });
+        return $result;
+    }
+    public function adminDestroyPackage($package_id)
+    {
+        //
+        $package=PackagesModel::where('id',$package_id)->first();
+        if(is_null($package)){
+            return $this->error('PackageId with given user_id do nat match any records, please try again',404);
+        }
+        $result=DB::transaction(function()use($package){
+            if($package->delete()){return $this->success('package deleted successfully',200);}else{
+                return $this->error('unknown error occurred!Try again',520);
+            }
+
         });
         return $result;
     }

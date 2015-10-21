@@ -22,4 +22,8 @@ class Tag extends Model
             return $this->belongsToMany('App\PackagesModel','candybrush_packages_tags','candybrush_packages_tags_tag_id','candybrush_packages_tags_package_id');
     }
 
+    public function requestFeatures(){
+        return $this->belongsToMany('App\RequestFeature','candybrush_request_features_tags','candybrush_request_features_tags_tag_id','candybrush_request_features_tags_request_feature_id')->withTimestamps();
+    }
+
 }

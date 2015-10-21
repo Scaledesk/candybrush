@@ -44,6 +44,14 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
     // if no errors are encountered we can return a JWT
     return response()->json(compact('token'));
 });
+        /**
+         * for list all users
+         */
+        $api->get('user','App\Http\Controllers\UserController@index');
+        /**
+         * for list specific user
+         */
+        $api->get('user/{id}','App\Http\Controllers\UserController@show');
     /*
      * for user registration or sign up
      */
@@ -222,7 +230,26 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
          * for confirming the pament
          */
         $api->put('confirmBooking/{id}','App\Http\Controllers\BookingController@confirmPaymentStatus');
-
+        /**
+         * insert Request Feature
+         */
+        $api->post('requestFeature','App\Http\Controllers\RequestFeatureController@store');
+        /**
+         * get all Request Feature
+         */
+        $api->get('requestFeature','App\Http\Controllers\RequestFeatureController@index');
+        /**
+         * get specific Request Feature
+         */
+        $api->get('requestFeature/{id}','App\Http\Controllers\RequestFeatureController@show');
+        /**
+         * for delete requestFeature
+         */
+        $api->delete('requestFeature/{id}','App\Http\Controllers\RequestFeatureController@destroy');
+        /**
+         * for delete package by admin
+         */
+        $api->delete('package/{id}','App\Http\Controllers\PackageController@adminDestroyPackage');
 });
 
 /*
