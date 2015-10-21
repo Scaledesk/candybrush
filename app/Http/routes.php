@@ -249,7 +249,7 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
         /**
          * for delete package by admin
          */
-        $api->delete('package/{id}','App\Http\Controllers\PackageController@adminDestroyPackage');
+        $api->delete('adminDeletePackage/{id}','App\Http\Controllers\PackagesController@adminDestroyPackage');
 });
 
 /*
