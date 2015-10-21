@@ -13,7 +13,7 @@ class UpdatePackagesTableAddCategoryId extends Migration
      */
     public function up()
     {
-        Schema::table('candybrush_packages',function(Blueprint $table){
+      Schema::table('candybrush_packages',function(Blueprint $table){
             $table->integer('candybrush_packages_category_id')->unsigned();
         });
         Schema::table('candybrush_packages',function(Blueprint $table){
