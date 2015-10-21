@@ -246,7 +246,10 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
          * for delete requestFeature
          */
         $api->delete('requestFeature/{id}','App\Http\Controllers\RequestFeatureController@destroy');
-
+        /**
+         * for delete package by admin
+         */
+        $api->delete('package/{id}','App\Http\Controllers\PackageController@adminDestroyPackage');
 });
 
 /*

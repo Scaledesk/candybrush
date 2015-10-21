@@ -246,4 +246,19 @@ class PackagesController extends BaseController
         });
         return $result;
     }
+    public function adminDestroyPackage($package_id)
+    {
+        //
+        $package=PackagesModel::where('id',$package_id)->first();
+        if(is_null($package)){
+            return $this->error('PackageId with given user_id do nat match any records, please try again',404);
+        }
+        $result=DB::transaction(function()use($package){
+            if($package->delete()){return $this->success('package deleted successfully',200);}else{
+                return $this->error('unknown error occurred!Try again',520);
+            }
+
+        });
+        return $result;
+    }
 }
