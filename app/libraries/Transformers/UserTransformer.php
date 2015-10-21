@@ -14,12 +14,12 @@ use Illuminate\Support\Facades\Input;
 use League\Fractal\TransformerAbstract;
 
 class UserTransformer extends TransformerAbstract{
-    protected $availableIncludes=['RequestFeatures','Packages'];
     public function transform(User $user){
         return [
             'id'  =>$user->id,
             'name'=>$user->name,
-            'email'=>$user->email
+            'email'=>$user->email,
+            'status'=>$user->confirmed
         ];
     }
     public function requestAdaptor(){
@@ -29,12 +29,5 @@ class UserTransformer extends TransformerAbstract{
             'password'=>Input::get('password'),
             'password_confirmation'=>Input::get('password_confirmation')
         ];
-    }
-    public function includeRequestFeatures(User $user){
-        return $this->collection($user->requestFeatures()->get(),new RequestFeatureTransformer());
-    }
-
-    public function includePackages(User $user){
-        return $this->collection($user->packages()->get(),new PackagesTransformer());
     }
 }
