@@ -250,6 +250,11 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
          * for delete package by admin
          */
         $api->delete('adminDeletePackage/{id}','App\Http\Controllers\PackagesController@adminDestroyPackage');
+        /**
+         * for searching the packages
+         */
+        $api->get('packages','App\Http\Controllers\PackagesController@index');
+
 });
 
 /*

@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e7d024f34bb6bc4d5e94520025f220b8",
+    "hash": "261cae25b81b22e88b9befe3eae0755c",
+    "content-hash": "737613dc06165635e222e0927a3445dc",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1703,16 +1704,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "1.0.8",
+            "version": "1.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "7fe2420f8ad46aa08d5b317c92a148611d366d88"
+                "reference": "7647ac58c35ece044b939e01c85dbaa73ed26351"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/7fe2420f8ad46aa08d5b317c92a148611d366d88",
-                "reference": "7fe2420f8ad46aa08d5b317c92a148611d366d88",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/7647ac58c35ece044b939e01c85dbaa73ed26351",
+                "reference": "7647ac58c35ece044b939e01c85dbaa73ed26351",
                 "shasum": ""
             },
             "require": {
@@ -1744,7 +1745,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2015-10-18 21:39:26"
+            "time": "2015-10-20 15:22:41"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -2971,6 +2972,52 @@
             "time": "2015-06-29 05:41:44"
         },
         {
+            "name": "nicolaslopezj/searchable",
+            "version": "1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nicolaslopezj/searchable.git",
+                "reference": "14e70fc7922de0cd0df0cdc13ad52a919d47d065"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nicolaslopezj/searchable/zipball/14e70fc7922de0cd0df0cdc13ad52a919d47d065",
+                "reference": "14e70fc7922de0cd0df0cdc13ad52a919d47d065",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "illuminate/database": "4.2.x|~5.0",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Nicolaslopezj\\Searchable\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Lopez",
+                    "email": "nicolaslopezj@me.com"
+                }
+            ],
+            "description": "Eloquent model search trait.",
+            "keywords": [
+                "database",
+                "eloquent",
+                "laravel",
+                "model",
+                "search",
+                "searchable"
+            ],
+            "time": "2015-10-20 17:20:48"
+        },
+        {
             "name": "phpseclib/phpseclib",
             "version": "0.3.10",
             "source": {
@@ -3481,16 +3528,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.8.14",
+            "version": "4.8.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "b4900675926860bef091644849305399b986efa2"
+                "reference": "625f8c345606ed0f3a141dfb88f4116f0e22978e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/b4900675926860bef091644849305399b986efa2",
-                "reference": "b4900675926860bef091644849305399b986efa2",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/625f8c345606ed0f3a141dfb88f4116f0e22978e",
+                "reference": "625f8c345606ed0f3a141dfb88f4116f0e22978e",
                 "shasum": ""
             },
             "require": {
@@ -3549,7 +3596,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-10-17 15:03:30"
+            "time": "2015-10-23 06:48:33"
         },
         {
             "name": "phpunit/phpunit-mock-objects",

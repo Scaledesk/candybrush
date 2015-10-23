@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\PackagesModel;
 use App\libraries\Constants;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
 use Mockery\CountValidator\Exception;
 use Psy\Command\ListCommand\Enumerator;
 
@@ -37,9 +38,11 @@ class PackagesController extends BaseController
         if($request->has('status')){
             return $this->response()->collection(PackagesModel::where("candybrush_packages_status",$request->status)->get(),$this->packageTransformer);
         }
-            return $this->response()->collection(PackagesModel::all(),$this->packageTransformer);
-
-
+//            return $this->response()->collection(PackagesModel::all(),$this->packageTransformer);
+        $packages=PackagesModel::search(
+            Input::get('query','')
+        )->get();
+        return $this->response()->collection($packages,$this->packageTransformer);
     }
 
     /**
@@ -86,10 +89,11 @@ class PackagesController extends BaseController
             try{
             $tag_avilable=FALSE;
             $tags_id=NULL;
-                if($data[PackagesModel::TAG_ID]){
+                if(isset($data[PackagesModel::TAG_ID])){
                     $tags_id=explode(',',$data[PackagesModel::TAG_ID]);
                     unset($data[PackagesModel::TAG_ID]);
-                    $tag_avilable=TRUE;}
+                    $tag_avilable=TRUE;
+                }
           $result=  DB::transaction(function()use($data,$tag_avilable,$tags_id) {
                 $category=Category::find($data[PackagesModel::CATEGORY_ID]);
                 $package = new PackagesModel($data);

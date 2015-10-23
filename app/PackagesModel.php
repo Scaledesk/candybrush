@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Nicolaslopezj\Searchable\SearchableTrait;
 
 class PackagesModel extends Model
 {
+    use SearchableTrait;
     /**
      *  define constant
      */
@@ -40,6 +42,17 @@ class PackagesModel extends Model
     protected $fillable = [self::NAME, self::DESCRIPTION, self::CATEGORY_ID, self::TAG_ID,
         self::PRICE, self::DEAL_PRICE, self::AVAILABLE_DATE, self::TERM_CONDITION,
         self::PAYMENT_TYPE, self::MAXIMUM_DELIVERY_DAYS,self::User_ID,self::STATUS];
+
+    protected $searchable=[
+        'columns'=>[
+            'candybrush_packages_name'=>10,
+            'candybrush_packages_description'=>10,
+
+        ],
+        'joins'=>[
+            'candybrush_categories'=>['candybrush_packages.candybrush_packages_category_id','candybrush_categories.candybrush_categories_id']
+        ]
+    ];
 
     public function seller(){
         return $this->belongsTo('App\User','candybrush_packages_user_id');
