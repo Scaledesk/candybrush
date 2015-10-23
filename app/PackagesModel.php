@@ -47,7 +47,7 @@ class PackagesModel extends Model
         'columns'=>[
             'candybrush_packages_name'=>10,
             'candybrush_packages_description'=>10,
-
+            'candybrush_categories.candybrush_categories_name'=>9
         ],
         'joins'=>[
             'candybrush_categories'=>['candybrush_packages.candybrush_packages_category_id','candybrush_categories.candybrush_categories_id']

@@ -41,7 +41,7 @@ class PackagesController extends BaseController
 //            return $this->response()->collection(PackagesModel::all(),$this->packageTransformer);
         $packages=PackagesModel::search(
             Input::get('query','')
-        )->get();
+        )->with('category')->get();
         return $this->response()->collection($packages,$this->packageTransformer);
     }
 
