@@ -47,10 +47,23 @@ class PackagesModel extends Model
         'columns'=>[
             'candybrush_packages_name'=>10,
             'candybrush_packages_description'=>10,
-            'candybrush_categories.candybrush_categories_name'=>9
+            'candybrush_categories.candybrush_categories_name'=>9,
+            'candybrush_tags.candybrush_tags_name'=>9,
+            'users.name'=>8,
+            'users.email'=>8,
+            'candybrush_bonus.candybrush_bonus_name'=>7,
+            'candybrush_bonus.candybrush_bonus_description'=>7,
+            'candybrush_addons.candybrush_addons_name'=>7,
+            'candybrush_addons.candybrush_addons_description'=>7,
+            'candybrush_packages.candybrush_packages_payment_type'=>6
         ],
         'joins'=>[
-            'candybrush_categories'=>['candybrush_packages.candybrush_packages_category_id','candybrush_categories.candybrush_categories_id']
+            'candybrush_categories'=>['candybrush_packages.candybrush_packages_category_id','candybrush_categories.candybrush_categories_id'],
+            'candybrush_packages_tags'=>['candybrush_packages.id','candybrush_packages_tags.candybrush_packages_tags_package_id'],
+            'candybrush_tags'=>['candybrush_tags.candybrush_tags_id','candybrush_packages_tags.candybrush_packages_tags_tag_id'],
+            'users'=>['candybrush_packages.candybrush_packages_user_id','users.id'],
+            'candybrush_addons'=>['candybrush_addons.candybrush_addons_package_id','candybrush_packages.id'],
+            'candybrush_bonus'=>['candybrush_bonus.candybrush_bonus_package_id','candybrush_packages.id']
         ]
     ];
 

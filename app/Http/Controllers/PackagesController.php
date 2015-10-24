@@ -34,15 +34,19 @@ class PackagesController extends BaseController
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {   // get packages on basis of status
         if($request->has('status')){
             return $this->response()->collection(PackagesModel::where("candybrush_packages_status",$request->status)->get(),$this->packageTransformer);
         }
-//            return $this->response()->collection(PackagesModel::all(),$this->packageTransformer);
-        $packages=PackagesModel::search(
-            Input::get('query','')
-        )->with('category')->get();
-        return $this->response()->collection($packages,$this->packageTransformer);
+        //full text search to packages
+       if($request->has('query')) {
+           $packages = PackagesModel::search(
+               Input::get('query', '')
+           )->with('category')->get();
+           return $this->response()->collection($packages, $this->packageTransformer);
+       }
+        //return all packages
+        return $this->response()->collection(PackagesModel::all(),$this->packageTransformer);
     }
 
     /**
