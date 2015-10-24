@@ -4,10 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Nicolaslopezj\Searchable\SearchableTrait;
+/*use Illuminate\Support\ServiceProvider as Provider;
+use Sofa\Eloquence\ServiceProvider as Eloquence;*/
 
 class PackagesModel extends Model
 {
     use SearchableTrait;
+//    protected $test;
+
+
     /**
      *  define constant
      */
@@ -49,6 +54,7 @@ class PackagesModel extends Model
             'candybrush_packages_description'=>10,
             'candybrush_categories.candybrush_categories_name'=>9,
             'candybrush_tags.candybrush_tags_name'=>9,
+            'candybrush_tags.candybrush_tags_description'=>9,
             'users.name'=>8,
             'users.email'=>8,
             'candybrush_bonus.candybrush_bonus_name'=>7,
@@ -58,14 +64,34 @@ class PackagesModel extends Model
             'candybrush_packages.candybrush_packages_payment_type'=>6
         ],
         'joins'=>[
-            'candybrush_categories'=>['candybrush_packages.candybrush_packages_category_id','candybrush_categories.candybrush_categories_id'],
-            'candybrush_packages_tags'=>['candybrush_packages.id','candybrush_packages_tags.candybrush_packages_tags_package_id'],
+            'candybrush_packages_tags'=>['candybrush_packages_tags.candybrush_packages_tags_package_id','candybrush_packages.id'],
             'candybrush_tags'=>['candybrush_tags.candybrush_tags_id','candybrush_packages_tags.candybrush_packages_tags_tag_id'],
-            'users'=>['candybrush_packages.candybrush_packages_user_id','users.id'],
-            'candybrush_addons'=>['candybrush_addons.candybrush_addons_package_id','candybrush_packages.id'],
-            'candybrush_bonus'=>['candybrush_bonus.candybrush_bonus_package_id','candybrush_packages.id']
+            'candybrush_categories'=>['candybrush_categories.candybrush_categories_id','candybrush_packages.candybrush_packages_category_id'],
+            'users'=>['users.id','candybrush_packages.candybrush_packages_user_id'],
+            'candybrush_addons'=>['candybrush_packages.id','candybrush_addons.candybrush_addons_package_id'],
+            'candybrush_bonus'=>['candybrush_packages.id','candybrush_bonus.candybrush_bonus_package_id']
         ]
     ];
+
+    /*protected $searchableColumns = ['candybrush_packages_name',
+        'candybrush_packages_description',
+        'candybrush_categories.candybrush_categories_name',
+        'candybrush_tags.candybrush_tags_name',
+        'candybrush_tags.candybrush_tags_description',
+        'users.name',
+        'users.email',
+        'candybrush_bonus.candybrush_bonus_name',
+        'candybrush_bonus.candybrush_bonus_description',
+        'candybrush_addons.candybrush_addons_name',
+        'candybrush_addons.candybrush_addons_description',
+        'candybrush_packages.candybrush_packages_payment_type'];*/
+
+    /*function __construct()
+    {
+
+        $test = new Eloquence('Sofa\Eloquence\ServiceProvider');
+        $test->boot();
+    }*/
 
     public function seller(){
         return $this->belongsTo('App\User','candybrush_packages_user_id');

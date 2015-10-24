@@ -41,8 +41,8 @@ class PackagesController extends BaseController
         //full text search to packages
        if($request->has('query')) {
            $packages = PackagesModel::search(
-               Input::get('query', '')
-           )->with('category')->get();
+               Input::get('query', ''),null,true
+           )->with(['tags','category','bonus','addons','seller'])->distinct('candybrush_packages.id')->get();
            return $this->response()->collection($packages, $this->packageTransformer);
        }
         //return all packages

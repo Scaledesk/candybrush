@@ -19,7 +19,8 @@
         "phpunit/phpunit": "~4.0",
         "phpspec/phpspec": "~2.1",
       "tymon/jwt-auth": "0.5.*",
-      "nicolaslopezj/searchable": "1.*"
+      "nicolaslopezj/searchable": "1.*",
+      "sofa/eloquence": "~5.1@dev"
     },
     "autoload": {
         "classmap": [
