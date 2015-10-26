@@ -10,7 +10,7 @@
     Thanks for creating an account at candybrush.
     Please follow the link below to verify your email address.
     <?php
-    echo 'www.candybrush.com/activate?code='.$confirmation_code;
+    echo 'http://localhost:3000/#/activate/?code='.$confirmation_code;
 ?>
     .<br/>
 </div>
