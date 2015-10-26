@@ -13,9 +13,26 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         Model::unguard();
+        for($i=0;$i<30;$i++){
+            factory('App\User')->create();
 
-        // $this->call(UserTableSeeder::class);
+        }// after this user id has to be changed in sequence otherwise foreign key error
+        for($i=0;$i<20;$i++){
+            factory('App\Category')->create();
 
+        }
+        for($i=0;$i<10000;$i++){
+        factory('App\PackagesModel')->create();
+
+        }
+        for($i=0;$i<20000;$i++){
+        factory('App\Addon')->create();
+        }
+        for($i=0;$i<20000;$i++){
+        factory('App\Bonus')->create();
+        }
+
+        // tags remains
         Model::reguard();
     }
 }
