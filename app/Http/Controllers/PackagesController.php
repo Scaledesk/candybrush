@@ -47,7 +47,8 @@ class PackagesController extends BaseController
            return $this->response()->collection($packages, $this->packageTransformer);
        }
         //return all packages
-        return $this->response()->collection(PackagesModel::all(),$this->packageTransformer);
+        $packages=PackagesModel::paginate(50);
+        return $this->response()->paginator($packages,$this->packageTransformer);
     }
 
     /**
