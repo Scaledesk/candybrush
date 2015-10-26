@@ -13,6 +13,7 @@ use App\PackagesModel;
 use App\libraries\Constants;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use League\Fractal\Manager;
 use Mockery\CountValidator\Exception;
 use Psy\Command\ListCommand\Enumerator;
 
@@ -35,19 +36,49 @@ class PackagesController extends BaseController
      */
     public function index(Request $request)
     {   // get packages on basis of status
+        //fuction for doing eager loading
+        $do_eager_loading=function(){
+            $fractal = new Manager();
+            $fractal->setSerializer(new \League\Fractal\Serializer\ArraySerializer());
+
+            $requestedIncludes = Input::get('include');
+
+            if(!is_array($requestedIncludes))
+                $requestedIncludes = array($requestedIncludes);
+
+            $availableRequestedIncludes = array_intersect($this->packageTransformer->getAvailableIncludes(), $requestedIncludes);
+            $defaultIncludes = $this->packageTransformer->getDefaultIncludes();
+
+            $includes = array_merge($availableRequestedIncludes, $defaultIncludes);
+
+            $eagerLoads = array();
+
+            foreach ($includes as $includeKey => $includeName) {
+                if (gettype($includeKey) === "string") {
+                    unset($includes[$includeKey]);
+                    array_push($eagerLoads, $includeKey);
+                } else {
+                    array_push($eagerLoads, $includeName);
+                }
+            }
+        };
         if($request->has('status')){
+            $do_eager_loading();
             return $this->response()->collection(PackagesModel::where("candybrush_packages_status",$request->status)->get(),$this->packageTransformer);
         }
         //full text search to packages
        if($request->has('query')) {
+
            $packages = PackagesModel::with(['tags','category','bonus','addons','seller'])->search(
                Input::get('query', '')
            )->get()->unique();
-
+           $do_eager_loading();
            return $this->response()->collection($packages, $this->packageTransformer);
        }
         //return all packages
-        $packages=PackagesModel::paginate(50);
+
+        $do_eager_loading();
+        $packages=PackagesModel::paginate(50)->appends(['orderBy'=>'id']);
         return $this->response()->paginator($packages,$this->packageTransformer);
     }
 
