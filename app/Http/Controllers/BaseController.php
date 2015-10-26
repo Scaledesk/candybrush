@@ -4,20 +4,27 @@ namespace App\Http\Controllers;
 
 use App\libraries\Messages;
 use Dingo\Api\Routing\Helpers;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Validation\Factory;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
+use League\Fractal\Manager;
 
 class BaseController extends Controller
 {
-    use Helpers;
-
     /**
      * success response method with default message and success code
      */
+    use Helpers;
+
+    public function __construct()
+    {
+        $this->fractal = new Manager();
+        $this->fractal->setRequestedScopes(explode(',', Input::get('include')));
+    }
     public function success($message='success',$status_code=200){
             return $this->response()->array([
                 'message'=>$message,
@@ -56,5 +63,13 @@ class BaseController extends Controller
         }else{
             return ['result'=>true,'error'=>'no error'];
         }
+    }
+
+    protected function respondWithCursor($collection, $callback, CursorInterface $cursor)
+    {
+        $resource = new Collection($collection, $callback);
+        $resource->setCursor($cursor);
+        $rootScope = $this->fractal->createData($resource);
+        return $this->respondWithArray($rootScope->toArray());
     }
 }
