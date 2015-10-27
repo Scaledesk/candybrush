@@ -75,7 +75,7 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
     /*
      *  for user profile update
      */
-    $api->put('userProfile/update/{id}','App\Http\Controllers\UserProfileController@update');
+    $api->put('userProfile','App\Http\Controllers\UserProfileController@update');
     /*
      * for show user profile
      */

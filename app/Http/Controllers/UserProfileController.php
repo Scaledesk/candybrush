@@ -45,14 +45,14 @@ class UserProfileController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update()
     {
         /**
          * Update profile
          */
        $data = $this->userProfileTransformer->requestAdapter();
         $data=array_filter($data,'strlen'); // filter blank or null array
-        if(sizeof($data)){ try{$result=UserProfile::where('candybrush_users_profiles_users_id', $id)->update($data);}catch(\Exception $e){
+        if(sizeof($data)){ try{$result=$this->auth()->user()->userprofiles()->update($data);}catch(\Exception $e){
             return $this->error($e->getMessage(),$e->getCode());
         }
         }else{
