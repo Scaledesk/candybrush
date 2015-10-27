@@ -69,4 +69,9 @@ class UserProfileController extends BaseController
 
     }
 
+    public function getCommission(Request $request){
+        $data=UserProfile::get(['candybrush_users_profiles_users_id','candybrush_users_profiles_commission']);
+        return response($data,200);
+    }
+
 }

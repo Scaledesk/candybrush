@@ -24,12 +24,13 @@ class UserProfile extends Model
     const CUSTOM_MESSAGE = 'candybrush_users_profiles_custom_message';
     const BIRTH_DATE = 'candybrush_users_profiles_birth_date';
     const SEX = 'candybrush_users_profiles_sex';
+    const COMMISSION='candybrush_users_profiles_commission';
 
 
     protected $table = self::TABLE;
 
     protected $fillable = [self::NAME, self::MOBILE, self::ADDRESS, self::STATE, self::CITY, self::PIN, self::LANGUAGE_KNOWN, self::DESCRIPTION,
-        self::IMAGE, self::ID_PROOF, self::SOCIAL_ACCOUNT_INTEGRATION, self::CUSTOM_MESSAGE, self::BIRTH_DATE, self::SEX];
+        self::IMAGE, self::ID_PROOF, self::SOCIAL_ACCOUNT_INTEGRATION, self::CUSTOM_MESSAGE, self::BIRTH_DATE, self::SEX,self::COMMISSION];
 
     public function user()
     {

@@ -254,8 +254,13 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
          * for searching the packages
          */
         $api->get('packages','App\Http\Controllers\PackagesController@index');
+        /**
+         * get all user commission
+         */
+        $api->get('commission','App\Http\Controllers\UserProfileController@getCommission');
 
-});
+
+    });
 
 /*
  * OAuth2 Server Routes

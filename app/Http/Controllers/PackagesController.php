@@ -79,7 +79,9 @@ class PackagesController extends BaseController
 
         $do_eager_loading();
         $packages=PackagesModel::paginate(50)->appends(['orderBy'=>'id']);
+//        $packages = DB::table('candybrush_packages')->orderby('id','desc')->paginate(6);
         return $this->response()->paginator($packages,$this->packageTransformer);
+//        return response($packages,200);
     }
 
     /**
