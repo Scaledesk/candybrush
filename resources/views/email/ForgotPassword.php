@@ -9,7 +9,7 @@
 <div>
     Please follow the link below to reset your password.
     <?php
-    echo 'www.candybrush.com/forgotPassword?code='.$forgot_password_code;
+    echo 'http://localhost:3000/#/forgotPassword?code='.$forgot_password_code;
 ?>
     .<br/>
 </div>
