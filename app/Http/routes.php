@@ -258,6 +258,11 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
          * get all user commission
          */
         $api->get('commission','App\Http\Controllers\UserProfileController@getCommission');
+        /**
+         * set user commission
+         */
+        $api->post('commission/','App\Http\Controllers\UserProfileController@setCommission');
+
 
 
     });
