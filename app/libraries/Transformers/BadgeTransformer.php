@@ -12,10 +12,10 @@ namespace app\libraries\Transformers;
 use App\Badge;
 use Illuminate\Support\Facades\Input;
 use League\Fractal\TransformerAbstract;
-use App\libraries\Transformers\UserProfileTransformer;
+use App\libraries\Transformers\UserTransformer;
 
 class BadgeTransformer extends TransformerAbstract{
-    protected $availableIncludes=['UserProfiles'];
+    protected $availableIncludes=['Users'];
     public function transform(Badge $badge){
         return [
             Badge::ID=>$badge[Badge::ID],
@@ -29,7 +29,7 @@ class BadgeTransformer extends TransformerAbstract{
             Badge::IMAGE_URL=>Input::get('image_url',''),
         ];
     }
-    public function includeUserProfiles(Badge $badge){
-        return $this->collection($badge->userProfiles()->get(),new UserProfileTransformer());
+    public function includeUsers(Badge $badge){
+        return $this->collection($badge->users()->get(),new UserTransformer());
     }
 }

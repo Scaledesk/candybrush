@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Input;
 use League\Fractal\TransformerAbstract;
 
 class UserTransformer extends TransformerAbstract{
+    protected $availableIncludes=['Badges'];
     public function transform(User $user){
         return [
             'id'  =>$user->id,
@@ -29,5 +30,8 @@ class UserTransformer extends TransformerAbstract{
             'password'=>Input::get('password'),
             'password_confirmation'=>Input::get('password_confirmation')
         ];
+    }
+    public function includeBadges(User $user){
+        return $this->collection($user->badges()->get(),new BadgeTransformer());
     }
 }

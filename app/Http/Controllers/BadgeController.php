@@ -143,47 +143,47 @@ class BadgeController extends BaseController
         //
     }
 
-    public function giveUserABadge($user_profile_id=null,$badge_id=null){
+    public function giveUserABadge($user_id=null,$badge_id=null){
         $data=[
-          'user_profile_id'=>$user_profile_id,
+          'user_id'=>$user_id,
             'badge_id'=>$badge_id
         ];
         $validation_result=$this->my_validate([
             'data'=>$data,
             'rules'=>[
-                'user_profile_id'=>'required|numeric|exists:users_profiles,id',
+                'user_id'=>'required|numeric|exists:users,id',
                 'badge_id'=>'required|numeric|exists:'.Badge::TABLE.','.Badge::ID
             ],
             'messages'=>[
                 'badge_id.required'=>'badge id is required, give id in url badge\<badge_id>',
                 'badge_id.numeric'=>'only numbers are allowed in badge_id',
                 'badge_id.exists'=>'badge id do not match any records.',
-                'user_profile_id.required'=>'user profile id is required, give id in url user\<user_profile_id>',
-                'user_profile_id.numeric'=>'only numbers are allowed in user_profile_id',
-                'user_profile_id.exists'=>'profile id do not match any records',
+                'user_id.required'=>'user id is required, give id in url user\<user_id>',
+                'user_id.numeric'=>'only numbers are allowed in user_id',
+                'user_id.exists'=>'user id do not match any records',
             ]
         ]);
         if($validation_result['result']){
             //do something with given data
             unset($data);
-            $user_not_has_this_badge=function()use($badge_id,$user_profile_id){
+            $user_not_has_this_badge=function()use($badge_id,$user_id){
                 $badge=Badge::find($badge_id);
-                $user_profile=$badge->userProfilesById($user_profile_id)->first();
-                return is_null($user_profile)?true:false;
+                $user=$badge->usersById($user_id)->first();
+                return is_null($user)?true:false;
             };
             $badge=Badge::find($badge_id);
             if($user_not_has_this_badge()){
-                    $do_attach=function()use($badge,$user_profile_id){
+                    $do_attach=function()use($badge,$user_id){
                         try
                             {
-                                $badge->userProfiles()->attach($user_profile_id);
+                                $badge->users()->attach($user_id);
                                 return $this->success();
                             }catch(\Exception $e ){
                             return $this->error('some unknown error occurred',520);
                         }
                 };
                 $result=DB::transaction($do_attach);
-                unset($user_not_has_this_badge,$badge,$do_attach,$user_profile_id,$badge_id);
+                unset($user_not_has_this_badge,$badge,$do_attach,$user_id,$badge_id);
                 return $result;
             }else{
                 return $this->error('user already has this badge',401);

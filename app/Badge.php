@@ -17,10 +17,10 @@ class Badge extends Model
     const NAME='candybrush_badges_name';
     const IMAGE_URL = 'candybrush_badges_image_url';
 
-    public function userProfiles(){
-        return $this->belongsToMany('App\UserProfile','candybrush_badges_users_profiles','candybrush_badges_users_profiles_badge_id','candybrush_badges_users_profiles_users_profiles_id');
+    public function users(){
+        return $this->belongsToMany('App\User','candybrush_badges_users','candybrush_badges_users_badge_id','candybrush_badges_users_users_id');
     }
-    public function userProfilesById($profile_id){
-        return $this->belongsToMany('App\UserProfile','candybrush_badges_users_profiles','candybrush_badges_users_profiles_badge_id','candybrush_badges_users_profiles_users_profiles_id')->where('candybrush_badges_users_profiles_users_profiles_id',$profile_id);
+    public function usersById($user_id){
+        return $this->belongsToMany('App\User','candybrush_badges_users','candybrush_badges_users_badge_id','candybrush_badges_users_users_id')->where('candybrush_badges_users_users_id',$user_id);
     }
 }

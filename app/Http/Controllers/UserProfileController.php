@@ -30,9 +30,8 @@ class UserProfileController extends BaseController
 
     /**
      * Display the specified resource.
-     *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @internal param int $id
      */
     public function show()
     {
@@ -42,10 +41,9 @@ class UserProfileController extends BaseController
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @internal param Request $request
+     * @internal param int $id
      */
     public function update()
     {

@@ -289,7 +289,7 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
         /**
          * give user a badge
          */
-        $api->post('userProfile/{user_profile_id}/badge/{badge_id}','App\Http\Controllers\BadgeController@giveUserABadge');
+        $api->post('user/{user_id}/badge/{badge_id}','App\Http\Controllers\BadgeController@giveUserABadge');
     });
 
 /*

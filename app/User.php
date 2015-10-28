@@ -77,4 +77,8 @@ class User extends Model implements AuthenticatableContract,
     public function requestFeatures(){
         return $this->hasMany('App\RequestFeature','candybrush_request_features_user_id');
     }
+    public function badges(){
+        //return userprofiles
+        return $this->belongsToMany('App\Badge','candybrush_badges_users','candybrush_badges_users_users_id','candybrush_badges_users_badge_id');
+    }
 }

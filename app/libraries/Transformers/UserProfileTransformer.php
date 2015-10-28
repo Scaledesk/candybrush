@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Input;
 use League\Fractal\TransformerAbstract;
 
 class UserProfileTransformer extends TransformerAbstract{
-protected $availableIncludes=['Badges'];
     public function transform(UserProfile $profile){
         return [
             'name'=>$profile->candybrush_users_profiles_name,
@@ -47,8 +46,5 @@ protected $availableIncludes=['Badges'];
             UserProfile::IMAGE => Input::get('image'),
             UserProfile::ID_PROOF => Input::get('id_proof')
         ];
-    }
-    public function includeBadges(UserProfile $profile){
-        return $this->collection($profile->badges()->get(),new BadgeTransformer());
     }
 }

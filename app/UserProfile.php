@@ -36,8 +36,4 @@ class UserProfile extends Model
     {
         return $this->belongsTo('App\User', 'candybrush_users_profiles_users_id');
     }
-    public function badges(){
-        //return userprofiles
-        return $this->belongsToMany('App\Badge','candybrush_badges_users_profiles','candybrush_badges_users_profiles_users_profiles_id','candybrush_badges_users_profiles_badge_id');
-    }
 }
