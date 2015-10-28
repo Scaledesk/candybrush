@@ -18,7 +18,7 @@ class CreateBadgeUserProfileTable extends Migration
     {
         DB::transaction(function(){
             Schema::create(Constants::PREFIX.self::TABLE,function(Blueprint $table){
-                $table->increments(Constants::PREFIX.self::TABLE_PREFIX);
+                $table->increments(Constants::PREFIX.self::TABLE_PREFIX.'id');
                 $table->integer(Constants::PREFIX.self::TABLE_PREFIX.'badge_id')->unsigned();
                 $table->integer(Constants::PREFIX.self::TABLE_PREFIX.'users_profiles_id');
             });

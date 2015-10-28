@@ -286,7 +286,10 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
          * get specific badge
          */
         $api->get('badge/{id}','App\Http\Controllers\BadgeController@show');
-
+        /**
+         * give user a badge
+         */
+        $api->post('userProfile/{user_profile_id}/badge/{badge_id}','App\Http\Controllers\BadgeController@giveUserABadge');
     });
 
 /*
