@@ -107,8 +107,6 @@ class BadgeController extends BaseController
     }else{
             return $validation_result['error'];
         }
-
-
     }
 
     /**
@@ -143,5 +141,32 @@ class BadgeController extends BaseController
     public function destroy($id)
     {
         //
+    }
+
+    public function giveUserABadge($user_id=null,$badge_id=null){
+        $data=[
+          'user_id'=>$user_id,
+            'badge_id'=>$badge_id
+        ];
+        $validation_result=$this->my_validate([
+            'data'=>$data,
+            'rules'=>[
+                'user_id'=>'required|numeric|exists:users,id',
+                'badge_id'=>'required|numeric|exists:'.Badge::TABLE.','.Badge::ID
+            ],
+            'messages'=>[
+                'badge_id.required'=>'badge id is required, give id in url badge\<badge_id>',
+                'badge_id.numeric'=>'only numbers are allowed in badge_id',
+                'badge_id.exists'=>'badge id do not match any records.',
+                'user_id.required'=>'user id is required, give id in url user\<user_id>',
+                'user_id.numeric'=>'only numbers are allowed in user_id',
+                'user_id.exists'=>'user id do not match any records.',
+            ]
+        ]);
+        if($validation_result['result']){
+            //do something with given data
+        }else{
+            return $validation_result['error'];
+        }
     }
 }
