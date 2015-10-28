@@ -12,10 +12,22 @@
 */
 
 use LucaDegasperi\OAuth2Server\Authorizer;
+use App\Http\Controllers\S3Provider;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('/awsUpload', function()
+{
+    $s3 = new S3Provider('scaledesk');
+    return $s3->access_token();
+});
+
+
+
+
 /*
  *  Dingo Api Routes
  */
