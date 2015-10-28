@@ -20,6 +20,9 @@ class CreateBadgeTable extends Migration
             $table->string(Constants::PREFIX.self::TABLE_PREFIX.'name');
             $table->string(Constants::PREFIX.self::TABLE_PREFIX.'image_url');
         });
+        Schema::table(Constants::PREFIX.self::TABLE,function(Blueprint $table){
+            $table->unique(Constants::PREFIX.self::TABLE_PREFIX.'name',Constants::PREFIX.self::TABLE_PREFIX.'name_unique');
+        });
     }
 
     /**

@@ -274,8 +274,18 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
          * set user commission
          */
         $api->post('commission/','App\Http\Controllers\UserProfileController@setCommission');
-
-
+        /**
+         * insert new badge
+         */
+        $api->post('badge/','App\Http\Controllers\BadgeController@store');
+        /**
+         * get all badge
+         */
+        $api->get('badge/','App\Http\Controllers\BadgeController@index');
+        /**
+         * get specific badge
+         */
+        $api->get('badge/{id}','App\Http\Controllers\BadgeController@show');
 
     });
 
