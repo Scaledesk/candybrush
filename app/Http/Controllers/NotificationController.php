@@ -163,6 +163,20 @@ class NotificationController extends BaseController
      */
     public function destroy($id)
     {
-        //
+        $do_delete=function($notification){
+          $notification->delete();
+            return $this->success();
+        };
+        if(is_numeric($id)){
+            $notification=Notification::find($id);
+            if(is_null($notification)){
+                return $this->error('Notification id do not match any records',404);
+            }
+            return DB::transaction(function()use($do_delete,$notification){
+                return $do_delete($notification);
+            });
+        }else{
+            return $this->error('Only numbers are allowed as notification_id',422);
+        }
     }
 }

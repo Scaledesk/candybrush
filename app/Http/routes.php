@@ -302,6 +302,10 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
          * get specific notification
          */
         $api->get('notification/{id}','App\Http\Controllers\NotificationController@show');
+        /**
+         * delete specific notification
+         */
+        $api->delete('notification/{id}','App\Http\Controllers\NotificationController@destroy');
     });
 
 /*
