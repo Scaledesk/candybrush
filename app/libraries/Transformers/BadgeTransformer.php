@@ -18,9 +18,9 @@ class BadgeTransformer extends TransformerAbstract{
     protected $availableIncludes=['Users'];
     public function transform(Badge $badge){
         return [
-            Badge::ID=>$badge[Badge::ID],
-            Badge::NAME=>$badge[Badge::NAME],
-            Badge::IMAGE_URL=>$badge[Badge::IMAGE_URL],
+            'id'=>$badge[Badge::ID],
+            'name'=>$badge[Badge::NAME],
+            'image_url'=>$badge[Badge::IMAGE_URL],
         ];
     }
     public function requestAdaptor(){

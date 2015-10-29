@@ -119,6 +119,5 @@ class UserProfileController extends BaseController
         }else{
             return $validation_result['error'];
         }
-
     }
 }
