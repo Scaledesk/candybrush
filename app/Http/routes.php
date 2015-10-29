@@ -290,6 +290,10 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
          * give user a badge
          */
         $api->post('user/{user_id}/badge/{badge_id}','App\Http\Controllers\BadgeController@giveUserABadge');
+        /**
+         * insert notification
+         */
+        $api->post('notification/','App\Http\Controllers\NotificationController@store');
     });
 
 /*

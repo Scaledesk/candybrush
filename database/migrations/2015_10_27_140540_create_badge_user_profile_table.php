@@ -24,9 +24,11 @@ class CreateBadgeUserProfileTable extends Migration
             });
             Schema::table(Constants::PREFIX.self::TABLE,function(Blueprint $table){
 //                $table->foreign(Constants::PREFIX.self::TABLE_PREFIX.'users_profiles_id',Constants::PREFIX.self::TABLE_PREFIX.'users_profiles_id_fk')->references('id')->on('users_profiles')->onDelete('cascade')->onUpdate('cascade');
-                DB::statement('ALTER TABLE candybrush_badges_users ADD CONSTRAINT fk_u FOREIGN KEY (candybrush_badges_users_users_id) REFERENCES users(id)');
+                DB::statement('ALTER TABLE candybrush_badges_users ADD CONSTRAINT fk_u FOREIGN KEY (candybrush_badges_users_users_id) REFERENCES users(id) ON UPDATE CASCADE
+ON DELETE CASCADE');
 //                $table->foreign(Constants::PREFIX.self::TABLE_PREFIX.'badge_id',Constants::PREFIX.self::TABLE_PREFIX.'badge_id_fk')->references('candybrush_badges_id')->on('candybrush_badges')->onDelete('cascade')->onUpdate('cascade');
-                DB::statement('ALTER TABLE candybrush_badges_users ADD CONSTRAINT fk_b FOREIGN KEY (candybrush_badges_users_badge_id) REFERENCES candybrush_badges(candybrush_badges_id)');
+                DB::statement('ALTER TABLE candybrush_badges_users ADD CONSTRAINT fk_b FOREIGN KEY (candybrush_badges_users_badge_id) REFERENCES candybrush_badges(candybrush_badges_id) ON UPDATE CASCADE
+ON DELETE CASCADE');
             });
         });
     }

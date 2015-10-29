@@ -81,4 +81,7 @@ class User extends Model implements AuthenticatableContract,
         //return userprofiles
         return $this->belongsToMany('App\Badge','candybrush_badges_users','candybrush_badges_users_users_id','candybrush_badges_users_badge_id');
     }
+    public function notifications(){
+        return $this->hasMany('App\Notification','candybrush_notifications_user_id');
+    }
 }
