@@ -2,18 +2,21 @@
 
 namespace App\Console;
 
+use App\Console\Commands\Inspire;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\DB;
 
 class Kernel extends ConsoleKernel
 {
+    protected static $value=1;
     /**
      * The Artisan commands provided by your application.
      *
      * @var array
      */
     protected $commands = [
-        \App\Console\Commands\Inspire::class,
+        Inspire::class,
     ];
 
     /**
@@ -25,6 +28,11 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('inspire')
-                 ->hourly();
+                 ->everyMinute();
+        $schedule->call(function () {
+            DB::table('test')->insert([
+                'test'=>self::$value++
+            ]);
+        })->everyMinute();
     }
 }
