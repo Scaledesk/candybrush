@@ -146,13 +146,28 @@ class NotificationController extends BaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
+     * @internal param Request $request
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
-        //
+        $do_seen=function($notification){
+            $notification->candybrush_notifications_seen=1;
+            $notification->save();
+            return $this->success('Read notification successfully');
+        };
+        if(is_numeric($id)){
+            $notification=Notification::find($id);
+            if(is_null($notification)){
+                return $this->error('Notification id do not match any records',404);
+            }
+            return DB::transaction(function()use($do_seen,$notification){
+                return $do_seen($notification);
+            });
+        }else{
+            return $this->error('Only numbers are allowed as notification_id',422);
+        }
     }
 
     /**
