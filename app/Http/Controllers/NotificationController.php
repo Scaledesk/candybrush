@@ -26,6 +26,12 @@ class NotificationController extends BaseController
      */
     public function index(Request $request)
     {
+        $check_seen=function()use($request){
+            if(is_numeric($request->get('seen'))&&$request->get('seen')==0||$request->get('seen')==1){
+                return true;
+            }
+            return false;
+        };
         if($request->has('user_id')){
             if(!is_numeric($request->get('user_id'))){
                 return $this->error('only numbers are allowerd as user_id');
@@ -34,9 +40,22 @@ class NotificationController extends BaseController
             if(is_null($user)){
                 return $this->error('User_id do not match any records',404);
             }
+            if($request->has('seen')){
+                if($check_seen()) {
+                    return $this->response()->collection($user->notifications()->where('candybrush_notifications_seen', '=', $request->get('seen'))->get(), $this->notification_transformer);
+                }else{
+                    return $this->error('only 0 or 1 allowed as seen');
+                }
+            }
             return $this->response()->collection($user->notifications()->get(),$this->notification_transformer);
+        }else if($request->has('seen')){
+            if($check_seen()) {
+                return $this->response()->collection(Notification::where('candybrush_notifications_seen', '=', $request->get('seen'))->get(), $this->notification_transformer);
+            }else{
+                return $this->error('only 0 or 1 allowed as seen');
+            }
         }
-        return $this->response()->collection(Notification::all(),$this->notification_transformer);
+        return $this->response()->collection(Notification::where('candybrush_notifications_user_id',$this->auth()->user()->id)->get(),$this->notification_transformer);
     }
 
     /**

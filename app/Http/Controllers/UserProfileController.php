@@ -23,7 +23,7 @@ class UserProfileController extends BaseController
     protected $userProfileTransformer;
     function __construct(UserProfileTransformer $userProfileTransformer)
     {
-        //$this->middleware('api.auth');
+        $this->middleware('api.auth');
         $this->userProfileTransformer = $userProfileTransformer;
     }
 
