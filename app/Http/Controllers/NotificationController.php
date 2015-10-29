@@ -34,7 +34,7 @@ class NotificationController extends BaseController
         };
         if($request->has('user_id')){
             if(!is_numeric($request->get('user_id'))){
-                return $this->error('only numbers are allowerd as user_id');
+                return $this->error('only numbers are allowerd as user_id',422);
             }
             $user=User::find($request->get('user_id'));
             if(is_null($user)){
@@ -44,15 +44,15 @@ class NotificationController extends BaseController
                 if($check_seen()) {
                     return $this->response()->collection($user->notifications()->where('candybrush_notifications_seen', '=', $request->get('seen'))->get(), $this->notification_transformer);
                 }else{
-                    return $this->error('only 0 or 1 allowed as seen');
+                    return $this->error('only 0 or 1 allowed as seen',422);
                 }
             }
             return $this->response()->collection($user->notifications()->get(),$this->notification_transformer);
         }else if($request->has('seen')){
             if($check_seen()) {
-                return $this->response()->collection(Notification::where('candybrush_notifications_seen', '=', $request->get('seen'))->get(), $this->notification_transformer);
+                return $this->response()->collection(Notification::where('candybrush_notifications_seen', '=', $request->get('seen'))->where('candybrush_notifications_user_id',$this->auth()->user()->id)->get(), $this->notification_transformer);
             }else{
-                return $this->error('only 0 or 1 allowed as seen');
+                return $this->error('only 0 or 1 allowed as seen',422);
             }
         }
         return $this->response()->collection(Notification::where('candybrush_notifications_user_id',$this->auth()->user()->id)->get(),$this->notification_transformer);
@@ -121,7 +121,15 @@ class NotificationController extends BaseController
      */
     public function show($id)
     {
-        //
+            if(is_numeric($id)){
+                $notification=Notification::find($id);
+                if(is_null($notification)){
+                    return $this->error('Notification id do not match any records',404);
+                }
+                return $this->response()->item($notification,$this->notification_transformer);
+            }else{
+                return $this->error('Only numbers are allowed as notification_id',422);
+            }
     }
 
     /**

@@ -298,6 +298,10 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
          * get all notification
          */
         $api->get('notification/','App\Http\Controllers\NotificationController@index');
+        /**
+         * get specific notification
+         */
+        $api->get('notification/{id}','App\Http\Controllers\NotificationController@show');
     });
 
 /*

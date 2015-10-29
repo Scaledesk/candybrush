@@ -20,6 +20,7 @@ class NotificationTransformer extends TransformerAbstract{
     ];
     public function transform(Notification $notification){
         return [
+            'id'=>$notification[Notification::ID],
             'type'=>$notification[Notification::TYPE],
             'text'=>$notification[Notification::TEXT],
             'seen'=>$notification[Notification::SEEN]
