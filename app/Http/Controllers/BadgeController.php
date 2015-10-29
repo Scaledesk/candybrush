@@ -27,6 +27,9 @@ class BadgeController extends BaseController
     public function index(Request $request)
     {
         if($request->has('user_id')){
+            if(!is_numeric($request->get('user_id'))){
+                return $this->error('only numbers are allowerd as user_id');
+            }
             $user=User::find($request->get('user_id'));
             if(is_null($user)){
                 return $this->error('User_id do not match any records',404);

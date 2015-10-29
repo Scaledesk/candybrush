@@ -294,6 +294,10 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
          * insert notification
          */
         $api->post('notification/','App\Http\Controllers\NotificationController@store');
+        /**
+         * get all notification
+         */
+        $api->get('notification/','App\Http\Controllers\NotificationController@index');
     });
 
 /*

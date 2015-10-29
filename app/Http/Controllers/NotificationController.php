@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\libraries\Transformers\NotificationTransformer;
 use App\Notification;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -23,9 +24,19 @@ class NotificationController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if($request->has('user_id')){
+            if(!is_numeric($request->get('user_id'))){
+                return $this->error('only numbers are allowerd as user_id');
+            }
+            $user=User::find($request->get('user_id'));
+            if(is_null($user)){
+                return $this->error('User_id do not match any records',404);
+            }
+            return $this->response()->collection($user->notifications()->get(),$this->notification_transformer);
+        }
+        return $this->response()->collection(Notification::all(),$this->notification_transformer);
     }
 
     /**
