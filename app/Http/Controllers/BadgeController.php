@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Badge;
 use App\libraries\Transformers\BadgeTransformer;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -23,9 +24,15 @@ class BadgeController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-
+        if($request->has('user_id')){
+            $user=User::find($request->get('user_id'));
+            if(is_null($user)){
+                return $this->error('User_id do not match any records',404);
+            }
+            return $this->response()->collection($user->badges()->get(),$this->badge_transformer);
+        }
         return $this->response()->collection(Badge::all(),$this->badge_transformer);
     }
 
