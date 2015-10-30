@@ -15,6 +15,7 @@ class UserProfileTransformer extends TransformerAbstract{
     public function transform(UserProfile $profile){
         return [
             'name'=>$profile->candybrush_users_profiles_name,
+            'user_id'=>$profile->candybrush_users_profiles_users_id,
             'mobile'=>$profile->candybrush_users_profiles_mobile,
             'address'=>$profile->candybrush_users_profiles_address,
             'state'=>$profile->candybrush_users_profiles_state,
