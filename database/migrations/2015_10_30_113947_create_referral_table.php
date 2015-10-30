@@ -21,6 +21,7 @@ class CreateReferralTable extends Migration
             $table->integer(Constants::PREFIX.self::TABLE_PREFIX.'users_id')->unsigned();
             $table->integer(Constants::PREFIX.self::TABLE_PREFIX.'referred_users_id')->unsigned();
             $table->string(Constants::PREFIX.self::TABLE_PREFIX.'referred_users_email');
+            $table->string(Constants::PREFIX.self::TABLE_PREFIX.'referral_code');
         });
         Schema::table(Constants::PREFIX.self::TABLE,function(Blueprint $table){
             DB::statement('ALTER TABLE candybrush_referrals ADD CONSTRAINT fk_u1 FOREIGN KEY (candybrush_referrals_users_id) REFERENCES users(id) ON UPDATE CASCADE

@@ -310,6 +310,10 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
          * set seen notification
          */
         $api->put('notification/{id}','App\Http\Controllers\NotificationController@update');
+        /**
+         * add referral
+         */
+        $api->post('referral/','App\Http\Controllers\ReferralController@store');
     });
 
 /*
