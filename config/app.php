@@ -136,7 +136,8 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        /*
+        Latrell\Swagger\SwaggerServiceProvider::class,
+         /*
          * oAuth2 Server
          */
         LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class,

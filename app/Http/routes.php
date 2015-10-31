@@ -314,6 +314,16 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
          * add referral
          */
         $api->post('referral/','App\Http\Controllers\ReferralController@store');
+        /**
+         *for documentation
+         */
+        $api->get('documentation/',function(){
+            $swagger = new \Swagger\Swagger(app_path());
+            header('Content-Type: application/json');
+            print_r(json_encode($swagger->getResourceList()));
+            die;
+            echo $swagger->getResource($swagger->getResourceList(),array('output' => 'json'));
+        });
     });
 
 /*

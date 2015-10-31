@@ -11,7 +11,8 @@
         "lucadegasperi/oauth2-server-laravel": "5.0.*",
         "doctrine/dbal": "^2.5",
         "bican/roles": "2.1.*",
-        "barryvdh/laravel-cors": "^0.7.2"
+        "barryvdh/laravel-cors": "^0.7.2",
+        "latrell/swagger": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
