@@ -8,7 +8,7 @@ class Referral extends Model
 {
     protected $table=self::TABLE;
     protected $primaryKey=self::ID;
-    protected $fillable=[self::USER_ID,self::REFFERED_USER_ID,self::REFFERED_USER_EMAIL];
+    protected $fillable=[self::USER_ID,self::REFFERED_USER_ID,self::REFFERED_USER_EMAIL,self::REFERRAL_CODE];
     public $timestamps=false;
 
     // define constants

@@ -10,6 +10,8 @@ namespace app\libraries\Transformers;
 
 
 use App\Referral;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use League\Fractal\TransformerAbstract;
 
@@ -28,6 +30,7 @@ class ReferralTransformer extends TransformerAbstract
         return [
             Referral::USER_ID=>Input::get('user_id',''),
             Referral::REFFERED_USER_EMAIL=>Input::get('referred_user_email',''),
+            Referral::REFERRAL_CODE=>str_random(30),
         ];
     }
 }

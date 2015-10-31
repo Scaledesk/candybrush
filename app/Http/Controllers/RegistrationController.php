@@ -55,22 +55,6 @@ class RegistrationController extends BaseController
     public function store(Request $request)
     {
       $input=$this->user_transformer->requestAdaptor();
-        $validator=Validator::make(
-            $input,
-            [
-            'name'=>'required|min:6|unique:users',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|confirmed|min:6'
-        ],['name.required'=>'Name is required try name=<name>',
-            'email.required'=>'Email is required try email=<email>',
-            'password.required'=>'Password is required try password=<password>',
-            'password_confirmation.required'=>'Password_confirmation is required try password_confirmation=<retype passward>',
-            'name.unique'=>'Name already exists. Try with different name',
-            'email.unique'=>'Email already exists. Try with different email',
-            'name.min'=>'Minimum six characters must be required in name',
-            'password.min'=>'Minimum six characters must be required in password'
-
-        ]);
         $validate_result=$this->my_validate([
             'data'=>$input,
             'rules'=>[
