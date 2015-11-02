@@ -62,13 +62,21 @@ class PackagesController extends BaseController
                 }
             }
         };
+        //get packages on the basis of status
         if($request->has('status')){
             $do_eager_loading();
             return $this->response()->collection(PackagesModel::where("candybrush_packages_status",$request->status)->get(),$this->packageTransformer);
         }
+        //get packages on the basis of category
+        if($request->has('category_id')){
+            $do_eager_loading();
+            if(is_null($category=Category::find($request->get('category_id')))){
+                return $this->error('Sorry the category_id do not match any records', 404);
+            }
+            return $this->response()->collection($category->packages()->get(),$this->packageTransformer);
+        }
         //full text search to packages
        if($request->has('query')) {
-
            $packages = PackagesModel::with(['tags','category','bonus','addons','seller'])->search(
                Input::get('query', '')
            )->get()->unique();
@@ -76,7 +84,6 @@ class PackagesController extends BaseController
            return $this->response()->collection($packages, $this->packageTransformer);
        }
         //return all packages
-
         $do_eager_loading();
         $packages=PackagesModel::paginate(50)->appends(['orderBy'=>'id']);
 //        $packages = DB::table('candybrush_packages')->orderby('id','desc')->paginate(6);
