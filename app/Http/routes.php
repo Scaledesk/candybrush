@@ -319,6 +319,10 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
          */
         $api->post('referralSignUp/{code}','App\Http\Controllers\ReferralController@referralSignUp');
         /**
+         * get all referrals
+         */
+        $api->get('referral','App\Http\Controllers\ReferralController@index');
+        /**
          *for documentation
          */
         $api->get('documentation/',function(){

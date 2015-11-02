@@ -33,7 +33,7 @@ class ReferralController extends BaseController
      */
     public function index()
     {
-        //
+        return $this->response()->collection(Referral::all(),$this->referral_transformer);
     }
 
     /**
