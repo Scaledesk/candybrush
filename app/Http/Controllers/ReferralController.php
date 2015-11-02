@@ -39,7 +39,6 @@ class ReferralController extends BaseController
         }
         return $this->response()->collection(Referral::all(),$this->referral_transformer);
     }
-
     /**
      * Show the form for creating a new resource.
      *
