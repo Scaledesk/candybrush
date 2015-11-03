@@ -77,6 +77,8 @@ class NotificationController extends BaseController
     public function store(Request $request)
     {
         $data=$this->notification_transformer->requestAdaptor();
+        //get current logged in user
+        $data[Notification::USER_ID]=$this->auth()->user()->id;
         $validation_result=$this->my_validate([
             'data'=>$data,
             'rules'=>[

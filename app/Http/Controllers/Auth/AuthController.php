@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Laravel\Socialite\Facades\Socialite;
+use Tymon\JWTAuth\JWTAuth;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -61,5 +65,44 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    public function google(Request $request)
+    {
+        try {
+
+            //Google oAuth2 Code
+            if ($request->has('redirectUri')) {
+                config()->set("services.google.redirect", $request->get('redirectUri'));
+            }
+            $provider = Socialite::driver('google');
+            $provider->stateless();
+
+            // Step 1 + 2
+            $profile = $provider->user();
+
+            print_r($profile);
+            die;
+            /**
+             * get token without authentication
+             */
+            /*$user=User::first();
+            $token=\Tymon\JWTAuth\Facades\JWTAuth::fromUser($user);
+            return Response::json($token);*/
+            //get email from profile
+            //$profile->email
+            //check if user exists with emai if not make it and save in database
+            //then
+            //grab user object and make token and return token
+            //$user=User::first();
+            //$token=JWTAuth::fromUser($user);
+            //return token
+
+            // Handle the user etc.
+            return Response::json($profile);
+        } catch(\Exception $e) {
+            echo $e->getMessage();
+        }
+
     }
 }

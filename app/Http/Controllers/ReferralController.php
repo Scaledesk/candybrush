@@ -31,11 +31,14 @@ class ReferralController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if($request->has('user_id')){
+            $referrals=Referral::where('candybrush_referrals_users_id',$request->get('user_id'))->get();
+            return $this->collection($referrals,$this->referral_transformer);
+        }
+        return $this->response()->collection(Referral::all(),$this->referral_transformer);
     }
-
     /**
      * Show the form for creating a new resource.
      *

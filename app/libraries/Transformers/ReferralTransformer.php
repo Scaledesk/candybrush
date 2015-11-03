@@ -24,6 +24,7 @@ class ReferralTransformer extends TransformerAbstract
             'referred_user_id'=>$referral[Referral::REFFERED_USER_ID],
             'referred_user_email'=>$referral[Referral::REFFERED_USER_EMAIL],
             'referral_code'=>$referral[Referral::REFERRAL_CODE],
+            'success'=>is_null($referral[Referral::REFFERED_USER_ID])?false:true
         ];
     }
     public function requestAdaptorForReferring(){

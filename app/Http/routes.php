@@ -319,6 +319,10 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
          */
         $api->post('referralSignUp/{code}','App\Http\Controllers\ReferralController@referralSignUp');
         /**
+         * get all referrals
+         */
+        $api->get('referral','App\Http\Controllers\ReferralController@index');
+        /**
          *for documentation
          */
         $api->get('documentation/',function(){
@@ -328,6 +332,8 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
             die;
             echo $swagger->getResource($swagger->getResourceList(),array('output' => 'json'));
         });
+        //for google login
+        $api->post('auth/google','App\Http\Controllers\Auth\AuthController@google');
     });
 
 /*

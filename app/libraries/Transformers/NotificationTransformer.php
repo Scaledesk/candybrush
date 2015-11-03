@@ -31,7 +31,7 @@ class NotificationTransformer extends TransformerAbstract{
           Notification::TYPE=>Input::get('type',''),
             Notification::TEXT=>Input::get('text',''),
             Notification::SEEN=>Input::get('seen',false),
-            Notification::USER_ID=>Input::get('user_id',''),
+            /*Notification::USER_ID=>Input::get('user_id',''),*/
         ];
     }
     public function includeUser(Notification $notification){

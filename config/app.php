@@ -142,6 +142,10 @@ return [
          */
         LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class,
         LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider::class,
+        /**
+         * for social login socialite
+         */
+        Laravel\Socialite\SocialiteServiceProvider::class,
 
 
         /*
@@ -215,6 +219,7 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
+        'Socialize' => Laravel\Socialite\SocialiteServiceProvider::class,
         /*
          * use jwt with dingo
          */
