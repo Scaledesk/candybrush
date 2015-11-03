@@ -113,6 +113,7 @@ class AuthController extends Controller
                 /**
                  * get token without authentication
                  */
+
                 return response(['token'=>JWTAuth::fromUser($user)]);
             }else{
                 return response(['token'=>JWTAuth::fromUser($user)]);
