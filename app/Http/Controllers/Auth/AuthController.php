@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
 use Laravel\Socialite\Facades\Socialite;
 use Tymon\JWTAuth\JWTAuth;
@@ -70,7 +72,6 @@ class AuthController extends Controller
     public function google(Request $request)
     {
         try {
-
             //Google oAuth2 Code
             if ($request->has('redirectUri')) {
                 config()->set("services.google.redirect", $request->get('redirectUri'));
@@ -81,25 +82,41 @@ class AuthController extends Controller
             // Step 1 + 2
             $profile = $provider->user();
 
-            print_r($profile);
-            die;
-            /**
-             * get token without authentication
-             */
-            /*$user=User::first();
-            $token=\Tymon\JWTAuth\Facades\JWTAuth::fromUser($user);
-            return Response::json($token);*/
-            //get email from profile
-            //$profile->email
-            //check if user exists with emai if not make it and save in database
-            //then
-            //grab user object and make token and return token
-            //$user=User::first();
-            //$token=JWTAuth::fromUser($user);
-            //return token
-
-            // Handle the user etc.
-            return Response::json($profile);
+            $email=$profile->email;
+            $name=$profile->name;
+            $user=User::where('email',$email)->first();
+            if(is_null($user)){
+                DB::transaction(function($email,$name){
+                    //prepare record to enter in database
+                    $data=[
+                        'name'=>$email,
+                        'email'=>$email,
+                        'password'=>Null,
+                        'confirmation_code'=>NULL,
+                        'confirmed'=>'1'
+                    ];
+                    $user= User::create($data);
+                    $user->userProfiles()->create(['candybrush_users_profiles_users_id'=>$user->id,
+                    'candybrush_users_profiles_name'=>$name]);
+                    $user->userWallet()->create(['candybrush_users_wallet_user_id'=>$user->id,'candybrush_users_wallet_amount'=>0]);
+                    DB::table('candybrush_users_wallet_transactions')->insert([
+                        'candybrush_users_wallet_transactions_wallet_id'=>$user->id,
+                        'candybrush_users_wallet_transactions_description'=>'Create wallet with 0 credit',
+                        'candybrush_users_wallet_transactions_type'=>'credit',
+                        'candybrush_users_wallet_transactions_amount'=>0]);
+                });
+                set_time_limit(60); //increase the timeout of php to send mail
+                Mail::send('email.ThankYouSignUp',array('name'=>$name), function($message)use($name,$email) {
+                    $message->to($email, $name)
+                        ->subject('Acknowledgement');
+                });
+                /**
+                 * get token without authentication
+                 */
+                return response(['token'=>JWTAuth::fromUser($user)]);
+            }else{
+                return response(['token'=>JWTAuth::fromUser($user)]);
+            }
         } catch(\Exception $e) {
             echo $e->getMessage();
         }
