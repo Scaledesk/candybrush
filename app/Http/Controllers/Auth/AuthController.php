@@ -86,7 +86,7 @@ class AuthController extends Controller
             $name=$profile->name;
             $user=User::where('email',$email)->first();
             if(is_null($user)){
-                DB::transaction(function($email,$name){
+                DB::transaction(function()use($email,$name){
                     //prepare record to enter in database
                     $data=[
                         'name'=>$email,
@@ -105,6 +105,10 @@ class AuthController extends Controller
                         'candybrush_users_wallet_transactions_type'=>'credit',
                         'candybrush_users_wallet_transactions_amount'=>0]);
                 });
+                $user=User::where('email',$email)->first();
+                if(is_null($user)){
+                    return $this->error('some error occurred try again',520);
+                }
                 set_time_limit(60); //increase the timeout of php to send mail
                 Mail::send('email.ThankYouSignUp',array('name'=>$name), function($message)use($name,$email) {
                     $message->to($email, $name)
@@ -113,10 +117,11 @@ class AuthController extends Controller
                 /**
                  * get token without authentication
                  */
-
-                return response(['token'=>JWTAuth::fromUser($user)]);
+                $token=\Tymon\JWTAuth\Facades\JWTAuth::fromUser($user);
+                return Response::json(['token' => $token]);
             }else{
-                return response(['token'=>JWTAuth::fromUser($user)]);
+                $token=\Tymon\JWTAuth\Facades\JWTAuth::fromUser($user);
+                return Response::json(['token' => $token]);
             }
         } catch(\Exception $e) {
             echo $e->getMessage();
