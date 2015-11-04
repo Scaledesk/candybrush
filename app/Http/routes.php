@@ -334,6 +334,8 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
         });
         //for google login
         $api->post('auth/google','App\Http\Controllers\Auth\AuthController@google');
+        //for facebook login
+        $api->post('auth/facebook','App\Http\Controllers\Auth\AuthController@facebook');
     });
 
 /*
