@@ -38,7 +38,12 @@ return [
         'client_id'     => getenv('GOOGLE_CLIENT_ID'),
         'client_secret' => getenv('GOOGLE_CLIENT_SECRET'),
         'redirect'      => getenv('GOOGLE_REDIRECT_URI'),
-    ]
+    ],
+    'facebook' => [
+        'client_id'     => getenv('FACEBOOK_CLIENT_ID'),
+        'client_secret' => getenv('FACEBOOK_CLIENT_SECRET'),
+        'redirect'      => getenv('FACEBOOK_REDIRECT_URI'),
+    ],
 
 
 ];
