@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Input;
 use League\Fractal\TransformerAbstract;
 
 class PackagesTransformer extends TransformerAbstract{
-    protected $defaultIncludes = ['Addons','Bonus','seller','category','tags'];
+    protected $defaultIncludes = ['Addons','Bonus','seller','category','tags','photos'];
     public function transform(PackagesModel $package){
         return [
             'id'=>$package->id,
@@ -71,5 +71,8 @@ class PackagesTransformer extends TransformerAbstract{
     }
     public function includeTags(PackagesModel $package){
         return $this->collection($package->tags()->get(),new TagTransformer());
+    }
+    public function includePhotos(PackagesModel $package){
+        return $this->collection($package->photos()->get(),new PackagePhotoTransformer());
     }
 }

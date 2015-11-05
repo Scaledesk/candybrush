@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use app\libraries\Transformers\PackagePhotoTransformer;
+use App\libraries\Transformers\PackagePhotoTransformer;
 use App\PackagePhoto;
 use App\PackagesModel;
 use Illuminate\Http\Request;
@@ -25,9 +25,16 @@ class PackagePhotoController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        //
+        if(!is_numeric($id)){
+        return $this->error('Only numbers are allowed as package Id');
+    }
+    $package=PackagesModel::find($id);
+        if(is_null($package)){
+            return $this->error('package id do not match any records');
+        }
+        return $this->response()->collection($package->photos()->get(),$this->package_photo_transformer);
     }
 
     /**
@@ -84,9 +91,11 @@ class PackagePhotoController extends BaseController
             return $this->error('Package_id do not match any records!',404);
         }
         unset($package);
+       /* print_r($data);
+        die;*/
         foreach($data as $package_photo){
             $validation_result=$this->my_validate([
-                'data'=>$data,
+                'data'=>$package_photo,
                 'rules'=>[
                     PackagePhoto::URL=>'required',
                 ],
@@ -108,8 +117,9 @@ class PackagePhotoController extends BaseController
             try{
                 DB::table('candybrush_packages_photos')->insert($package_photo_bulk);
                 return $this->success();
-            }catch(Exception $e){
-                return $this->error('unknown error occurred',520);
+            }catch(\Exception $e){
+                echo $e->getMessage();
+//                return $this->error('unknown error occurred',520);
             }
         });
         unset($package_id);
@@ -127,7 +137,14 @@ class PackagePhotoController extends BaseController
      */
     public function show($id)
     {
-        //
+        if(!is_numeric($id)){
+            return $this->error('Only numbers are allowed as package photo Id');
+        }
+        $package_photo=PackagePhoto::find($id);
+        if(is_null($package_photo)){
+            return $this->error('package photo id do not match any records');
+        }
+        return $this->response()->item($package_photo,$this->package_photo_transformer);
     }
 
     /**

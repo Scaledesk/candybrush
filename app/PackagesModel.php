@@ -10,6 +10,7 @@ use Sofa\Eloquence\ServiceProvider as Eloquence;*/
 class PackagesModel extends Model
 {
     use SearchableTrait;
+    protected $primaryKey=PackagesModel::ID;
 //    protected $test;
 
 
@@ -19,6 +20,7 @@ class PackagesModel extends Model
     /**
      * Packages Status
      */
+    const ID='id';
     const ACTIVE ='ACTIVE';
     const PENDING_APPROVAL ='PENDING_APPROVAL';
     const REQUIRES_MODIFICATION ='REQUIRES_MODIFICATION';
@@ -113,6 +115,6 @@ class PackagesModel extends Model
         return $this->hasMany('App\Booking','candybrush_bookings_package_id');
     }
     public function photos(){
-        return $this->hasMany('App\Bonus','candybrush_packages_photos_package_id');
+        return $this->hasMany('App\PackagePhoto',PackagePhoto::PACKAGE_ID);
     }
 }

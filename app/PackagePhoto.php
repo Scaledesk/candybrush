@@ -16,9 +16,9 @@ class PackagePhoto extends Model
     const TABLE = 'candybrush_packages_photos';
     const ID = 'candybrush_packages_photos_id';
     const URL='candybrush_packages_photos_url';
-    const PACKAGE_ID ='candybrush_packages_photos_package_id';
+    const PACKAGE_ID ='candybrush_packages_photos_packages_id';
 
     public function package(){
-        return $this->belongsTo('App\PackagesModel','candybrush_packages_photos_package_id');
+        return $this->belongsTo('App\PackagesModel',PackagePhoto::PACKAGE_ID);
     }
 }

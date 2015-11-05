@@ -336,6 +336,18 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
         $api->post('auth/google','App\Http\Controllers\Auth\AuthController@google');
         //for facebook login
         $api->post('auth/facebook','App\Http\Controllers\Auth\AuthController@facebook');
+        /**
+         * add package photos in bulk
+         */
+        $api->post('packagePhoto','App\Http\Controllers\PackagePhotoController@store');
+        /**
+         * get package photos
+         */
+        $api->get('packagePhoto/{package_id}','App\Http\Controllers\PackagePhotoController@index');
+        /**
+         * get specific package photo
+         */
+        $api->get('specificPackagePhoto/{photo_id}','App\Http\Controllers\PackagePhotoController@show');
     });
 
 /*

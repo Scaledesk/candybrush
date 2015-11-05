@@ -43,7 +43,7 @@ class PackagePhotoTransformer extends TransformerAbstract{
         if($process_data&&is_array($process_data)){
             foreach ($process_data as $package_photos) {
                 array_push($data, [
-                    PackagePhoto::URL=>Input::get('url',''),
+                    PackagePhoto::URL=>$package_photos['url'],
                 ]);
             }
             unset($process_data);
@@ -64,6 +64,6 @@ class PackagePhotoTransformer extends TransformerAbstract{
      * @return \League\Fractal\Resource\Item
      */
     public function includePackage(PackagePhoto $packagePhoto){
-        return $this->item($packagePhoto->package(),new \App\libraries\Transformers\PackagesTransformer());
+        return $this->item($packagePhoto->package()->first(),new \App\libraries\Transformers\PackagesTransformer());
     }
 }
