@@ -112,4 +112,7 @@ class PackagesModel extends Model
     public function bookings(){
         return $this->hasMany('App\Booking','candybrush_bookings_package_id');
     }
+    public function photos(){
+        return $this->hasMany('App\Bonus','candybrush_packages_photos_package_id');
+    }
 }
