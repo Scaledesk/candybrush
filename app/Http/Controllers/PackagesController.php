@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\libraries\Transformers\FirstTimePackageTransformer;
 use App\libraries\Transformers\PackagesTransformer;
 use App\PackegesUserModel;
 use App\Tag;
@@ -65,7 +66,7 @@ class PackagesController extends BaseController
         //get packages on the basis of status
         if($request->has('status')){
             $do_eager_loading();
-            return $this->response()->collection(PackagesModel::where("candybrush_packages_status",$request->status)->get(),$this->packageTransformer);
+            return $this->response()->collection(PackagesModel::where("candybrush_packages_status",$request->status)->get(),new FirstTimePackageTransformer());
         }
         //get packages on the basis of category
         if($request->has('category_id')){
@@ -73,7 +74,7 @@ class PackagesController extends BaseController
             if(is_null($category=Category::find($request->get('category_id')))){
                 return $this->error('Sorry the category_id do not match any records', 404);
             }
-            return $this->response()->collection($category->packages()->get(),$this->packageTransformer);
+            return $this->response()->collection($category->packages()->get(),new FirstTimePackageTransformer());
         }
         //full text search to packages
        if($request->has('query')) {
@@ -81,13 +82,13 @@ class PackagesController extends BaseController
                Input::get('query', '')
            )->get()->unique();
            $do_eager_loading();
-           return $this->response()->collection($packages, $this->packageTransformer);
+           return $this->response()->collection($packages, new FirstTimePackageTransformer());
        }
         //return all packages
         $do_eager_loading();
         $packages=PackagesModel::paginate(15)->appends(['orderBy'=>'id']);
 //        $packages = DB::table('candybrush_packages')->orderby('id','desc')->paginate(6);
-        return $this->response()->paginator($packages,$this->packageTransformer);
+        return $this->response()->paginator($packages,new FirstTimePackageTransformer());
 //        return response($packages,200);
     }
 
