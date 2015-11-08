@@ -85,7 +85,7 @@ class PackagesController extends BaseController
        }
         //return all packages
         $do_eager_loading();
-        $packages=PackagesModel::paginate(50)->appends(['orderBy'=>'id']);
+        $packages=PackagesModel::paginate(15)->appends(['orderBy'=>'id']);
 //        $packages = DB::table('candybrush_packages')->orderby('id','desc')->paginate(6);
         return $this->response()->paginator($packages,$this->packageTransformer);
 //        return response($packages,200);
@@ -109,8 +109,10 @@ class PackagesController extends BaseController
      */
     public function store(Request $request)
     {
-        $u_id = $request->user_id;
+        $u_id = $this->auth()->user()->id;
         $data = $this->packageTransformer->requestAdapter();
+        $data[PackagesModel::User_ID]=$u_id;
+        unset($u_id);
         $data=array_filter($data,'strlen'); // filter blank or null array
         $validation_result=$this->my_validate([
             'data'=>$data,
