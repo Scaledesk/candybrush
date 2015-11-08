@@ -57,12 +57,12 @@ class MessageController extends BaseController
             Message::RECIEVER_ID=>'required|min:1'
         ];
         $messages=[
-            Message::BODY.'.required'=>'Body of message is required try body=<body>',
-            Message::SUBJECT.'.required'=>'subject of message is required try subject=<subject>',
-            Message::USER_ID.'.exists'=>'user_id do not match any records! try with different user_id',
-            Message::USER_ID.'.required'=>'user_id is required try user_id=<user_id>',
+            Message::BODY.'.required'=>'Body of message is required',
+            Message::SUBJECT.'.required'=>'subject of message is required',
+            Message::USER_ID.'.exists'=>'user_id do not match any records!',
+            Message::USER_ID.'.required'=>'user_id is required',
             Message::USER_ID.'.numeric'=>'Only numbers are allowed in user_id',
-            Message::RECIEVER_ID.'.required'=>'Required Array of receivers try receivers_id=<array of one or more receivers id>',
+            Message::RECIEVER_ID.'.required'=>'Required Array of receivers',
             Message::RECIEVER_ID.'.min:1'=>'minimum one receiver in receiver array is required'
         ];
         $validate=$this->my_validate(['data'=>$data,'rules'=>$rules,'messages'=>$messages]);
@@ -139,12 +139,12 @@ class MessageController extends BaseController
                 'message_id'=>'required|exists:candybrush_messages_receivers,candybrush_messages_recievers_message_id|numeric'
             ],
             'messages'=>[
-                'user_id.required'=>'user_id is required try user_id=<user_id>',
-                'user_id.exists'=>'user_id do not match any records! try with different user_id',
-                'delete_type.required'=>'delete_type of message is required try delete_type=<inbox or sent>',
+                'user_id.required'=>'user_id is required',
+                'user_id.exists'=>'user_id do not match any records!',
+                'delete_type.required'=>'delete_type of message is required',
                 'delete_type.in'=>'wrong delete type only inbox and sent is allowed as input to delete',
-                'message_id.required'=>'message_id is required try in url as message/<message id>',
-                'message_id.exists'=>'message_id do not match any records! try with different message_id',
+                'message_id.required'=>'message_id is required',
+                'message_id.exists'=>'message_id do not match any records!',
                 'message_id.numeric'=>'only numbers are allowed as message_id',
             ]
         ]);
