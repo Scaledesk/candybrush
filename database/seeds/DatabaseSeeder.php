@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
         }// after this user id has to be changed in sequence otherwise foreign key error
         for($i=0;$i<20;$i++){
             factory('App\Category')->create();
-
         }
         for($i=0;$i<100;$i++){
         factory('App\PackagesModel')->create();
