@@ -21,17 +21,18 @@ class DatabaseSeeder extends Seeder
             factory('App\Category')->create();
 
         }
-        for($i=0;$i<10000;$i++){
+        for($i=0;$i<100;$i++){
         factory('App\PackagesModel')->create();
-
         }
-        for($i=0;$i<20000;$i++){
+        for($i=0;$i<200;$i++){
+            factory('App\PackagePhoto')->create();
+        }
+        for($i=0;$i<200;$i++){
         factory('App\Addon')->create();
         }
-        for($i=0;$i<20000;$i++){
-        factory('App\Bonus')->create();
+        for($i=0;$i<200;$i++){
+            factory('App\Bonus')->create();
         }
-
         // tags remains
         Model::reguard();
     }

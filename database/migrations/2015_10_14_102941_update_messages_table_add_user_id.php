@@ -17,7 +17,7 @@ class UpdateMessagesTableAddUserId extends Migration
             $table->foreign('candybrush_messages_user_id','candybrush_messages_user_id_fk')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
         Schema::table('candybrush_messages',function(Blueprint $table){
-            $table->foreign('candybrush_messages_user_id','candybrush_messages_user_id_fk')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+           /* $table->foreign('candybrush_messages_user_id','candybrush_messages_user_id_fk')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');*/
         });
     }
 
@@ -29,8 +29,13 @@ class UpdateMessagesTableAddUserId extends Migration
     public function down()
     {
         //
+        DB::transaction(function(){
         Schema::table('candybrush_messages',function(Blueprint $table){
+            DB::statement('SET FOREIGN_KEY_CHECKS=0');
+            $table->dropForeign('candybrush_messages_user_id_fk');
+            DB::statement('SET FOREIGN_KEY_CHECKS=1');
             $table->dropColumn("candybrush_messages_user_id");
+            });
         });
     }
 }

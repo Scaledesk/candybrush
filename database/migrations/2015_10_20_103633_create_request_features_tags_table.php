@@ -15,12 +15,12 @@ class CreateRequestFeaturesTagsTable extends Migration
      */
     public function up()
     {
-        /*Schema::create(Constants::PREFIX.self::TABLE,function(Blueprint $table){
+        Schema::create(Constants::PREFIX.self::TABLE,function(Blueprint $table){
             $table->increments(Constants::PREFIX.self::TABLE_PREFIX.'id');
             $table->integer(Constants::PREFIX.self::TABLE_PREFIX.'request_feature_id')->unsigned();
             $table->integer(Constants::PREFIX.self::TABLE_PREFIX.'tag_id')->unsigned();
             $table->timestamps();
-        });*/
+        });
         Schema::table(Constants::PREFIX.self::TABLE,function(Blueprint $table){
 //            $table->foreign(Constants::PREFIX.self::TABLE_PREFIX.'r_f_id',Constants::PREFIX.self::TABLE_PREFIX.'r_f_id_fk')->references('candybrush_request_features_id')->on('candybrush_request_features')->onDelete('cascade')->onUpdate('cascade');
             DB::statement('ALTER TABLE candybrush_request_features_tags ADD CONSTRAINT fk_r_f FOREIGN KEY (candybrush_request_features_tags_request_feature_id) REFERENCES candybrush_request_features(candybrush_request_features_id)');
@@ -37,7 +37,7 @@ class CreateRequestFeaturesTagsTable extends Migration
     {
         Schema::table(Constants::PREFIX.self::TABLE,function(Blueprint $table){
             DB::statement('SET FOREIGN_KEY_CHECKS=0');
-            $table->dropForeign(Constants::PREFIX.self::TABLE_PREFIX.'fk_r_f');
+            $table->dropForeign('fk_r_f');
             $table->dropForeign(Constants::PREFIX.self::TABLE_PREFIX.'tag_id_fk');
             DB::statement('SET FOREIGN_KEY_CHECKS=1');
         });

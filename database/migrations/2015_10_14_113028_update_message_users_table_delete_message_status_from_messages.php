@@ -34,7 +34,7 @@ class UpdateMessageUsersTableDeleteMessageStatusFromMessages extends Migration
      */
     public function down()
     {
-        Schema::drop('candybrush_messages_user');
+        Schema::drop('candybrush_messages_receivers');
         Schema::create('candybrush_messages_user', function ($table) {
             $table->increments('id');
             $table->integer('candybrush_messages_user_id');

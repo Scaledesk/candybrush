@@ -104,3 +104,17 @@ $factory->define(App\PackagesModel::class,function(Faker\Generator $faker)use($f
         'candybrush_packages_status'=>$faker->randomElement(['ACTIVE','PENDING_APPROVAL','REQUIRES_MODIFICATION','DENIED','PAUSED'])
     ];
 });
+$factory->define(App\PackagePhoto::class,function(Faker\Generator $faker){
+    $packages = \Illuminate\Support\Facades\DB::table('candybrush_packages')->get(['id']);
+    $package_data=array();
+    foreach($packages as $package){
+        $package_data[]=$package->id;
+    }
+    $packages=$package_data;
+    $first_package=reset($packages);
+    $last_package=end($packages);
+    return[
+        'candybrush_packages_photos_url'=>$faker->imageUrl($width = 640, $height = 480),
+        'candybrush_packages_photos_packages_id'=>$faker->numberBetween($first_package,$last_package)
+    ];
+});

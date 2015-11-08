@@ -29,7 +29,7 @@ class UpdatePackageTableAddReadyToPublish extends Migration
     public function down()
     {
         //
-        Schema::table('',function(Blueprint $table){
+        Schema::table(Constants::PREFIX.self::TABLE,function(Blueprint $table){
             $table->dropColumn([Constants::PREFIX.self::TABLE_PREFIX.'completed']);
         });
     }

@@ -13,9 +13,9 @@ class AddUpdatedAtCreatedAtUserPackagesTable extends Migration
     public function up()
     {
         //
-        Schema::table('candybrush_users_packages',function(Blueprint $table){
+      /*  Schema::table('candybrush_users_packages',function(Blueprint $table){
             $table->timestamps();
-        });
+        });*/
     }
 
     /**
@@ -26,8 +26,8 @@ class AddUpdatedAtCreatedAtUserPackagesTable extends Migration
     public function down()
     {
         //
-        Schema::table('candybrush_users_packages',function(Blueprint $table){
-            $table->dropColumn(['updated_at','created_at']);
-        });
+        /*Schema::table('candybrush_users_packages',function(Blueprint $table){
+            $table->dropTimestamps();
+        });*/
     }
 }
