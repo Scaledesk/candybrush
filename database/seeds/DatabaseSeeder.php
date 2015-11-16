@@ -46,7 +46,9 @@ class DatabaseSeeder extends Seeder
         for($i=0;$i<200;$i++){
             factory('App\Bonus')->create();
         }
-        // tags remains
+        for($i=0;$i<30;$i++){
+            factory('App\UserProfile')->create();
+        }
         Model::reguard();
     }
 }

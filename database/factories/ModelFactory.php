@@ -14,7 +14,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $name=$faker->name,
         'email' => $faker->email,
-        'password' => /*bcrypt(str_random(10))*/$name,
+        'password' => /*bcrypt(str_random(10))*/bcrypt($name),
         'remember_token' => str_random(10),
         'confirmed'=>1
     ];
@@ -126,5 +126,28 @@ $factory->define(App\PackagePhoto::class,function(Faker\Generator $faker){
     return[
         'candybrush_packages_photos_url'=>$faker->imageUrl($width = 640, $height = 480),
         'candybrush_packages_photos_packages_id'=>$faker->numberBetween($first_package,$last_package)
+    ];
+});
+
+$factory->define(App\UserProfile::class,function(Faker\Generator $faker){
+    $first_user=DB::table('users')->first()->id;
+    $last_user=DB::table('users')->orderBy('id', 'desc')->first()->id;
+    return [
+        'candybrush_users_profiles_users_id'=>$faker->unique()->numberBetween($first_user,$last_user),
+        'candybrush_users_profiles_name'=>$faker->name,
+        'candybrush_users_profiles_mobile'=>9898600000+$faker->randomNumber(3),
+        'candybrush_users_profiles_address'=>$faker->address,
+        'candybrush_users_profiles_state'=>$faker->randomElement(array('Uttar Pradesh','Uttarakhand','Madhya Pradesh','Jammu & Kashmir','Himachal Pradesh','Punjab','Chandigarh','NCT of Delhi','Rajasthan','Bihar','Sikkim','Maharastra')),
+        'candybrush_users_profiles_city'=>$faker->randomElement(array('Bareilly','Delhi','Ghaziabad','Haridwar','Dehradun','Chandigarh','Mohali','Moradabad','Rampur','Gurgaon','Mumbai')),
+        'candybrush_users_profiles_pin'=>$faker->randomNumber(6),
+        'candybrush_users_profiles_language_known'=>$faker->randomElement(['English','Urdu','Hindi','Marathi']),
+        'candybrush_users_profiles_description'=>$faker->sentences(random_int(2,6),true),
+        'candybrush_users_profiles_image'=>$faker->imageUrl($width = 640, $height = 480),
+        'candybrush_users_profiles_id_proof'=>$faker->randomElement(['Voter_Id','Driving_License','PAN_CARD', 'PASSPORT']),
+        'candybrush_users_profiles_social_account_integration'=>$faker->randomElement(['Yes','No']),
+        'candybrush_users_profiles_custom_message'=>$faker->sentences(random_int(2,6),true),
+        'candybrush_users_profiles_birth_date'=>$faker->dateTimeThisCentury->format('Y-m-d'),
+        'candybrush_users_profiles_sex'=>$faker->randomElement(['male','female']),
+        'candybrush_users_profiles_commission'=>random_int(10,20)
     ];
 });
