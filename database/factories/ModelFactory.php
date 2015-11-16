@@ -12,19 +12,29 @@
 */
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->name,
+        'name' => $name=$faker->name,
         'email' => $faker->email,
-        'password' => bcrypt(str_random(10)),
+        'password' => /*bcrypt(str_random(10))*/$name,
         'remember_token' => str_random(10),
+        'confirmed'=>1
     ];
 });
 
 //for Categories
 $factory->define(App\Category::class,function(Faker\Generator $faker){
     return [
-        'candybrush_categories_name'=>$faker->unique(20)->name . ' category',
+        'candybrush_categories_name'=>$faker->unique(20)->word . ' category',
         'candybrush_categories_parent_id'=>NULL
     ];
+});
+
+$factory->define(App\Tag::class,function(Faker\Generator $faker){
+//    echo "enter into tags";
+    return [
+        'candybrush_tags_name'=>$faker->unique(20)->word.' tag',
+        'candybrush_tags_description'=>$faker->sentences(3,true)
+    ];
+//    echo "enter out of tags";
 });
 
 //for addons
@@ -41,7 +51,7 @@ $factory->define(App\Addon::class,function(Faker\Generator $faker){
     unset($packages);
     return [
         App\Addon::DESCRIPTION=>$faker->realText(100),
-        App\Addon::NAME=>$faker->unique(10000)->name.' addon',
+        App\Addon::NAME=>$faker->unique(10000)->word.' addon',
         App\Addon::DAYS=>$faker->numberBetween(0,10),
         App\Addon::PACKAGE_ID=>$faker->numberBetween($first_package,$last_package),
         App\Addon::PRICE=>$faker->numberBetween(1,20)
@@ -62,7 +72,7 @@ $factory->define(App\Bonus::class,function(Faker\Generator $faker){
     unset($packages);
     return [
         App\Bonus::DESCRIPTION=>$faker->realText(100),
-        App\Bonus::NAME=>$faker->unique(10000)->name.' bonus',
+        App\Bonus::NAME=>$faker->unique(10000)->word.' bonus',
         App\Bonus::PACKAGE_ID=>$faker->numberBetween($first_package,$last_package),
     ];
 });
@@ -91,12 +101,12 @@ $factory->define(App\PackagesModel::class,function(Faker\Generator $faker)use($f
     unset($category_data);
     unset($category);
     return [
-        'candybrush_packages_name'=>$faker->name.' package',
-        'candybrush_packages_description'=>$faker->realText(200),
+        'candybrush_packages_name'=>$faker->word.' package',
+        'candybrush_packages_description'=>$faker->paragraph(5),
         'candybrush_packages_price'=>$faker->numberBetween(30,50),
         'candybrush_packages_deal_price'=>$faker->numberBetween(20,45),
         'candybrush_packages_available_dates'=>$faker->date($format = 'Y-m-d', $max = 'now'),
-        'candybrush_packages_term_condition'=>$faker->realText(100),
+        'candybrush_packages_term_condition'=>$faker->paragraphs(3,true),
         'candybrush_packages_payment_type'=>$faker->randomElement(['money_transfer',' cod','paypal','direct_transfer']),
         'candybrush_packages_maximum_delivery_days'=>$faker->randomElement(['1','2','3','4','5','6','7','8','9','10']),
         'candybrush_packages_category_id'=>$faker->numberBetween($first_category,$last_category),
