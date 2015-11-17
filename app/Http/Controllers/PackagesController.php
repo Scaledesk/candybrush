@@ -124,13 +124,13 @@ class PackagesController extends BaseController
                 PackagesModel::CATEGORY_ID=>'required|min:1|exists:candybrush_categories,candybrush_categories_id'
             ],
             'messages'=>[
-                PackagesModel::NAME.'.required'=>'Name of package is required, try name=<name>',
-                PackagesModel::DESCRIPTION.'.required|Name of package is required, try description=<description>',
-                PackagesModel::User_ID.'.required'=>'seller_id is required try user_id=<user_id>',
-                PackagesModel::User_ID.'.exists'=>'seller_id do not match any records, please check',
-                PackagesModel::CATEGORY_ID.'.required'=>'Category_id is required try category_id=<category_id>',
+                PackagesModel::NAME.'.required'=>'Name of package is required',
+                PackagesModel::DESCRIPTION.'.required|Name of package is required',
+                PackagesModel::User_ID.'.required'=>'Seller Id is required.',
+                PackagesModel::User_ID.'.exists'=>'Seller Id do not match any records.',
+                PackagesModel::CATEGORY_ID.'.required'=>'Category Id is required.',
                 PackagesModel::CATEGORY_ID.'.min'=>'At least 1 category id has to be given in array',
-                PackagesModel::CATEGORY_ID.'.exists'=>'Category _id do not match any records, please check',
+                PackagesModel::CATEGORY_ID.'.exists'=>'Category Id do not match any records',
             ]
 
         ]);
@@ -263,6 +263,7 @@ class PackagesController extends BaseController
      * function to set package ready to publish
      * this function may also send review request to admin then it will be published on passed
      */
+    //to be removed or refactored
     public function setCompleted($id){
         $package=PackagesModel::where('id',$id)->first();
         if(is_null($package)){
@@ -282,7 +283,7 @@ class PackagesController extends BaseController
             return $this->error('some unknown error occurred',520);
         }
     }
-
+//to be removed or refactored
     public function changePackageStatus($package_id,$status){
         $package=PackagesModel::where('id',$package_id)->first();
         if(is_null($package)){
