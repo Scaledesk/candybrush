@@ -90,7 +90,6 @@ class AuthController extends BaseController
                 DB::transaction(function()use($email,$name){
                     //prepare record to enter in database
                     $data=[
-                        'name'=>$email,
                         'email'=>$email,
                         'password'=>Null,
                         'confirmation_code'=>NULL,
@@ -151,7 +150,6 @@ class AuthController extends BaseController
                 DB::transaction(function()use($email,$name){
                     //prepare record to enter in database
                     $data=[
-                        'name'=>$email,
                         'email'=>$email,
                         'password'=>Null,
                         'confirmation_code'=>NULL,
