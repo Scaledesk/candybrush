@@ -14,11 +14,24 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         Model::unguard();
+        $truncate=function(){
+            DB::statement('SET FOREIGN_KEY_CHECKS=0');
+            $tableNames = Schema::getConnection()->getDoctrineSchemaManager()->listTableNames();
+            foreach ($tableNames as $name) {
+                //if you don't want to truncate migrations
+                if ($name == 'migrations') {
+                    continue;
+                }
+                DB::table($name)->truncate();
+            }
+            DB::statement('SET FOREIGN_KEY_CHECKS=1');
+        };
+        $truncate();
         for($i=0;$i<30;$i++){
             factory('App\User')->create();
 
         }// after this user id has to be changed in sequence otherwise foreign key error
-        for($i=0;$i<20;$i++){
+        for($i=0;$i<9;$i++){
             factory('App\Category')->create();
         }
         for($i=0;$i<20;$i++){

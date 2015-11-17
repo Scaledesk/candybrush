@@ -12,9 +12,8 @@
 */
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
-        'name' => $name=$faker->name,
         'email' => $faker->email,
-        'password' => /*bcrypt(str_random(10))*/bcrypt($name),
+        'password' => /*bcrypt(str_random(10))*/bcrypt('1234'),
         'remember_token' => str_random(10),
         'confirmed'=>1
     ];
@@ -23,7 +22,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 //for Categories
 $factory->define(App\Category::class,function(Faker\Generator $faker){
     return [
-        'candybrush_categories_name'=>$faker->unique(20)->word . ' category',
+        'candybrush_categories_name'=>$faker->unique()->randomElement(['Health & wellness','Fashion', 'Home Decor','Travel','Rentals','Spaces','Experts','Skill','Doorstep Services'])/*word . ' category'*/,
         'candybrush_categories_parent_id'=>NULL
     ];
 });
