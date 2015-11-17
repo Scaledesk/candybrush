@@ -58,18 +58,18 @@ class RegistrationController extends BaseController
         $validate_result=$this->my_validate([
             'data'=>$input,
             'rules'=>[
-                'name'=>'required|min:6|unique:users',
+//                'name'=>'required|min:6|unique:users',
                 'email' => 'required|email|unique:users',
-                'password' => 'required|confirmed|min:6'
+                'password' => 'required|min:6'
             ],
             'messages'=>[
-                'name.required'=>'Name is required try name=<name>',
-                'email.required'=>'Email is required try email=<email>',
-                'password.required'=>'Password is required try password=<password>',
-                'password.confirmed'=>'Password_confirmation do not match try password_confirmation=<retype passward>',
-                'name.unique'=>'Name already exists. Try with different name',
+//                'name.required'=>'Name is required try name=<name>',
+                'email.required'=>'Email is required',
+                'password.required'=>'Password is required',
+//                'password.confirmed'=>'Password_confirmation do not match try password_confirmation=<retype passward>',
+//                'name.unique'=>'Name already exists. Try with different name',
                 'email.unique'=>'Email already exists. Try with different email',
-                'name.min'=>'Minimum six characters must be required in name',
+//                'name.min'=>'Minimum six characters must be required in name',
                 'password.min'=>'Minimum six characters must be required in password'
             ]
         ]);
