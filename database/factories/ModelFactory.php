@@ -10,6 +10,8 @@
 | database. Just tell the factory how a default model should look.
 |
 */
+use Illuminate\Support\Facades\DB;
+
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'email' => $faker->email,
@@ -77,33 +79,17 @@ $factory->define(App\Bonus::class,function(Faker\Generator $faker){
 });
 //for PackagesModel
 $factory->define(App\PackagesModel::class,function(Faker\Generator $faker)use($factory){
-    $users = \Illuminate\Support\Facades\DB::table('users')->get(['id']);
-    $user_data=array();
-    foreach($users as $user){
-        $user_data[]=$user->id;
-    }
-    $users=$user_data;
-    $first_user=reset($users);
-    $last_user=end($users);
-    unset($user_data);
-    unset($users);
-    $categories =
-        \Illuminate\Support\Facades\DB::table('candybrush_categories')->get(['candybrush_categories_id']);
-    $category_data=array();
-    foreach($categories as $category){
-        $category_data[]=$category->candybrush_categories_id;
-    }
-    $categories=$category_data;
-    $first_category=reset($categories);
-    $last_category=end($categories);
 
-    unset($category_data);
-    unset($category);
+    $first_user=DB::table('users')->first()->id;
+    $last_user=DB::table('users')->orderBy('id', 'desc')->first()->id;
+
+    $first_category=DB::table('candybrush_categories')->first()->candybrush_categories_id;
+    $last_category=DB::table('candybrush_categories')->orderBy('candybrush_categories_id', 'desc')->first()->candybrush_categories_id;
     return [
-        'candybrush_packages_name'=>$faker->word.' package',
-        'candybrush_packages_description'=>$faker->paragraph(5),
-        'candybrush_packages_price'=>$faker->numberBetween(30,50),
-        'candybrush_packages_deal_price'=>$faker->numberBetween(20,45),
+        'candybrush_packages_name'=>$faker->sentence(random_int(4,8)),
+        'candybrush_packages_description'=>$faker->paragraph(random_int(2,3)),
+        'candybrush_packages_price'=>$faker->numberBetween(30,500)*10,
+        'candybrush_packages_deal_price'=>$faker->numberBetween(20,450)*10,
         'candybrush_packages_available_dates'=>$faker->date($format = 'Y-m-d', $max = 'now'),
         'candybrush_packages_term_condition'=>$faker->paragraphs(3,true),
         'candybrush_packages_payment_type'=>$faker->randomElement(['money_transfer',' cod','paypal','direct_transfer']),
