@@ -117,10 +117,10 @@ class AuthController extends BaseController
                 /**
                  * get token without authentication
                  */
-                $token=\Tymon\JWTAuth\Facades\JWTAuth::fromUser($user);
+                $token=\Tymon\JWTAuth\Facades\JWTAuth::fromUser($user->id);
                 return Response::json(['token' => $token]);
             }else{
-                $token=\Tymon\JWTAuth\Facades\JWTAuth::fromUser($user);
+                $token=\Tymon\JWTAuth\Facades\JWTAuth::fromUser($user->id);
                 return Response::json(['token' => $token]);
             }
 
@@ -178,7 +178,7 @@ class AuthController extends BaseController
                 /**
                  * get token without authentication
                  */
-                $token=\Tymon\JWTAuth\Facades\JWTAuth::buId($user->id);
+                $token=\Tymon\JWTAuth\Facades\JWTAuth::fromUser($user->id);
                 return Response::json(['token' => $token]);
             }else{
                 $token=\Tymon\JWTAuth\Facades\JWTAuth::fromUser($user->id);
