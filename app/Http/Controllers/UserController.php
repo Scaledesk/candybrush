@@ -13,6 +13,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Response;
 use Mockery\CountValidator\Exception;
 use Monolog\Handler\NullHandlerTest;
 
@@ -208,5 +209,10 @@ class UserController extends BaseController
         }else{
             return $validation_result['error'];
         }
+    }
+    public function userCount(){
+        return Response::json([
+            "count"=>User::get()->Count()
+        ]);
     }
 }

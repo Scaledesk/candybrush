@@ -14,6 +14,7 @@ use App\PackagesModel;
 use App\libraries\Constants;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Response;
 use League\Fractal\Manager;
 use Mockery\CountValidator\Exception;
 use Psy\Command\ListCommand\Enumerator;
@@ -315,5 +316,10 @@ class PackagesController extends BaseController
 
         });
         return $result;
+    }
+    public function packageCount(){
+        return Response::json([
+            "count"=>PackagesModel::get()->Count()
+        ]);
     }
 }

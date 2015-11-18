@@ -348,6 +348,22 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
          * get specific package photo
          */
         $api->get('specificPackagePhoto/{photo_id}','App\Http\Controllers\PackagePhotoController@show');
+
+        /**
+         * admin routes
+         */
+        /**
+         * user count
+         */
+        $api->get('admin/userCount','App\Http\Controllers\UserController@userCount');
+        /**
+         * package count
+         */
+        $api->get('admin/packageCount','App\Http\Controllers\PackagesController@packageCount');
+        /**
+         * order count
+         */
+        $api->get('admin/bookingCount','App\Http\Controllers\BookingController@bookingCount');
     });
 
 /*

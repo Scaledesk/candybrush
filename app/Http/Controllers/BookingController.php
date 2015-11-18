@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
 use Mockery\CountValidator\Exception;
 
 
@@ -182,5 +183,10 @@ class BookingController extends BaseController
             }
         });
         return $result;
+    }
+    public function bookingCount(){
+        return Response::json([
+            "count"=>Booking::get()->Count()
+        ]);
     }
 }
