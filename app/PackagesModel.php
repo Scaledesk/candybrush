@@ -57,7 +57,6 @@ class PackagesModel extends Model
             'candybrush_categories.candybrush_categories_name'=>8,
             'candybrush_tags.candybrush_tags_name'=>7,
             'candybrush_tags.candybrush_tags_description'=>6,
-            'users.name'=>5,
             'users.email'=>4,
             'candybrush_bonus.candybrush_bonus_name'=>3,
             'candybrush_bonus.candybrush_bonus_description'=>2,

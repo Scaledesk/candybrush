@@ -147,10 +147,6 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
      */
     $api->get('category/{id}','App\Http\Controllers\CategoryController@show');
     /**
-     * for delete category
-     */
-    $api->delete('category/{id}','App\Http\Controllers\CategoryController@destroy');
-    /**
      *
      * for adding comment and rating package
      */
@@ -364,6 +360,10 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
          * order count
          */
         $api->get('admin/bookingCount','App\Http\Controllers\BookingController@bookingCount');
+        /**
+         * for delete category
+         */
+        $api->delete('admin/category/{id}','App\Http\Controllers\CategoryController@destroy');
     });
 
 /*
