@@ -44,11 +44,12 @@ class PackagesModel extends Model
     const MAXIMUM_DELIVERY_DAYS = 'candybrush_packages_maximum_delivery_days';
     const User_ID='candybrush_packages_user_id';
     const STATUS='candybrush_packages_status';
+    const INSTRUCTIONS='candybrush_packages_instructions';
     protected $table = self::TABLE;
     public $timestamps = false;
     protected $fillable = [self::NAME, self::DESCRIPTION, self::CATEGORY_ID, self::TAG_ID,
         self::PRICE, self::DEAL_PRICE, self::AVAILABLE_DATE, self::TERM_CONDITION,
-        self::PAYMENT_TYPE, self::MAXIMUM_DELIVERY_DAYS,self::User_ID,self::STATUS];
+        self::PAYMENT_TYPE, self::MAXIMUM_DELIVERY_DAYS,self::User_ID,self::STATUS,self::INSTRUCTIONS];
 
     protected $searchable=[
         'columns'=>[
