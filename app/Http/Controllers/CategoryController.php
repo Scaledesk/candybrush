@@ -8,6 +8,7 @@ use App\Tag;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Mockery\CountValidator\Exception;
@@ -182,6 +183,12 @@ class CategoryController extends BaseController
         if(is_null($category)){
             return $this->error('record not found');
         }else{
+            $array=DB::table('candybrush_packages')->where('candybrush_packages_category_id',$category->candybrush_categories_id)->select(['id'])->get();
+            $array=json_decode(json_encode($array), true);
+            if(count($array)>0){
+                /*return $this->error('please delete packages first',422);*/
+                return $this->errorWithData("please delete packages first","422",['packages_id'=>$array]);
+            }
             $category->delete();
             return $this->success();
         }

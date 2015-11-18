@@ -46,6 +46,19 @@ class BaseController extends Controller
             ])->statusCode($status_code);
 
     }
+    public function errorWithData($message='error',$status_code=404){
+        if($message==""){
+            $message="error";
+        }
+        if($status_code==""){
+            $status_code=404;
+        }
+        return $this->response()->array([
+            'message'=>$message,
+            'status_code'=>$status_code,
+            key(func_get_arg(2))=>func_get_arg(2)[key(func_get_arg(2))]
+        ])->statusCode($status_code);
+    }
     /**
      * error response method with default message and error code
      */
