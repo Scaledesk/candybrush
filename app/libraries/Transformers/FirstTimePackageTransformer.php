@@ -25,7 +25,8 @@ class FirstTimePackageTransformer extends TransformerAbstract{
             'deal_price'=>(integer)$package->candybrush_packages_deal_price,
             'addon_available'=>self::isAddonAvailable($package),
             'bonus_available'=>self::isBonusAvailable($package),
-            'first_photo'=>self::getFirstPhoto($package)
+            'first_photo'=>self::getFirstPhoto($package),
+            'average_rating'=>self::getAverageRating($package)
         ];
     }
     /**
@@ -48,9 +49,9 @@ class FirstTimePackageTransformer extends TransformerAbstract{
     public function getFirstPhoto(PackagesModel $package){
         $first_photo=PackagePhoto::where('candybrush_packages_photos_packages_id',$package->id)->first();
         return is_null($first_photo)?NULL:$first_photo->candybrush_packages_photos_url;
-
-
-
-
+    }
+    public function getAverageRating(PackagesModel $package){
+        return $package->reviews()
+            ->selectRaw('avg(candybrush_reviews_rating) as average')->first()->average;
     }
 }

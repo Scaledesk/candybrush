@@ -17,7 +17,6 @@ use League\Fractal\TransformerAbstract;
 class PackagesTransformer extends TransformerAbstract{
     protected $defaultIncludes = ['Addons','Bonus','seller','category','tags','photos','reviews'];
     public function transform(PackagesModel $package){
-        $seller_name=DB::table('users_profiles')->select('candybrush_users_profiles_name')->where('candybrush_users_profiles_users_id',$package->candybrush_packages_user_id)->first()->candybrush_users_profiles_name;
         return [
             'id'=>$package->id,
             'name'=>$package->candybrush_packages_name,
@@ -32,7 +31,8 @@ class PackagesTransformer extends TransformerAbstract{
             'maximum_delivery_days'=>$package->candybrush_packages_maximum_delivery_days,
             'status'=>$package->candybrush_packages_status,
             'instructions'=>$package->candybrush_packages_instructions,
-            'location'=>$package->candybrush_packages_location
+            'location'=>$package->candybrush_packages_location,
+            'average_rating'=>self::getAverageRating($package)
              ];
     }
     public function requestAdapter()
@@ -87,5 +87,9 @@ class PackagesTransformer extends TransformerAbstract{
     }
     public function includeReviews(PackagesModel $package){
         return $this->collection($package->reviews()->get(),new ReviewTransformer());
+    }
+    public function getAverageRating(PackagesModel $package){
+        return $package->reviews()
+            ->selectRaw('avg(candybrush_reviews_rating) as average')->first()->average;
     }
 }
