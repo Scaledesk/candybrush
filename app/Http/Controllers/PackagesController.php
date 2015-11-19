@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Response;
 use League\Fractal\Manager;
 use Mockery\CountValidator\Exception;
 use Psy\Command\ListCommand\Enumerator;
+use Symfony\Component\Console\Helper\Table;
 
 class PackagesController extends BaseController
 {
@@ -69,28 +70,37 @@ class PackagesController extends BaseController
             $do_eager_loading();
             return $this->response()->collection(PackagesModel::where("candybrush_packages_status",$request->status)->get(),new FirstTimePackageTransformer());
         }
-        //get packages on the basis of category
-        if($request->has('category_id')){
-            $do_eager_loading();
-            if(is_null($category=Category::find($request->get('category_id')))){
-                return $this->error('Sorry the category_id do not match any records', 404);
-            }
-            return $this->response()->collection($category->packages()->get(),new FirstTimePackageTransformer());
-        }
         //full text search to packages
        if($request->has('query')) {
-           $packages = PackagesModel::with(['tags','category','bonus','addons','seller'])->search(
-               Input::get('query', '')
-           )->get()->unique();
            $do_eager_loading();
+           $packages= new PackagesModel();
+           if($request->has('category_id')){
+               $packages=$packages->whereIn(PackagesModel::CATEGORY_ID,array(Input::get("category_id")));
+           }
+           if($request->has('location')){
+               $packages=$packages->whereIn(PackagesModel::LOCATION,array(Input::get('location')));
+           }
+           if($request->has('mdd')){
+               $packages=$packages->whereIn(PackagesModel::MAXIMUM_DELIVERY_DAYS,array(Input::get('mdd')));
+           }
+           if($request->has('min_price')||$request->has('max_price')){
+                if($request->has('min_price')&&$request->has('max_price')){
+                    $packages=$packages->whereBetween(PackagesModel::PRICE, [Input::get('min_price'), Input::get('max_price')]);
+                }
+               if($request->has('min_price')&&!($request->has('max_price'))){
+                   $packages=$packages->whereRaw(PackagesModel::PRICE.' >= ?',array((Input::get('min_price'))));
+               }
+               if(!($request->has('min_price'))&&$request->has('max_price')){
+                   $packages=$packages->whereRaw(PackagesModel::PRICE.' <= ?',array((Input::get('max_price'))));
+               }
+           }
+           $packages = $packages->with(['tags','category','bonus','addons','seller'])->search(Input::get('query',''))->get()->unique();
            return $this->response()->collection($packages, new FirstTimePackageTransformer());
        }
         //return all packages
         $do_eager_loading();
-        $packages=PackagesModel::paginate(15)->appends(['order'=>'desc']);
-//        $packages = DB::table('candybrush_packages')->orderby('id','desc')->paginate(6);
+        $packages=PackagesModel::paginate(15)->appends(['order'=>'desc']);;
         return $this->response()->paginator($packages,new FirstTimePackageTransformer());
-//        return response($packages,200);
     }
 
     /**

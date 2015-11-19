@@ -56,6 +56,7 @@ class PackagesModel extends Model
         'columns'=>[
             'candybrush_packages_name'=>10,
             'candybrush_packages_description'=>9,
+            'candybrush_packages_location'=>8,
             'candybrush_categories.candybrush_categories_name'=>8,
             'candybrush_tags.candybrush_tags_name'=>7,
             'candybrush_tags.candybrush_tags_description'=>6,

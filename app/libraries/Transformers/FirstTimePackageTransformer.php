@@ -14,8 +14,10 @@ use App\PackagesModel;
 use Illuminate\Support\Facades\DB;
 use League\Fractal\TransformerAbstract;
 use App\libraries\Transformers\PackagePhotoTransformer;
+use App\libraries\Transformers\CategoryTransformer;
 
 class FirstTimePackageTransformer extends TransformerAbstract{
+    protected $availableIncludes = ['category'];
     public function transform(PackagesModel $package){
         return [
             'id'=>$package->id,
@@ -27,7 +29,8 @@ class FirstTimePackageTransformer extends TransformerAbstract{
             'bonus_available'=>self::isBonusAvailable($package),
             'first_photo'=>self::getFirstPhoto($package),
             'maximum_delivery_days'=>$package->candybrush_packages_maximum_delivery_days,
-            'average_rating'=>self::getAverageRating($package)
+            'average_rating'=>self::getAverageRating($package),
+            'location'=>$package->candybrush_packages_location
         ];
     }
     /**
@@ -54,5 +57,8 @@ class FirstTimePackageTransformer extends TransformerAbstract{
     public function getAverageRating(PackagesModel $package){
         return $package->reviews()
             ->selectRaw('avg(candybrush_reviews_rating) as average')->first()->average;
+    }
+    public function includeCategory(PackagesModel $package){
+        return $this->item($package->category()->first(),new CategoryTransformer());
     }
 }
