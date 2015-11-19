@@ -10,17 +10,20 @@ use App\PackagesModel;
 use App\Addon;
 use App\libraries\Transformers\AddonTransformer;
 use Dingo\Api\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use League\Fractal\TransformerAbstract;
 
 class PackagesTransformer extends TransformerAbstract{
     protected $defaultIncludes = ['Addons','Bonus','seller','category','tags','photos'];
     public function transform(PackagesModel $package){
+        $seller_name=DB::table('users_profiles')->select('candybrush_users_profiles_name')->where('candybrush_users_profiles_users_id',$package->candybrush_packages_user_id)->first()->candybrush_users_profiles_name;
         return [
             'id'=>$package->id,
             'name'=>$package->candybrush_packages_name,
             'description'=>$package->candybrush_packages_description,
          /*   'sub_category'=>$package->candybrush_packages_sub_category,*/
+            'seller_name'=>self::getsellerName($package),
             'price'=>(integer)$package->candybrush_packages_price,
             'deal_price'=>(integer)$package->candybrush_packages_deal_price,
             'available_date'=>$package->candybrush_packages_available_date,
@@ -78,5 +81,8 @@ class PackagesTransformer extends TransformerAbstract{
     }
     public function includePhotos(PackagesModel $package){
         return $this->collection($package->photos()->get(),new PackagePhotoTransformer());
+    }
+    public function getsellerName(PackagesModel $package){
+        return DB::table('users_profiles')->select('candybrush_users_profiles_name')->where('candybrush_users_profiles_users_id',$package->candybrush_packages_user_id)->first()->candybrush_users_profiles_name;
     }
 }

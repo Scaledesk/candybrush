@@ -11,6 +11,7 @@ namespace app\libraries\Transformers;
 
 use App\PackagePhoto;
 use App\PackagesModel;
+use Illuminate\Support\Facades\DB;
 use League\Fractal\TransformerAbstract;
 use App\libraries\Transformers\PackagePhotoTransformer;
 
@@ -19,11 +20,11 @@ class FirstTimePackageTransformer extends TransformerAbstract{
         return [
             'id'=>$package->id,
             'name'=>$package->candybrush_packages_name,
+            'seller_name'=>self::getsellerName($package),
             'price'=>(integer)$package->candybrush_packages_price,
             'deal_price'=>(integer)$package->candybrush_packages_deal_price,
             'addon_available'=>self::isAddonAvailable($package),
             'bonus_available'=>self::isBonusAvailable($package),
-            'seller_name'=>self::getsellerName($package),
             'first_photo'=>self::getFirstPhoto($package)
         ];
     }
@@ -41,7 +42,7 @@ class FirstTimePackageTransformer extends TransformerAbstract{
     }
 
     public function getsellerName(PackagesModel $package){
-        return $package->seller()->first()->name;
+        return DB::table('users_profiles')->select('candybrush_users_profiles_name')->where('candybrush_users_profiles_users_id',$package->candybrush_packages_user_id)->first()->candybrush_users_profiles_name;
     }
 
     public function getFirstPhoto(PackagesModel $package){
