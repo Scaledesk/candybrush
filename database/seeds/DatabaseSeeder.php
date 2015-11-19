@@ -49,6 +49,18 @@ class DatabaseSeeder extends Seeder
                 'candybrush_packages_tags_tag_id' =>$tag_id,
                 'candybrush_packages_tags_package_id' =>$package_id
             ]);
+            $first_user=DB::table('users')->first()->id;
+            $last_user=DB::table('users')->orderBy('id', 'desc')->first()->id;
+            $faker= Faker\Factory::create();
+            for($j=0;$j<4;$j++){
+            Db::table('candybrush_reviews')->insert([
+                App\ReviewModel::USER_ID=>random_int($first_user,$last_user),
+                App\ReviewModel::PACKAGE_ID=>$i,
+                App\ReviewModel::ADMIN_VERIFIED=>array_rand(array('yes','no')),
+                App\ReviewModel::COMMENT=>$faker->realText(random_int(10,20)),
+                App\ReviewModel::RATING=>random_int(1,5),
+            ]);
+            }
         }
         for($i=0;$i<200;$i++){
             factory('App\PackagePhoto')->create();
