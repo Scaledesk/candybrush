@@ -118,11 +118,12 @@ class AuthController extends BaseController
                  * get token without authentication
                  */
                 $token=\Tymon\JWTAuth\Facades\JWTAuth::fromUser($user);
-                return Response::json(['token' => $token]);
+                return Response::json(['token' => $token,
+                    'user_id'=>$user->id]);
             }else{
                 $token=\Tymon\JWTAuth\Facades\JWTAuth::byId($user->id);
-                echo $user->id;
-                return Response::json(['token' => $token]);
+                return Response::json(['token' => $token,
+                                        'user_id'=>$user->id]);
             }
 
         } catch(\Exception $e) {
@@ -180,15 +181,16 @@ class AuthController extends BaseController
                  * get token without authentication
                  */
                 $token=\Tymon\JWTAuth\Facades\JWTAuth::fromUser($user);
-                return Response::json(['token' => $token]);
+                return Response::json(['token' => $token,
+                    'user_id'=>$user->id]);
             }else{
                 $token=\Tymon\JWTAuth\Facades\JWTAuth::fromUser($user);
-                return Response::json(['token' => $token]);
+                return Response::json(['token' => $token,
+                    'user_id'=>$user->id]);
             }
         } catch(\Exception $e) {
             echo $e->getMessage();
             return $this->error('Some Error Occurred!',520);
         }
-
     }
 }

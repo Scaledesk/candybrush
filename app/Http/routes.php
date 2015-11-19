@@ -103,10 +103,6 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
      */
     $api->put('users/walletTransaction','App\Http\Controllers\UserwalletController@update');
     /**
-     * for activate and  inactivate user
-     */
-    $api->put('users/changeStatus','App\Http\Controllers\UserController@update');
-    /**
      * for create tags
      */
     $api->post('tag','App\Http\Controllers\TagController@store');
@@ -364,6 +360,10 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
          * for delete category
          */
         $api->delete('admin/category/{id}','App\Http\Controllers\CategoryController@destroy');
+        /**
+         * for activate and  inactivate user
+         */
+        $api->put('admin/users/changeStatus','App\Http\Controllers\UserController@update');
     });
 
 /*
