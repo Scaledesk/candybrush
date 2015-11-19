@@ -121,7 +121,7 @@ class AuthController extends BaseController
                 return Response::json(['token' => $token,
                     'user_id'=>$user->id]);
             }else{
-                $token=\Tymon\JWTAuth\Facades\JWTAuth::byId($user->id);
+                $token=\Tymon\JWTAuth\Facades\JWTAuth::fromUser($user);
                 return Response::json(['token' => $token,
                                         'user_id'=>$user->id]);
             }
