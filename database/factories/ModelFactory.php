@@ -32,7 +32,7 @@ $factory->define(App\Category::class,function(Faker\Generator $faker){
 $factory->define(App\Tag::class,function(Faker\Generator $faker){
 //    echo "enter into tags";
     return [
-        'candybrush_tags_name'=>$faker->unique(20)->word.' tag',
+        'candybrush_tags_name'=>$faker->unique(20)->word,
         'candybrush_tags_description'=>$faker->sentences(3,true)
     ];
 //    echo "enter out of tags";
@@ -52,10 +52,10 @@ $factory->define(App\Addon::class,function(Faker\Generator $faker){
     unset($packages);
     return [
         App\Addon::DESCRIPTION=>$faker->realText(100),
-        App\Addon::NAME=>$faker->unique(10000)->word.' addon',
+        App\Addon::NAME=>$faker->realText(20),
         App\Addon::DAYS=>$faker->numberBetween(0,10),
         App\Addon::PACKAGE_ID=>$faker->numberBetween($first_package,$last_package),
-        App\Addon::PRICE=>$faker->numberBetween(1,20)
+        App\Addon::PRICE=>$faker->numberBetween(20,30)*10
     ];
 });
 
@@ -73,7 +73,7 @@ $factory->define(App\Bonus::class,function(Faker\Generator $faker){
     unset($packages);
     return [
         App\Bonus::DESCRIPTION=>$faker->realText(100),
-        App\Bonus::NAME=>$faker->unique(10000)->word.' bonus',
+        App\Bonus::NAME=>$faker->realText(20),
         App\Bonus::PACKAGE_ID=>$faker->numberBetween($first_package,$last_package),
     ];
 });
