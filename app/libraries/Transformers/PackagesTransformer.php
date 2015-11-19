@@ -28,7 +28,8 @@ class PackagesTransformer extends TransformerAbstract{
             'payment_type'=>$package->candybrush_packages_payment_type,
             'maximum_delivery_days'=>$package->candybrush_packages_maximum_delivery_days,
             'status'=>$package->candybrush_packages_status,
-            'instructions'=>$package->candybrush_packages_instructions
+            'instructions'=>$package->candybrush_packages_instructions,
+            'location'=>$package->candybrush_packages_location
              ];
     }
     public function requestAdapter()
@@ -45,7 +46,8 @@ class PackagesTransformer extends TransformerAbstract{
             PackagesModel::TERM_CONDITION => Input::get('term_condition',''),
             PackagesModel::PAYMENT_TYPE => Input::get('payment_type',''),
             PackagesModel::MAXIMUM_DELIVERY_DAYS => Input::get('maximum_delivery_days',''),
-            PackagesModel::INSTRUCTIONS=>Input::get('instructions','')
+            PackagesModel::INSTRUCTIONS=>Input::get('instructions',''),
+            PackagesModel::LOCATION=>Input::get('location','')
             /*PackagesModel::User_ID=>Input::get('user_id',''),*/
             /*PackagesModel::STATUS=>Input::get('status','')*/
         ];

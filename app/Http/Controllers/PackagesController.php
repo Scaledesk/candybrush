@@ -112,7 +112,6 @@ class PackagesController extends BaseController
     public function store(Request $request)
     {
         $u_id = $this->auth()->user()->id;
-
         $data = $this->packageTransformer->requestAdapter();
         $data[PackagesModel::User_ID]=$u_id;
         unset($u_id);
