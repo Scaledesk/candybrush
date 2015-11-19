@@ -54,7 +54,8 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
     }
 
     // if no errors are encountered we can return a JWT
-    return response()->json(compact('token'));
+    $user_id=DB::table('users')->select('id')->where('email',$credentials['email'])->first()->id;
+    return response()->json(compact(['token','user_id']));
 });
         /**
          * for list all users
