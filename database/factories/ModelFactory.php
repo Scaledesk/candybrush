@@ -86,7 +86,7 @@ $factory->define(App\PackagesModel::class,function(Faker\Generator $faker)use($f
     $first_category=DB::table('candybrush_categories')->first()->candybrush_categories_id;
     $last_category=DB::table('candybrush_categories')->orderBy('candybrush_categories_id', 'desc')->first()->candybrush_categories_id;
     return [
-        'candybrush_packages_name'=>$faker->sentence(random_int(4,8)),
+        'candybrush_packages_name'=>$faker->realText(random_int(48,64)),
         'candybrush_packages_description'=>$faker->paragraph(random_int(2,3)),
         'candybrush_packages_price'=>$faker->numberBetween(30,500)*10,
         'candybrush_packages_deal_price'=>$faker->numberBetween(20,450)*10,
