@@ -96,7 +96,10 @@ $factory->define(App\PackagesModel::class,function(Faker\Generator $faker)use($f
         'candybrush_packages_maximum_delivery_days'=>$faker->randomElement(['1','2','3','4','5','6','7','8','9','10']),
         'candybrush_packages_category_id'=>$faker->numberBetween($first_category,$last_category),
         'candybrush_packages_user_id'=>$faker->numberBetween($first_user,$last_user),
-        'candybrush_packages_status'=>$faker->randomElement(['ACTIVE','PENDING_APPROVAL','REQUIRES_MODIFICATION','DENIED','PAUSED'])
+        'candybrush_packages_status'=>$faker->randomElement(['ACTIVE','PENDING_APPROVAL','REQUIRES_MODIFICATION','DENIED','PAUSED']),
+        'candybrush_packages_instructions'=>$faker->realText(random_int(20,100)),
+        'candybrush_packages_location'=>$faker->city
+
     ];
 });
 $factory->define(App\PackagePhoto::class,function(Faker\Generator $faker){

@@ -94,6 +94,7 @@ class PackagesController extends BaseController
                    $packages=$packages->whereRaw(PackagesModel::PRICE.' <= ?',array((Input::get('max_price'))));
                }
            }
+           $packages=$packages->orderBy('id','DESC');
            $packages = $packages->with(['tags','category','bonus','addons','seller'])->search(Input::get('query',''))->get()->unique();
            return $this->response()->collection($packages, new FirstTimePackageTransformer());
        }
