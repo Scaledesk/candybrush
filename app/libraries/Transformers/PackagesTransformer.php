@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Input;
 use League\Fractal\TransformerAbstract;
 
 class PackagesTransformer extends TransformerAbstract{
-    protected $defaultIncludes = ['Addons','Bonus','seller','category','tags','photos'];
+    protected $defaultIncludes = ['Addons','Bonus','seller','category','tags','photos','reviews'];
     public function transform(PackagesModel $package){
         $seller_name=DB::table('users_profiles')->select('candybrush_users_profiles_name')->where('candybrush_users_profiles_users_id',$package->candybrush_packages_user_id)->first()->candybrush_users_profiles_name;
         return [
@@ -84,5 +84,8 @@ class PackagesTransformer extends TransformerAbstract{
     }
     public function getsellerName(PackagesModel $package){
         return DB::table('users_profiles')->select('candybrush_users_profiles_name')->where('candybrush_users_profiles_users_id',$package->candybrush_packages_user_id)->first()->candybrush_users_profiles_name;
+    }
+    public function includeReviews(PackagesModel $package){
+        return $this->collection($package->reviews()->get(),new ReviewTransformer());
     }
 }

@@ -118,4 +118,7 @@ class PackagesModel extends Model
     public function photos(){
         return $this->hasMany('App\PackagePhoto',PackagePhoto::PACKAGE_ID);
     }
+    public function reviews(){
+        return $this->hasMany('App\ReviewModel',ReviewModel::PACKAGE_ID);
+    }
 }

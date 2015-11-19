@@ -23,6 +23,12 @@ class ReviewModel extends Model
      * relation with user
      */
 
+    public function package(){
+        $this->belongsTo('App\PackagesModel','candybrush_reviews_package_id');
+    }
 
+    public function user(){
+        $this->belongsTo('App\User','candybrush_reviews_user_id');
+    }
 
 }

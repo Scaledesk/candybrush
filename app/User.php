@@ -84,4 +84,10 @@ class User extends Model implements AuthenticatableContract,
     public function notifications(){
         return $this->hasMany('App\Notification','candybrush_notifications_user_id');
     }
+    /**
+     * relation with review - user review a package
+     */
+    public function reviews(){
+        $this->hasMany('App\PackagesModel','candybrush_reviews_user_id');
+    }
 }
