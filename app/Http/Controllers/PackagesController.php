@@ -97,8 +97,12 @@ class PackagesController extends BaseController
                if(!($request->has('min_price'))&&$request->has('max_price')){
                    $packages=$packages->whereRaw(PackagesModel::PRICE.' <= ?',array((Input::get('max_price'))));
                }
+               if($request->has('sort_by')){
+                   $packages=$packages->orderBy(Input::get('sort_by'),'DESC');
+               }else{
+                   $packages=$packages->orderBy('id','DESC');
+               }
            }
-           $packages=$packages->orderBy('id','DESC');
            $packages = $packages->with(['tags','category','bonus','addons','seller'])->search(Input::get('query',''))->get()->unique();
            return $this->response()->collection($packages, new FirstTimePackageTransformer());
        }
