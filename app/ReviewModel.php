@@ -33,5 +33,4 @@ class ReviewModel extends Model
     public function user(){
         $this->belongsTo('App\User','candybrush_reviews_user_id');
     }
-
 }

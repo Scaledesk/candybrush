@@ -20,7 +20,8 @@ class ReviewTransformer extends TransformerAbstract{
             'would_recommend_rating'=>$review->candybrush_reviews_would_recommend,
             'average_rating'=>$review->candybrush_reviews_rating,
             'comment'=>$review->candybrush_reviews_comment,
-            'user_id'=>$review->candybrush_reviews_user_id
+            'user_name'=>self::getUserProfileName($review),
+            /*'user_id'=>$review->candybrush_reviews_user_id*/
             ];
     }
     public function requestAdapter()
@@ -35,4 +36,9 @@ class ReviewTransformer extends TransformerAbstract{
             ReviewModel::ADMIN_VERIFIED => 0
         ];
     }
+
+    public function getUserProfileName(ReviewModel $reviewModel){
+        return DB::table('users_profiles')->select('candybrush_users_profiles_name')->where('candybrush_users_profiles_users_id',$reviewModel->candybrush_reviews_user_id)->first()->candybrush_users_profiles_name;
+    }
 }
+
