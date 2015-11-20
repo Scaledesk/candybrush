@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Booking;
 use App\libraries\Transformers\BookingTransformer;
+use App\PackagesModel;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -55,23 +56,49 @@ class BookingController extends BaseController
         $validation_result=$this->my_validate([
             'data'=>$data,
             'rules'=>[
-                Booking::USER_ID=>'required|exists:users,id|numeric',
+                Booking::BUYER_ID=>'required|exists:users,id|numeric',
                 Booking::PACKAGE_ID=>'required|exists:candybrush_packages,id|numeric',
                 Booking::PAYMENT_TYPE=>'required',
             ],
             'messages'=>[
-                Booking::USER_ID.'.required'=>'User_id is require try user_id=<user_id>',
+                Booking::BUYER_ID.'.required'=>'User_id is require try user_id=<user_id>',
                 Booking::PACKAGE_ID.'.required'=>'Package_id is required try package_id=<package_id>',
                 Booking::PAYMENT_TYPE.'.required'=>'payment type is required try payment_type=<payment_type>',
-                Booking::USER_ID.'.exists'=>'user_id do not match any records, please check',
+                Booking::BUYER_ID.'.exists'=>'user_id do not match any records, please check',
                 Booking::PACKAGE_ID.'.exists'=>'package id do not match any records, please check',
-                Booking::USER_ID.'.numeric'=>'Only numbers are allowed as user_id, please check',
+                Booking::BUYER_ID.'.numeric'=>'Only numbers are allowed as user_id, please check',
                 Booking::PACKAGE_ID.'.exists'=>'Only numbers are allowed as package_id, please check'
             ]
         ]);
         if($validation_result['result']){
                 $result=DB::transaction(function()use($data){
                     try{
+                    $package=PackagesModel::find($data[Booking::PACKAGE_ID]);
+                    $data['candybrush_bookings_seller_id']=$package->candybrush_packages_user_id;
+                    $data['candybrush_bookings_price']=$package->candybrush_packages_price;
+                    $data['candybrush_bookings_deal_price']=$package->candybrush_packages_deal_price;
+                    $data['candybrush_bookings_package_title']=$package->
+                    $data['']=
+                    $data['']=
+                    $data['']=
+                    $data['']=
+                    $data['']=
+                    $data['']=
+                    $data['']=
+                    $data['']=
+                    $data['']=
+                    $data['']=
+                    $data['']=
+                    $data['']=
+
+
+
+
+
+
+
+
+
                         $booking=new Booking($data);
                         if($booking->save()){
                             return $this->success();

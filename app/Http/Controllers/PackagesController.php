@@ -211,14 +211,14 @@ class PackagesController extends BaseController
                 }
               }
               if(isset($bonus)){
-                  foreach($bonus as $bon){
+               /*   foreach($bonus as $bon){
                       $bon = array_combine(
                           array_map(function($k){ return 'candybrush_bonus_'.$k; }, array_keys($bon))
                           , $bon
                       );
                       $bon['candybrush_bonus_package_id']=$package->id;
                       Bonus::create($bon);
-                  }
+                  }*/ //will be passed later
               }
               if(isset($photos)){
                   $photo=[];

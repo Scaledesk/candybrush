@@ -24,9 +24,9 @@ class Booking extends Model
     const PACKAGE_DESCRIPTION="candybrush_bookings_package_description";
     const PACKAGE_CATEGORY_ID="candybrush_bookings_package_category_id";
     const PACKAGE_AVERAGE_RATING="candybrush_bookings_package_average_rating";
-    const PACKAGE_AVILABLE_DATES="candybrush_bookings_package_available";
+    const PACKAGE_AVILABLE_DATES="candybrush_bookings_package_available_dates";
     const PACKAGE_TERM_CONDITION="candybrush_bookings_package_term_condition";
-    const PAYMENT_TYPE = 'candybrush_bookings_package_payment_type';
+    const PAYMENT_TYPE = 'candybrush_bookings_payment_type';
     const PACKAGE_DELIVERY_TIME="candybrush_bookings_package_delivery_time";
     const PACKAGE_DELIVERY_TIME_TYPE="candybrush_bookings_package_delivery_time_type";
     const PACKAGE_INSTRUCTIONS="candybrush_bookings_package_instructions";

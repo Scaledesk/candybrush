@@ -23,16 +23,17 @@ class BookingTransformer extends TransformerAbstract{
             'payment_type'=>$booking[Booking::PAYMENT_TYPE],
             'payment_status'=>$booking[Booking::PAYMENT_STATUS]
         ];
-
     }
     public function requestAdaptor(){
         return [
-            Booking::USER_ID=>Input::get('user_id',''),
+            //necessary feilds
+            Booking::BUYER_ID=>Input::get('user_id',''),
             Booking::PACKAGE_ID=>Input::get('package_id',''),
-            Booking::PAYMENT_TYPE=>Input::get('payment_type','')
+            Booking::PAYMENT_TYPE=>Input::get('payment_type'),
+            Booking::PACKAGE_DURATION=>NULL,
+            Booking::BOOKING_STATUS=>"pending",
         ];
     }
-
     /**
      * include Buyer i.e. User
      * @param Booking $booking
