@@ -32,7 +32,9 @@ class PackagesTransformer extends TransformerAbstract{
             'status'=>$package->candybrush_packages_status,
             'instructions'=>$package->candybrush_packages_instructions,
             'location'=>$package->candybrush_packages_location,
-            'average_rating'=>self::getAverageRating($package)
+            'average_rating'=>self::getAverageRating($package),
+            'meeting_availability'=>$package->candybrush_packages_meeting_availability,
+            'meeting_address'=>$package->candybrush_packages_meeting_address
              ];
     }
     public function requestAdapter()
@@ -54,6 +56,12 @@ class PackagesTransformer extends TransformerAbstract{
             /*PackagesModel::User_ID=>Input::get('user_id',''),*/
             /*PackagesModel::STATUS=>Input::get('status','')*/
             'addons'=>Input::get('addons',''),
+            'bonus'=>Input::get('bonus',''),
+            'photos'=>Input::get('photos',''),
+            'installments'=>Input::get('installments',''),
+            PackagesModel::MEETING_AVAILABILITY=>Input::get('meeting_availability',''),
+            PackagesModel::MEETING_ADDRESS=>Input::get('meeting_address',''),
+
         ];
     }
 

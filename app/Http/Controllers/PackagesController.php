@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Addon;
 use App\Category;
+use App\Installment;
 use app\libraries\Transformers\AddonTransformer;
 use App\libraries\Transformers\FirstTimePackageTransformer;
 use App\libraries\Transformers\PackagesTransformer;
+use App\PackagePhoto;
 use App\PackegesUserModel;
 use App\Tag;
 use Illuminate\Http\Request;
@@ -128,12 +130,20 @@ class PackagesController extends BaseController
         $data = $this->packageTransformer->requestAdapter();
         $data[PackagesModel::User_ID]=$u_id;
         unset($u_id);
-        $do_extraction=function()use($data){
-            $addons=$data['addons'];
-            unset($data['addons']);
-            $bonus=$data['bonus'];
-            unset($data['bonus']);
-        };
+
+
+
+        $addons=$data['addons'];
+        $bonus=$data['bonus'];
+        $photos=$data['photos'];
+        $installments=$data['installments'];
+        unset($data['addons']);
+        unset($data['bonus']);
+        unset($data['photos']);
+        unset($data['installments']);
+
+
+
         $data=array_filter($data,'strlen'); // filter blank or null array
         $validation_result=$this->my_validate([
             'data'=>$data,
@@ -163,19 +173,53 @@ class PackagesController extends BaseController
                     unset($data[PackagesModel::TAG_ID]);
                     $tag_avilable=TRUE;
                 }
-          $result=  DB::transaction(function()use($data,$tag_avilable,$tags_id,$addons) {
+          $result=  DB::transaction(function()use($data,$tag_avilable,$tags_id,$addons,$bonus,$photos,$installments) {
                 $category=Category::find($data[PackagesModel::CATEGORY_ID]);
                 $package = new PackagesModel($data);
                 $category->packages()->save($package);
                 if ($tag_avilable) {
                     $package->tags()->attach($tags_id);
                 }
+
+
+
               if(isset($addons)){
                 foreach($addons as $addon){
+                    $addon = array_combine(
+                        array_map(function($k){ return 'candybrush_addons_'.$k; }, array_keys($addon))
+                        , $addon
+                    );
+                    $addon['candybrush_addons_package_id']=$package->id;
                     Addon::create($addon);
                 }
-
               }
+              if(isset($bonus)){
+                  //to beimmplemented
+              }
+              if(isset($photos)){
+                  $photo=[];
+                  foreach($photos as $photo1){
+                      $photo['candybrush_packages_photos_url']=$photo1;
+                      $photo['candybrush_packages_photos_packages_id']=$package->id;
+                      unset($photo1);
+                      PackagePhoto::create($photo);
+                  }
+              }
+              if(isset($installments)){
+                  foreach($installments as $installment){
+                      $installment = array_combine(
+                          array_map(function($k){ return 'candybrush_packages_installments_'.$k; }, array_keys($installment))
+                          , $installment
+                      );
+                      $installment['candybrush_packages_installments_packages_id']=$package->id;
+                      Installment::create($installment);
+                  }
+              }
+
+
+
+
+
               return $this->successWithData("","",['package_id'=>$package->id]);
             });
             return $result;}catch(Exception $e){

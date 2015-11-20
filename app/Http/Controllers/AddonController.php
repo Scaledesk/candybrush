@@ -74,16 +74,16 @@ class AddonController extends BaseController
                     Addon::NAME=>'required',
                     Addon::DESCRIPTION=>'required|min:10',
                     Addon::DAYS=>'required|numeric',
-                    Addon::PRICE=>'required|numeric'
+                    Addon::AMOUNT=>'required|numeric'
                 ],
                 'messages'=>[
                     Addon::NAME.'.required'=>'Addon Name must be required try name=<name>',
                     Addon::DESCRIPTION.'.required'=>'Addon Description must be required try description=<description>',
                     Addon::NAME.'.unique'=>'Addon Name already exist in related package try with different name',
                     Addon::DAYS.'.required'=>'Number of days required for Addon try days=<no of days>',
-                    Addon::PRICE.'.required'=>'Price of Addon required, try price=<price of addon>',
+                    Addon::AMOUNT.'.required'=>'Price of Addon required, try price=<price of addon>',
                     Addon::DAYS.'.numeric'=>'Only numbers are required as number of days',
-                    Addon::PRICE.'.numeric'=>'Only numbers are required as price of Addon',
+                    Addon::AMOUNT.'.numeric'=>'Only numbers are required as price of Addon',
 
                 ]
             ]);

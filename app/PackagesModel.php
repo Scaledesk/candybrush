@@ -46,11 +46,14 @@ class PackagesModel extends Model
     const STATUS='candybrush_packages_status';
     const INSTRUCTIONS='candybrush_packages_instructions';
     const LOCATION = 'candybrush_packages_location';
+    const MEETING_AVAILABILITY="candybrush_packages_meeting_availability";
+    const MEETING_ADDRESS="candybrush_packages_meeting_address";
+
     protected $table = self::TABLE;
     public $timestamps = false;
     protected $fillable = [self::NAME, self::DESCRIPTION, self::CATEGORY_ID, self::TAG_ID,
         self::PRICE, self::DEAL_PRICE, self::AVAILABLE_DATE, self::TERM_CONDITION,
-        self::PAYMENT_TYPE, self::MAXIMUM_DELIVERY_DAYS,self::User_ID,self::STATUS,self::INSTRUCTIONS,self::LOCATION];
+        self::PAYMENT_TYPE, self::MAXIMUM_DELIVERY_DAYS,self::User_ID,self::STATUS,self::INSTRUCTIONS,self::LOCATION,self::MEETING_ADDRESS,self::MEETING_AVAILABILITY];
 
     protected $searchable=[
         'columns'=>[
@@ -121,5 +124,8 @@ class PackagesModel extends Model
     }
     public function reviews(){
         return $this->hasMany('App\ReviewModel',ReviewModel::PACKAGE_ID);
+    }
+    public function installments(){
+        return $this->hasMany('App\Installment','candybrush_packages_installments_packages_id');
     }
 }

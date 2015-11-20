@@ -20,7 +20,7 @@ class AddonTransformer extends TransformerAbstract{
             'id'=>$addon[Addon::ID],
             'description'=>$addon[Addon::DESCRIPTION],
             'name'=>$addon[Addon::NAME],
-            'price'=>(integer)$addon[Addon::PRICE],
+            'amount'=>(integer)$addon[Addon::AMOUNT],
             'days'=>(integer)$addon[Addon::DAYS]
         ];
     }
@@ -39,7 +39,7 @@ class AddonTransformer extends TransformerAbstract{
                     Addon::NAME => $addon['name'],
                     Addon::DESCRIPTION => $addon['description'],
                     Addon::DAYS => $addon['days'],
-                    Addon::PRICE => $addon['price']
+                    Addon::AMOUNT => $addon['amount']
                 ]);
             }
             unset($process_data);

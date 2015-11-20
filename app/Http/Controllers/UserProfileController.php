@@ -70,11 +70,12 @@ class UserProfileController extends BaseController
     public function getCommission(Request $request){
         $data=UserProfile::with(array('user'=>function($query){
             $query->select(['id']);
-        }))->get(['candybrush_users_profiles_users_id','candybrush_users_profiles_commission']);
+        }))->get(['candybrush_users_profiles_users_id','candybrush_users_profiles_name','candybrush_users_profiles_commission']);
         $data_array=array();
         foreach($data as $row){
         $data_array[]=[
             'user_id'=>$row['user']['id'],
+            'name'=>$row['candybrush_users_profiles_name'],
             'commission'=>$row['candybrush_users_profiles_commission']
             ];
         }

@@ -55,7 +55,7 @@ $factory->define(App\Addon::class,function(Faker\Generator $faker){
         App\Addon::NAME=>$faker->realText(20),
         App\Addon::DAYS=>$faker->numberBetween(0,10),
         App\Addon::PACKAGE_ID=>$faker->numberBetween($first_package,$last_package),
-        App\Addon::PRICE=>$faker->numberBetween(20,30)*10
+        App\Addon::AMOUNT=>$faker->numberBetween(20,30)*10
     ];
 });
 
