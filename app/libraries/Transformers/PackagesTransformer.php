@@ -50,9 +50,10 @@ class PackagesTransformer extends TransformerAbstract{
             PackagesModel::PAYMENT_TYPE => Input::get('payment_type',''),
             PackagesModel::MAXIMUM_DELIVERY_DAYS => Input::get('maximum_delivery_days',''),
             PackagesModel::INSTRUCTIONS=>Input::get('instructions',''),
-            PackagesModel::LOCATION=>Input::get('location','')
+            PackagesModel::LOCATION=>Input::get('location',''),
             /*PackagesModel::User_ID=>Input::get('user_id',''),*/
             /*PackagesModel::STATUS=>Input::get('status','')*/
+            'addons'=>Input::get('addons',''),
         ];
     }
 

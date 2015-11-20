@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Addon;
 use App\Category;
+use app\libraries\Transformers\AddonTransformer;
 use App\libraries\Transformers\FirstTimePackageTransformer;
 use App\libraries\Transformers\PackagesTransformer;
 use App\PackegesUserModel;
@@ -126,6 +128,12 @@ class PackagesController extends BaseController
         $data = $this->packageTransformer->requestAdapter();
         $data[PackagesModel::User_ID]=$u_id;
         unset($u_id);
+        $do_extraction=function()use($data){
+            $addons=$data['addons'];
+            unset($data['addons']);
+            $bonus=$data['bonus'];
+            unset($data['bonus']);
+        };
         $data=array_filter($data,'strlen'); // filter blank or null array
         $validation_result=$this->my_validate([
             'data'=>$data,
@@ -155,13 +163,19 @@ class PackagesController extends BaseController
                     unset($data[PackagesModel::TAG_ID]);
                     $tag_avilable=TRUE;
                 }
-          $result=  DB::transaction(function()use($data,$tag_avilable,$tags_id) {
+          $result=  DB::transaction(function()use($data,$tag_avilable,$tags_id,$addons) {
                 $category=Category::find($data[PackagesModel::CATEGORY_ID]);
                 $package = new PackagesModel($data);
                 $category->packages()->save($package);
                 if ($tag_avilable) {
                     $package->tags()->attach($tags_id);
                 }
+              if(isset($addons)){
+                foreach($addons as $addon){
+                    Addon::create($addon);
+                }
+
+              }
               return $this->successWithData("","",['package_id'=>$package->id]);
             });
             return $result;}catch(Exception $e){
