@@ -9,6 +9,7 @@ namespace App\libraries\Transformers;
 use App\PackagesModel;
 use App\Addon;
 use App\libraries\Transformers\AddonTransformer;
+use App\UserProfile;
 use Dingo\Api\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
@@ -36,7 +37,8 @@ class PackagesTransformer extends TransformerAbstract{
             'meeting_availability'=>$package->candybrush_packages_meeting_availability,
             'meeting_address'=>$package->candybrush_packages_meeting_address,
             'delivery_time'=>$package->candybrush_packages_delivery_time,
-        'delivery_time_type'=>$package->candybrush_packages_delivery_time_type
+            'delivery_time_type'=>$package->candybrush_packages_delivery_time_type,
+            "seller_profile"=>self::getSellerProfile($package)
              ];
     }
     public function requestAdapter()
@@ -103,6 +105,11 @@ class PackagesTransformer extends TransformerAbstract{
     }
     public function getsellerName(PackagesModel $package){
         return DB::table('users_profiles')->select('candybrush_users_profiles_name')->where('candybrush_users_profiles_users_id',$package->candybrush_packages_user_id)->first()->candybrush_users_profiles_name;
+    }
+    public function getSellerProfile(PackagesModel $package){
+        $user_profile=UserProfile::where('candybrush_users_profiles_users_id',$package->candybrush_packages_user_id)->first();
+        $transformer=new UserProfileTransformer();
+        return $transformer->transform($user_profile);
     }
     public function includeReviews(PackagesModel $package){
         return $this->collection($package->reviews()->get(),new ReviewTransformer());
