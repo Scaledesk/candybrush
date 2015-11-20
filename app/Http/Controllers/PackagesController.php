@@ -126,12 +126,10 @@ class PackagesController extends BaseController
      */
     public function store(Request $request)
     {
-        $u_id = $this->auth()->user()->id;
+        $u_id = /*$this->auth()->user()->id*/Input::get('user_id','');
         $data = $this->packageTransformer->requestAdapter();
         $data[PackagesModel::User_ID]=$u_id;
         unset($u_id);
-
-
 
         $addons=$data['addons'];
         $bonus=$data['bonus'];
@@ -141,8 +139,11 @@ class PackagesController extends BaseController
         unset($data['bonus']);
         unset($data['photos']);
         unset($data['installments']);
-
-
+        unset($data['delivery_type']);
+        unset($data['payment_type']);
+        unset($data['package_type']);
+        /*print_r($data);
+        die;*/
 
         $data=array_filter($data,'strlen'); // filter blank or null array
         $validation_result=$this->my_validate([

@@ -50,12 +50,19 @@ class PackagesModel extends Model
     const MEETING_ADDRESS="candybrush_packages_meeting_address";
     const DELIVERY_TIME="candybrush_packages_delivery_time";
     const DELIVERY_TIME_TYPE="candybrush_packages_delivery_time_type";
+    const DELIVERY_TYPE_NAME="candybrush_packages_delivery_type_name";
+    const DELIVERY_TYPE_ID="candybrush_packages_delivery_type_id";
+    const PAYMENT_TYPE_ID="candybrush_packages_payment_type_id";
+    const PAYMENT_TYPE_NAME="candybrush_packages_payment_type_name";
+    const PACKAGE_TYPE_ID="candybrush_package_package_type_id";
+    const PACKAGE_TYPE_NAME="candybrush_package_package_type_name";
+
 
     protected $table = self::TABLE;
     public $timestamps = false;
     protected $fillable = [self::NAME, self::DESCRIPTION, self::CATEGORY_ID, self::TAG_ID,
         self::PRICE, self::DEAL_PRICE, self::AVAILABLE_DATE, self::TERM_CONDITION,
-        self::PAYMENT_TYPE, self::MAXIMUM_DELIVERY_DAYS,self::User_ID,self::STATUS,self::INSTRUCTIONS,self::LOCATION,self::MEETING_ADDRESS,self::MEETING_AVAILABILITY,self::DELIVERY_TIME_TYPE,self::DELIVERY_TIME];
+        self::PAYMENT_TYPE, self::MAXIMUM_DELIVERY_DAYS,self::User_ID,self::STATUS,self::INSTRUCTIONS,self::LOCATION,self::MEETING_ADDRESS,self::MEETING_AVAILABILITY,self::DELIVERY_TIME_TYPE,self::DELIVERY_TIME,self::PAYMENT_TYPE_ID,self::PAYMENT_TYPE_NAME,self::PACKAGE_TYPE_ID,self::PACKAGE_TYPE_NAME,self::DELIVERY_TYPE_ID,self::DELIVERY_TYPE_NAME];
 
     protected $searchable=[
         'columns'=>[

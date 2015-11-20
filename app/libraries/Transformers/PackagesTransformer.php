@@ -51,7 +51,7 @@ class PackagesTransformer extends TransformerAbstract{
             PackagesModel::DEAL_PRICE => Input::get('deal_price',''),
             PackagesModel::AVAILABLE_DATE => Input::get('available_date',''),
             PackagesModel::TERM_CONDITION => Input::get('term_condition',''),
-            PackagesModel::PAYMENT_TYPE => Input::get('payment_type',''),
+            /*PackagesModel::PAYMENT_TYPE => Input::get('payment_type',''),*/
             PackagesModel::MAXIMUM_DELIVERY_DAYS => Input::get('maximum_delivery_days',''),
             PackagesModel::INSTRUCTIONS=>Input::get('instructions',''),
             PackagesModel::LOCATION=>Input::get('location',''),
@@ -65,6 +65,12 @@ class PackagesTransformer extends TransformerAbstract{
             PackagesModel::MEETING_ADDRESS=>Input::get('meeting_address',''),
             PackagesModel::DELIVERY_TIME=>Input::get('delivery_time',''),
             PackagesModel::DELIVERY_TIME_TYPE=>Input::get('delivery_time_type',''),
+            PackagesModel::DELIVERY_TYPE_ID=>Input::get('delivery_type')['id'],
+            PackagesModel::DELIVERY_TYPE_NAME=>Input::get('delivery_type')['name'],
+            PackagesModel::PAYMENT_TYPE_ID=>Input::get('payment_type')['id'],
+            PackagesModel::PAYMENT_TYPE_NAME=>Input::get('payment_type')['name'],
+            PackagesModel::PACKAGE_TYPE_ID=>Input::get('package_type')['id'],
+            PackagesModel::PACKAGE_TYPE_NAME=>Input::get('package_type')['name'],
         ];
     }
 
