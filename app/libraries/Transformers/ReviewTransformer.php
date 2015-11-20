@@ -15,7 +15,10 @@ class ReviewTransformer extends TransformerAbstract{
 
     public function transform(ReviewModel $review){
         return [
-            'rating'=>$review->candybrush_reviews_rating,
+            'seller_communication_rating'=>$review->candybrush_reviews_seller_communication_rating,
+            'seller_as_described_rating'=>$review->candybrush_reviews_seller_as_described,
+            'would_recommend_rating'=>$review->candybrush_reviews_would_recommend,
+            'average_rating'=>$review->candybrush_reviews_rating,
             'comment'=>$review->candybrush_reviews_comment,
             'user_id'=>$review->candybrush_reviews_user_id
             ];
@@ -23,9 +26,11 @@ class ReviewTransformer extends TransformerAbstract{
     public function requestAdapter()
     {
         return [
+            ReviewModel::SELLER_AS_DESCRIBED_RATING=>Input::get('seller_as_described_rating'),
+            ReviewModel::SELLER_COMMUNICATION_RATING=>Input::get('seller_communication_rating'),
+            ReviewModel::WOULD_RECONMMEND_RATING=>Input::get('would_recommend_rating'),
             ReviewModel::USER_ID => Input::get('user_id'),
             ReviewModel::PACKAGE_ID => Input::get('package_id'),
-            ReviewModel::RATING => Input::get('rating'),
             ReviewModel::COMMENT => Input::get('comment'),
             ReviewModel::ADMIN_VERIFIED => 0
         ];

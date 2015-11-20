@@ -58,8 +58,10 @@ class DatabaseSeeder extends Seeder
                 App\ReviewModel::PACKAGE_ID=>$i,
                 App\ReviewModel::ADMIN_VERIFIED=>array_rand(array('yes','no')),
                 App\ReviewModel::COMMENT=>$faker->realText(random_int(10,20)),
-                App\ReviewModel::RATING=>random_int(1,5),
-            ]);
+                App\ReviewModel::SELLER_AS_DESCRIBED_RATING=>random_int(1,5),
+                App\ReviewModel::WOULD_RECONMMEND_RATING=>random_int(1,5),
+                App\ReviewModel::SELLER_COMMUNICATION_RATING=>random_int(1,5)
+                ]);
             }
         }
         for($i=0;$i<200;$i++){

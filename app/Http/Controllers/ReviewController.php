@@ -66,13 +66,17 @@ class ReviewController extends BaseController
             ReviewModel::USER_ID=>'required',
             ReviewModel::PACKAGE_ID=>'required',
             ReviewModel::COMMENT=>'required',
-            ReviewModel::RATING=>'required'
+            ReviewModel::WOULD_RECONMMEND_RATING=>'required',
+            ReviewModel::SELLER_COMMUNICATION_RATING=>'required',
+            ReviewModel::SELLER_AS_DESCRIBED_RATING=>'required',
         ];
         $validator=Validator::make($data,$rules,[
             ReviewModel::USER_ID.'.required'=>'The user id is required try user_id=<user_id>',
             ReviewModel::PACKAGE_ID.'.required'=>'The package id is required try package_id=<package_id>',
             ReviewModel::COMMENT.'.required'=>'The comment is required try comment=<comment>',
-            ReviewModel::RATING.'.required'=>'The rating is required try rating=<rating>',
+            ReviewModel::SELLER_AS_DESCRIBED_RATING.'.required'=>'seller as described rating is required rating is required try seller_as_described_rating=<rating>',
+            ReviewModel::SELLER_COMMUNICATION_RATING.'.required'=>'seller communication rating rating is required rating is required try seller_communication_rating=<rating>',
+            ReviewModel::WOULD_RECONMMEND_RATING.'.required'=>'would recommend rating is required try would_recommend_rating=<rating>'
         ]);
 
         if($validator->fails()){

@@ -13,9 +13,12 @@ class ReviewModel extends Model
     const RATING = 'candybrush_reviews_rating';
     const COMMENT = 'candybrush_reviews_comment';
     const ADMIN_VERIFIED = 'candybrush_reviews_admin_verified';
+    const SELLER_COMMUNICATION_RATING='candybrush_reviews_seller_communication_rating';
+    const SELLER_AS_DESCRIBED_RATING='candybrush_reviews_seller_as_described';
+    const WOULD_RECONMMEND_RATING='candybrush_reviews_would_recommend';
 
     protected $table=self::TABLE;
-    protected $fillable=[self::USER_ID, self::PACKAGE_ID, self::RATING, self::COMMENT, self::ADMIN_VERIFIED];
+    protected $fillable=[self::USER_ID, self::PACKAGE_ID, self::COMMENT, self::ADMIN_VERIFIED,self::SELLER_COMMUNICATION_RATING,self::WOULD_RECONMMEND_RATING,self::SELLER_AS_DESCRIBED_RATING];
     public $timestamps=false;
 
 
