@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Addon;
+use App\Bonus;
 use App\Category;
 use App\Installment;
 use app\libraries\Transformers\AddonTransformer;
@@ -137,6 +138,9 @@ class PackagesController extends BaseController
         $data[PackagesModel::User_ID]=$u_id;
         unset($u_id);
 
+
+
+
         $addons=$data['addons'];
         $bonus=$data['bonus'];
         $photos=$data['photos'];
@@ -150,6 +154,9 @@ class PackagesController extends BaseController
         unset($data['package_type']);
         /*print_r($data);
         die;*/
+
+
+
 
         $data=array_filter($data,'strlen'); // filter blank or null array
         $validation_result=$this->my_validate([
@@ -190,6 +197,9 @@ class PackagesController extends BaseController
 
 
 
+
+
+
               if(isset($addons)){
                 foreach($addons as $addon){
                     $addon = array_combine(
@@ -201,7 +211,14 @@ class PackagesController extends BaseController
                 }
               }
               if(isset($bonus)){
-                  //to beimmplemented
+                  foreach($bonus as $bon){
+                      $bon = array_combine(
+                          array_map(function($k){ return 'candybrush_bonus_'.$k; }, array_keys($bon))
+                          , $bon
+                      );
+                      $bon['candybrush_bonus_package_id']=$package->id;
+                      Bonus::create($bon);
+                  }
               }
               if(isset($photos)){
                   $photo=[];
@@ -222,6 +239,8 @@ class PackagesController extends BaseController
                       Installment::create($installment);
                   }
               }
+
+
 
 
 

@@ -89,11 +89,9 @@ class PackagesTransformer extends TransformerAbstract{
     public function includeBonus(PackagesModel $package){
         return $this->collection($package->bonus()->get(),new BonusTransformer());
     }
-
     public function includeSeller(PackagesModel $package){
         return $this->item($package->seller()->first(),new UserTransformer());
     }
-
     public function includeCategory(PackagesModel $package){
         return $this->item($package->category()->first(),new CategoryTransformer());
     }

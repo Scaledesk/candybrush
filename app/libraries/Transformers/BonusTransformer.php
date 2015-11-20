@@ -17,8 +17,8 @@ class BonusTransformer extends TransformerAbstract{
     public function transform(Bonus $bonus){
         return [
             'id'=>$bonus[Bonus::ID],
-            'description'=>$bonus[Bonus::DESCRIPTION],
-            'name'=>$bonus[Bonus::NAME],
+            'description'=>$bonus[Bonus::DESCRIPTION]
+            /*'name'=>$bonus[Bonus::NAME],*/
         ];
     }
     public function requestAdaptor(){

@@ -8,7 +8,7 @@ class Bonus extends Model
 {
     protected $table=self::TABLE;
     protected $primaryKey=self::ID;
-    protected $fillable=[self::NAME,self::DESCRIPTION,self::PACKAGE_ID];
+    protected $fillable=[/*self::NAME,*/self::DESCRIPTION,self::PACKAGE_ID];
     public $timestamps=false;
 
     // define constants
