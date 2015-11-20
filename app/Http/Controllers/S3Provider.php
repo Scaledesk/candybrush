@@ -6,8 +6,8 @@ class S3Provider {
     private $aws_secret_key;
     public function __construct($bucket_name) {
         $this->bucket_name = $bucket_name;
-        $this->aws_access_key_id = 'AKIAIGKMNIAJKM6YZXJQ';
-        $this->aws_secret_key  = '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';
+        $this->aws_access_key_id = 'AKIAJJB5UGPFU5HZWQZA';
+        $this->aws_secret_key  = '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';
     }
 
     public function access_token() {
@@ -21,7 +21,7 @@ class S3Provider {
                 {"bucket": "' . $this->bucket_name . '"},
                 ["starts-with", "$key", ""],
                 {"acl": "public-read"},
-                ["content-length-range", 0, 10485760],
+                ["content-length-range", 0, 524288000],
                 ["starts-with", "$Content-Type", ""]
             ]
         }';
