@@ -33,7 +33,6 @@ class PackagesTransformer extends TransformerAbstract{
             'status'=>$package->candybrush_packages_status,
             'instructions'=>$package->candybrush_packages_instructions,
             'location'=>$package->candybrush_packages_location,
-            'average_rating'=>self::getAverageRating($package),
             'meeting_availability'=>$package->candybrush_packages_meeting_availability,
             'meeting_address'=>$package->candybrush_packages_meeting_address,
             'delivery_time'=>$package->candybrush_packages_delivery_time,

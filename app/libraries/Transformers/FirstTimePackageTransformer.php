@@ -32,7 +32,6 @@ class FirstTimePackageTransformer extends TransformerAbstract{
             /*'maximum_delivery_days'=>$package->candybrush_packages_maximum_delivery_days,*/
             'delivery_time'=>$package->candybrush_packages_delivery_time,
             'delivery_time_type'=>$package->candybrush_packages_delivery_time_type,
-            'average_rating'=>self::getAverageRating($package),
             'location'=>$package->candybrush_packages_location
         ];
     }
