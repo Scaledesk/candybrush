@@ -8,6 +8,7 @@
 namespace App\libraries\Transformers;
 use App\ReviewModel;
 use Dingo\Api\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use League\Fractal\TransformerAbstract;
 
