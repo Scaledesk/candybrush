@@ -21,7 +21,8 @@ class AddonTransformer extends TransformerAbstract{
             'description'=>$addon[Addon::DESCRIPTION],
             'name'=>$addon[Addon::NAME],
             'amount'=>(integer)$addon[Addon::AMOUNT],
-            'days'=>(integer)$addon[Addon::DAYS]
+            'days'=>(integer)$addon[Addon::DAYS],
+            'terms'=>Addon::TERMS
         ];
     }
     public function requestAdaptor(){

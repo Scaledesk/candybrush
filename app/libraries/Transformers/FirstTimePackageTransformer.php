@@ -28,7 +28,9 @@ class FirstTimePackageTransformer extends TransformerAbstract{
             'addon_available'=>self::isAddonAvailable($package),
             'bonus_available'=>self::isBonusAvailable($package),
             'first_photo'=>self::getFirstPhoto($package),
-            'maximum_delivery_days'=>$package->candybrush_packages_maximum_delivery_days,
+            /*'maximum_delivery_days'=>$package->candybrush_packages_maximum_delivery_days,*/
+            'delivery_time'=>$package->candybrush_packages_delivery_time,
+            'delivery_time_type'=>$package->candybrush_packages_delivery_time_type,
             'average_rating'=>self::getAverageRating($package),
             'location'=>$package->candybrush_packages_location
         ];

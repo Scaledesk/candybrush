@@ -48,12 +48,14 @@ class PackagesModel extends Model
     const LOCATION = 'candybrush_packages_location';
     const MEETING_AVAILABILITY="candybrush_packages_meeting_availability";
     const MEETING_ADDRESS="candybrush_packages_meeting_address";
+    const DELIVERY_TIME="candybrush_packages_delivery_time";
+    const DELIVERY_TIME_TYPE="candybrush_packages_delivery_time_type";
 
     protected $table = self::TABLE;
     public $timestamps = false;
     protected $fillable = [self::NAME, self::DESCRIPTION, self::CATEGORY_ID, self::TAG_ID,
         self::PRICE, self::DEAL_PRICE, self::AVAILABLE_DATE, self::TERM_CONDITION,
-        self::PAYMENT_TYPE, self::MAXIMUM_DELIVERY_DAYS,self::User_ID,self::STATUS,self::INSTRUCTIONS,self::LOCATION,self::MEETING_ADDRESS,self::MEETING_AVAILABILITY];
+        self::PAYMENT_TYPE, self::MAXIMUM_DELIVERY_DAYS,self::User_ID,self::STATUS,self::INSTRUCTIONS,self::LOCATION,self::MEETING_ADDRESS,self::MEETING_AVAILABILITY,self::DELIVERY_TIME_TYPE,self::DELIVERY_TIME];
 
     protected $searchable=[
         'columns'=>[

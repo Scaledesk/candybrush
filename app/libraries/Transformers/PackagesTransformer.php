@@ -28,13 +28,15 @@ class PackagesTransformer extends TransformerAbstract{
             'available_date'=>$package->candybrush_packages_available_date,
             'term_condition'=>$package->candybrush_packages_term_condition,
             'payment_type'=>$package->candybrush_packages_payment_type,
-            'maximum_delivery_days'=>$package->candybrush_packages_maximum_delivery_days,
+            /*'maximum_delivery_days'=>$package->candybrush_packages_maximum_delivery_days,*/
             'status'=>$package->candybrush_packages_status,
             'instructions'=>$package->candybrush_packages_instructions,
             'location'=>$package->candybrush_packages_location,
             'average_rating'=>self::getAverageRating($package),
             'meeting_availability'=>$package->candybrush_packages_meeting_availability,
-            'meeting_address'=>$package->candybrush_packages_meeting_address
+            'meeting_address'=>$package->candybrush_packages_meeting_address,
+            'delivery_time'=>$package->candybrush_packages_delivery_time,
+        'delivery_time_type'=>$package->candybrush_packages_delivery_time_type
              ];
     }
     public function requestAdapter()
@@ -61,7 +63,8 @@ class PackagesTransformer extends TransformerAbstract{
             'installments'=>Input::get('installments',''),
             PackagesModel::MEETING_AVAILABILITY=>Input::get('meeting_availability',''),
             PackagesModel::MEETING_ADDRESS=>Input::get('meeting_address',''),
-
+            PackagesModel::DELIVERY_TIME=>Input::get('delivery_time',''),
+            PackagesModel::DELIVERY_TIME_TYPE=>Input::get('delivery_time_type',''),
         ];
     }
 
@@ -70,6 +73,7 @@ class PackagesTransformer extends TransformerAbstract{
      * @param PackagesModel $package
      * @return \League\Fractal\Resource\Collection
      */
+
     public function includeAddons(PackagesModel $package){
         return $this->collection($package->addons()->get(),new AddonTransformer());
     }
