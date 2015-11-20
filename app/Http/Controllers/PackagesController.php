@@ -98,7 +98,9 @@ class PackagesController extends BaseController
                    $packages=$packages->whereRaw(PackagesModel::PRICE.' <= ?',array((Input::get('max_price'))));
                }
                if($request->has('sort_by')){
-                   $packages=$packages->orderBy(Input::get('sort_by'),'DESC');
+                   if(Input::get('sort_by')=='rating'){
+                       $packages=$packages->orderBy('candybrush_packages_average_rating','DESC');
+                   }
                }else{
                    $packages=$packages->orderBy('id','DESC');
                }
