@@ -33,9 +33,10 @@ class UserProfileController extends BaseController
      * @return \Illuminate\Http\Response
      * @internal param int $id
      */
-    public function show()
+    public function show($id)
     {
-        return $this->response()->item($this->auth()->user()->userprofiles()->first(),new UserProfileTransformer());
+        $user=User::find($id);
+        return $this->response()->item($user->userprofiles()->first(),new UserProfileTransformer());
     }
 
 

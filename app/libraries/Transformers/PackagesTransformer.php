@@ -25,6 +25,7 @@ class PackagesTransformer extends TransformerAbstract{
             'seller_name'=>self::getsellerName($package),
             'price'=>(integer)$package->candybrush_packages_price,
             'deal_price'=>(integer)$package->candybrush_packages_deal_price,
+            'average_rating'=>$package->candybrush_packages_average_rating,
             'available_date'=>$package->candybrush_packages_available_date,
             'term_condition'=>$package->candybrush_packages_term_condition,
             'payment_type'=>$package->candybrush_packages_payment_type,

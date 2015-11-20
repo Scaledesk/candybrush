@@ -56,6 +56,7 @@ class PackagesModel extends Model
     const PAYMENT_TYPE_NAME="candybrush_packages_payment_type_name";
     const PACKAGE_TYPE_ID="candybrush_package_package_type_id";
     const PACKAGE_TYPE_NAME="candybrush_package_package_type_name";
+    const PACKAGE_AVERAGE_RATING="candybrush_packages_average_rating";
 
 
     protected $table = self::TABLE;
