@@ -130,14 +130,6 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
     /**
      * for creating new category
      */
-    $api->post('category','App\Http\Controllers\CategoryController@store');
-    /**
-     * for updating categories
-     */
-    $api->put('category','App\Http\Controllers\CategoryController@update');
-    /**
-     * for getting all categories
-     */
     $api->get('category','App\Http\Controllers\CategoryController@index');
     /**
      * for getting particular category
@@ -357,6 +349,22 @@ $api->post('auth/login', function (\Illuminate\Http\Request $request){
          * order count
          */
         $api->get('admin/bookingCount','App\Http\Controllers\BookingController@bookingCount');
+        /**
+         * for creating new category
+         */
+        $api->post('admin/category','App\Http\Controllers\CategoryController@store');
+        /**
+         * for updating categories
+         */
+        $api->put('admin/category','App\Http\Controllers\CategoryController@update');
+        /**
+         * for getting all categories
+         */
+        $api->get('admin/category','App\Http\Controllers\CategoryController@index');
+        /**
+         * for getting particular category
+         */
+        $api->get('admin/category/{id}','App\Http\Controllers\CategoryController@show');
         /**
          * for delete category
          */
