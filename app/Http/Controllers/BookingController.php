@@ -6,6 +6,7 @@ use App\Addon;
 use App\Booking;
 use App\Booking_Packages_Addons;
 use App\Booking_Packages_Installments;
+use App\Bookings_Package_Tags;
 use App\Installment;
 use App\libraries\Transformers\BookingTransformer;
 use App\PackagesModel;
@@ -157,6 +158,16 @@ class BookingController extends BaseController
                                     unset($obj,$installment);
                                 }
                             }
+                            /**
+                             * add tags in booking packages tags table
+                             */
+                            foreach($package->tags()->select('candybrush_tags_id')->get() as $tag){
+                                Bookings_Package_Tags::create([
+                                   Bookings_Package_Tags::TAG_ID=>$tag->candybrush_tags_id,
+                                    Bookings_Package_Tags::BOOKING_ID=>$booking->candybrush_bookings_id
+                                ]);
+                            }
+                            unset($package,$booking);
                             return $this->success();
                         }else{
                             return $this->error('Some error occurred',520);
