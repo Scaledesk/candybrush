@@ -57,7 +57,7 @@ class PackagesModel extends Model
     const PACKAGE_TYPE_ID="candybrush_package_package_type_id";
     const PACKAGE_TYPE_NAME="candybrush_package_package_type_name";
     const PACKAGE_AVERAGE_RATING="candybrush_packages_average_rating";
-
+    const PACKAGE_TIMESTAMP = "candybrush_packages_updated_at";
 
     protected $table = self::TABLE;
     public $timestamps = true;

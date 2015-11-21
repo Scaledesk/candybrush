@@ -38,7 +38,8 @@ class PackagesTransformer extends TransformerAbstract{
             'meeting_address'=>$package->candybrush_packages_meeting_address,
             'delivery_time'=>$package->candybrush_packages_delivery_time==0?null:$package->candybrush_packages_delivery_time,
             'delivery_time_type'=>$package->candybrush_packages_delivery_time_type,
-            "seller_profile"=>self::getSellerProfile($package)
+            "seller_profile"=>self::getSellerProfile($package),
+            "timestamp" => $package->updated_at
              ];
     }
     public function requestAdapter()
