@@ -61,6 +61,7 @@ class BookingController extends BaseController
     {
         //
         $data=$this->booking_transformer->requestAdaptor();
+
         $validation_result=$this->my_validate([
             'data'=>$data,
             'rules'=>[
@@ -85,7 +86,10 @@ class BookingController extends BaseController
                     try{
                     $package=PackagesModel::where('id',$data[Booking::PACKAGE_ID])->first();
                         $updated_at=DB::table('candybrush_packages')->where('id',$data[Booking::PACKAGE_ID])->select('updated_at')->first()->updated_at;
+
                         if($data[Booking::PACKAGE_TIMESTAMP]!=$updated_at){
+                            
+
                             return $this->error('Package updated before order placed',422);
                         }
                     $data['candybrush_bookings_seller_id']=$package->candybrush_packages_user_id;
@@ -123,27 +127,33 @@ class BookingController extends BaseController
                             //  will be implemented for if used as follows in addons bonus etc
                             };
                             if($addons!='none'){
-                                $addons=explode(',',$addons);
-                                foreach($addons as $addon_id){
-                                    $addon=Addon::where('candybrush_addons_id', '=', $addon_id)->where('candybrush_addons_package_id',$package->id)->first();
-                                    if(is_null($addon)) {
-                                        return $this->error('Addon not found',422);
+                                $addon_array=array();
+                                if(!empty($addons)){
+                                    foreach ($addons as $addon_object) {
+                                        $addons_array[]=$addon_object['id'];
                                     }
-                                    $obj=array();
-                                    $obj['candybrush_bookings_addons_addon_id']=$addon['candybrush_addons_id'];
-                                    $obj['candybrush_bookings_addons_name']=$addon['candybrush_addons_name'];
-                                    $obj['candybrush_bookings_addons_description']=$addon['candybrush_addons_description'];
-                                    $obj['candybrush_bookings_addons_package_id']=$package->id;
-                                    $obj['candybrush_bookings_addons_amount']=$addon['candybrush_addons_amount'];
-                                    $obj['candybrush_bookings_addons_days']=$addon['candybrush_addons_days'];
-                                    $obj['candybrush_bookings_addons_terms']=$addon['candybrush_addons_terms'];
-                                    $obj['candybrush_bookings_addons_bookings_id']=$booking->candybrush_bookings_id;
-                                    Booking_Packages_Addons::create($obj);
-                                    unset($obj,$addon);
-                                }
+                                    
+                                    foreach($addons_array as $addon_id){
+                                        $addon=Addon::where('candybrush_addons_id', '=', $addon_id)->where('candybrush_addons_package_id',$package->id)->first();
+                                        if(is_null($addon)) {
+                                            return $this->error('Addon not found',422);
+                                        }
+                                        $obj=array();
+                                        $obj['candybrush_bookings_addons_addon_id']=$addon['candybrush_addons_id'];
+                                        $obj['candybrush_bookings_addons_name']=$addon['candybrush_addons_name'];
+                                        $obj['candybrush_bookings_addons_description']=$addon['candybrush_addons_description'];
+                                        $obj['candybrush_bookings_addons_package_id']=$package->id;
+                                        $obj['candybrush_bookings_addons_amount']=$addon['candybrush_addons_amount'];
+                                        $obj['candybrush_bookings_addons_days']=$addon['candybrush_addons_days'];
+                                        $obj['candybrush_bookings_addons_terms']=$addon['candybrush_addons_terms'];
+                                        $obj['candybrush_bookings_addons_bookings_id']=$booking->candybrush_bookings_id;
+                                        Booking_Packages_Addons::create($obj);
+                                        unset($obj,$addon);
+                                    }
                                 unset($addons);
+                                }
                             }
-                            if($installments!="none"){
+                            /*if($installments!="none"){
 
                                 $installments=explode(',',$installments);
                                 foreach($installments as $installment_id){
@@ -161,11 +171,11 @@ class BookingController extends BaseController
                                     unset($obj,$installment);
                                 }
                                 unset($installments);
-                            }
+                            }*/
                             /**
                              * bonus
                              */
-                            if($bonus!='none'){
+                            /*if($bonus!='none'){
                                 $bonus=explode(',',$bonus);
                                 foreach($bonus as $bonus_id){
                                     $bonus_obj=Bonus::where('candybrush_bonus_id', '=', $bonus_id)->where('candybrush_bonus_package_id',$package->id)->first();
@@ -182,7 +192,7 @@ class BookingController extends BaseController
                                     unset($obj,$bonus_id);
                                 }
                                 unset($bonus);
-                            }
+                            }*/
                             /**
                              * add tags in booking packages tags table
                              */

@@ -25,6 +25,7 @@ class BookingTransformer extends TransformerAbstract{
         ];
     }
     public function requestAdaptor(){
+
         return [
             //necessary feilds
             Booking::BUYER_ID=>Input::get('user_id',''),
@@ -34,7 +35,7 @@ class BookingTransformer extends TransformerAbstract{
             Booking::BOOKING_STATUS=>"pending",
             Booking::PAYMENT_STATUS=>"not_completed",
             Booking::PACKAGE_TIMESTAMP=>Input::get("package_timestamp"),
-            "addons_id"=>Input::get("addons_id",'none'),
+            "addons_id"=>Input::get("addons",'none'),
             "bonus_id"=>Input::get("bonus_id",'none'),
             "installments_id"=>Input::get("installments_id",'none'),
         ];
