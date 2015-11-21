@@ -32,7 +32,11 @@ class BookingTransformer extends TransformerAbstract{
             Booking::PAYMENT_TYPE=>Input::get('payment_type'),
             Booking::PACKAGE_DURATION=>NULL,
             Booking::BOOKING_STATUS=>"pending",
-            Booking::PAYMENT_STATUS=>"not_completed"
+            Booking::PAYMENT_STATUS=>"not_completed",
+            Booking::PACKAGE_TIMESTAMP=>Input::get("package_timestamp"),
+            "addons_id"=>Input::get("addons_id",'none'),
+            "bonus_id"=>Input::get("bonus_id",'none'),
+            "installments_id"=>Input::get("installments_id",'none'),
         ];
     }
     /**

@@ -41,7 +41,7 @@ class Booking extends Model
     const PACKAGE_TYPE_NAME="candybrush_bookings_package_type_name";
     const PAYMENT_STATUS = 'candybrush_bookings_payment_status';
     const BOOKING_STATUS="candybrush_bookings_status";
-
+    const PACKAGE_TIMESTAMP = "candybrush_bookings_packages_timestamp";
     protected $table=self::TABLE;
     protected $fillable=[
         self::BUYER_ID,self::PACKAGE_ID,self::SELLER_ID,self::PRICE,self::DEAL_PRICE,
