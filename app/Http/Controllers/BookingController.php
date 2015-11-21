@@ -77,28 +77,26 @@ class BookingController extends BaseController
                     $data['candybrush_bookings_seller_id']=$package->candybrush_packages_user_id;
                     $data['candybrush_bookings_price']=$package->candybrush_packages_price;
                     $data['candybrush_bookings_deal_price']=$package->candybrush_packages_deal_price;
-                    $data['candybrush_bookings_package_title']=$package->
-                    $data['']=
-                    $data['']=
-                    $data['']=
-                    $data['']=
-                    $data['']=
-                    $data['']=
-                    $data['']=
-                    $data['']=
-                    $data['']=
-                    $data['']=
-                    $data['']=
-                    $data['']=
-
-
-
-
-
-
-
-
-
+                    $data['candybrush_bookings_package_title']=$package->candybrush_packages_name;
+                    $data['candybrush_bookings_package_description']=$package->candybrush_packages_description;
+                    $data['candybrush_bookings_package_category_id']=$package->candybrush_packages_category_id;
+                    $data['candybrush_bookings_package_average_rating']=$package->candybrush_packages_average_rating;
+                    $data['candybrush_bookings_package_available_dates']=$package->candybrush_packages_available_dates;
+                    $data['candybrush_bookings_package_term_condition']=$package->candybrush_packages_term_condition;
+                    $data['candybrush_bookings_package_delivery_time']=$package->candybrush_packages_delivery_time;
+                    $data['candybrush_bookings_package_delivery_time_type']=$package->candybrush_packages_delivery_time_type;
+                    $data['candybrush_bookings_package_instructions']=$package->candybrush_packages_instructions;
+                    $data['candybrush_bookings_package_location']=$package->candybrush_packages_location;
+                    $data['candybrush_bookings_package_meeting_availability']=$package->candybrush_packages_meeting_availability;
+                    $data['candybrush_bookings_package_meeting_address']=$package->candybrush_packages_meeting_address;
+                    $data['candybrush_bookings_package_delivery_type_id']=$package->candybrush_packages_delivery_type_id;
+                    $data['candybrush_bookings_package_delivery_type_name']=$package->candybrush_packages_delivery_type_name;
+                    $data['candybrush_bookings_package_payment_type_id']=$package->candybrush_packages_payment_type_id;
+                    $data['candybrush_bookings_package_payment_type_name']=$package->candybrush_packages_payment_type_name;
+                    $data['candybrush_bookings_package_type_id']=$package->candybrush_package_package_type_id;
+                    $data['candybrush_bookings_package_type_name']=$package->candybrush_package_package_type_name;
+                        /*print_r($data);*/
+                        /*die;*/
                         $booking=new Booking($data);
                         if($booking->save()){
                             return $this->success();
