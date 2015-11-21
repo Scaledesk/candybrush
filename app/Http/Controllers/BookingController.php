@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Addon;
 use App\Booking;
 use App\Booking_Packages_Addons;
+use App\Booking_Packages_Installments;
+use App\Installment;
 use App\libraries\Transformers\BookingTransformer;
 use App\PackagesModel;
 use Illuminate\Http\Request;
@@ -125,6 +127,7 @@ class BookingController extends BaseController
                                         return $this->error('Addon not found',422);
                                     }
                                     $obj=array();
+                                    $obj['candybrush_bookings_addons_addon_id']=$addon['candybrush_addons_id'];
                                     $obj['candybrush_bookings_addons_name']=$addon['candybrush_addons_name'];
                                     $obj['candybrush_bookings_addons_description']=$addon['candybrush_addons_description'];
                                     $obj['candybrush_bookings_addons_package_id']=$addon['candybrush_addons_package_id'];
@@ -134,6 +137,24 @@ class BookingController extends BaseController
                                     $obj['candybrush_bookings_addons_bookings_id']=$booking->candybrush_bookings_id;
                                     Booking_Packages_Addons::create($obj);
                                     unset($obj,$addon);
+                                }
+                            }
+                            if($installments!="none"){
+
+                                $installments=explode(',',$installments);
+                                foreach($installments as $installment_id){
+                                    $installment=Installment::where('candybrush_packages_installments_id', '=', $installment_id)->where('candybrush_packages_installments_packages_id',$package->id)->first();
+                                    if(is_null($installment)) {
+                                        return $this->error('Installment not found',422);
+                                    }
+                                    $obj=array();
+                                    $obj['candybrush_bookings_packages_installments_installment_id']=$installment['candybrush_packages_installments_id'];
+                                    $obj['candybrush_bookings_packages_installments_packages_id']=$installment['candybrush_packages_installments_packages_id'];
+                                    $obj['candybrush_bookings_packages_installments_installment_number']=$installment['candybrush_packages_installments_installment_number'];
+                                    $obj['candybrush_bookings_packages_installments_installment_amount']=$installment['candybrush_packages_installments_installment_amount'];
+                                    $obj['candybrush_bookings_packages_installments_bookings_id']=$booking->candybrush_bookings_id;
+                                    Booking_Packages_Installments::create($obj);
+                                    unset($obj,$installment);
                                 }
                             }
                             return $this->success();
