@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Addon;
+use App\Bonus;
 use App\Booking;
 use App\Booking_Packages_Addons;
 use App\Booking_Packages_Installments;
 use App\Bookings_Package_Tags;
+use App\Bookings_Packages_Bonus;
 use App\Installment;
 use App\libraries\Transformers\BookingTransformer;
 use App\PackagesModel;
@@ -131,7 +133,7 @@ class BookingController extends BaseController
                                     $obj['candybrush_bookings_addons_addon_id']=$addon['candybrush_addons_id'];
                                     $obj['candybrush_bookings_addons_name']=$addon['candybrush_addons_name'];
                                     $obj['candybrush_bookings_addons_description']=$addon['candybrush_addons_description'];
-                                    $obj['candybrush_bookings_addons_package_id']=$addon['candybrush_addons_package_id'];
+                                    $obj['candybrush_bookings_addons_package_id']=$package->id;
                                     $obj['candybrush_bookings_addons_amount']=$addon['candybrush_addons_amount'];
                                     $obj['candybrush_bookings_addons_days']=$addon['candybrush_addons_days'];
                                     $obj['candybrush_bookings_addons_terms']=$addon['candybrush_addons_terms'];
@@ -139,6 +141,7 @@ class BookingController extends BaseController
                                     Booking_Packages_Addons::create($obj);
                                     unset($obj,$addon);
                                 }
+                                unset($addons);
                             }
                             if($installments!="none"){
 
@@ -150,13 +153,35 @@ class BookingController extends BaseController
                                     }
                                     $obj=array();
                                     $obj['candybrush_bookings_packages_installments_installment_id']=$installment['candybrush_packages_installments_id'];
-                                    $obj['candybrush_bookings_packages_installments_packages_id']=$installment['candybrush_packages_installments_packages_id'];
+                                    $obj['candybrush_bookings_packages_installments_packages_id']=$package->id;
                                     $obj['candybrush_bookings_packages_installments_installment_number']=$installment['candybrush_packages_installments_installment_number'];
                                     $obj['candybrush_bookings_packages_installments_installment_amount']=$installment['candybrush_packages_installments_installment_amount'];
                                     $obj['candybrush_bookings_packages_installments_bookings_id']=$booking->candybrush_bookings_id;
                                     Booking_Packages_Installments::create($obj);
                                     unset($obj,$installment);
                                 }
+                                unset($installments);
+                            }
+                            /**
+                             * bonus
+                             */
+                            if($bonus!='none'){
+                                $bonus=explode(',',$bonus);
+                                foreach($bonus as $bonus_id){
+                                    $bonus_obj=Bonus::where('candybrush_bonus_id', '=', $bonus_id)->where('candybrush_bonus_package_id',$package->id)->first();
+                                    if(is_null($bonus_obj)) {
+                                        return $this->error('Bonus not found',422);
+                                    }
+                                    $obj=array();
+                                    $obj['candybrush_bookings_bonus_bonus_id']=$bonus_obj['candybrush_bonus_id'];
+                                    $obj['candybrush_bookings_bonus_name']=$bonus_obj['candybrush_bonus_name'];
+                                    $obj['candybrush_bookings_bonus_description']=$bonus_obj['candybrush_bonus_description'];
+                                    $obj['candybrush_bookings_bonus_package_id']=$package->id;
+                                    $obj['candybrush_bookings_bonus_bookings_id']=$booking->candybrush_bookings_id;
+                                    Bookings_Packages_Bonus::create($obj);
+                                    unset($obj,$bonus_id);
+                                }
+                                unset($bonus);
                             }
                             /**
                              * add tags in booking packages tags table
