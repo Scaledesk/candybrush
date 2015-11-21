@@ -43,6 +43,7 @@ class PackagesTransformer extends TransformerAbstract{
     }
     public function requestAdapter()
     {
+
         return [
             PackagesModel::NAME => Input::get('name',''),
             PackagesModel::DESCRIPTION => Input::get('description',''),
@@ -70,7 +71,9 @@ class PackagesTransformer extends TransformerAbstract{
             PackagesModel::DELIVERY_TYPE_ID=>Input::get('delivery_type')['id'],
             PackagesModel::DELIVERY_TYPE_NAME=>Input::get('delivery_type')['name'],
             PackagesModel::PAYMENT_TYPE_ID=>Input::get('payment_type')['id'],
-            PackagesModel::PAYMENT_TYPE_NAME=>Input::get('payment_type')['name'],
+            PackagesModel::PAYMENT_TYPE_COD=>Input::get('payment_type')['cod'],
+            PackagesModel::PAYMENT_TYPE_INS=>Input::get('payment_type')['ins'],
+            PackagesModel::PAYMENT_TYPE_OT=>Input::get('payment_type')['ot'],
             PackagesModel::PACKAGE_TYPE_ID=>Input::get('package_type')['id'],
             PackagesModel::PACKAGE_TYPE_NAME=>Input::get('package_type')['name'],
         ];
