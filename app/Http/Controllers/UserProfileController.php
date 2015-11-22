@@ -53,7 +53,11 @@ class UserProfileController extends BaseController
          */
        $data = $this->userProfileTransformer->requestAdapter();
         $data=array_filter($data,'strlen'); // filter blank or null array
-        if(sizeof($data)){ try{$result=$this->auth()->user()->userprofiles()->update($data);}catch(\Exception $e){
+        if(sizeof($data)){ 
+            try{
+                $user_profile=UserProfile::where('candybrush_users_profiles_user_id',Input::get('user_id'))->first();
+                $result=$user_profile->update($data);
+                }catch(\Exception $e){
             return $this->error($e->getMessage(),$e->getCode());
         }
         }else{
