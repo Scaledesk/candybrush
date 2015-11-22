@@ -14,6 +14,7 @@ use App\Booking_Packages_Addons;
 use App\Booking_Packages_Installments;
 use App\Bookings_Package_Tags;
 use App\Bookings_Packages_Bonus;
+use App\UserProfile;
 use Illuminate\Support\Facades\Input;
 use League\Fractal\TransformerAbstract;
 use App\libraries\Transformers\UserTransformer;
@@ -22,6 +23,7 @@ use App\libraries\Transformers\Booking_Packages_Installments_Transformer;
 use App\libraries\Transformers\Bookings_Package_Tags_TransFormer;
 use App\libraries\Transformers\Bookings_Packages_Bonus_Transformer;
 use App\libraries\Transformers\Booking_Packages_Addons_Transformer;
+use App\libraries\Transformers\UserProfileTransformer;
 
 
 class BookingTransformer extends TransformerAbstract{
@@ -55,7 +57,8 @@ class BookingTransformer extends TransformerAbstract{
             'booking_status'               =>$booking[Booking::BOOKING_STATUS],
             'package_timestamp'            =>$booking[Booking::PACKAGE_TIMESTAMP],
             'payment_type'                 =>$booking[Booking::PAYMENT_TYPE],
-            'payment_status'               =>$booking[Booking::PAYMENT_STATUS]
+            'payment_status'               =>$booking[Booking::PAYMENT_STATUS],
+            "seller_profile"=>self::getSellerProfile($booking),
         ];
     }
     public function requestAdaptor(){
@@ -103,5 +106,10 @@ class BookingTransformer extends TransformerAbstract{
     }
     public function includeBookingsPackagesBonus(Booking $booking){
         return $this->collection($booking->bookingsPackagesBonus()->get(),new Bookings_Packages_Bonus_Transformer());
+    }
+    public function getSellerProfile(Booking $booking){
+        $user_profile=UserProfile::where('candybrush_users_profiles_users_id',$booking->candybrush_bookings_seller_id)->first();
+        $transformer=new UserProfileTransformer();
+        return $transformer->transform($user_profile);
     }
 }
