@@ -48,6 +48,7 @@ class BookingController extends BaseController
 
              return $this->response()->collection(BookingModel::where('candybrush_bookings_buyer_id',$request->buyer_id)->get(),$this->booking_transformer);
         }
+        return $this->response()->collection(Booking::all(),$this->booking_transformer);
        
     }
 

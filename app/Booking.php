@@ -84,14 +84,14 @@ class Booking extends Model
      * relation with Bookings_Packages_Bonus
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function Bookings_Packages_Bonus(){
+    public function bookingsPackagesBonus(){
         return $this->hasMany('App\Bookings_Packages_Bonus',Bookings_Packages_Bonus::BOOKING_ID);
     }
     /**
      * relation with Booking_Packages_Installments
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function Booking_Packages_Installments(){
+    public function bookingPackagesInstallments(){
         return $this->hasMany('App\Booking_Packages_Installments','candybrush_bookings_packages_installments_bookings_id');
     }
 }

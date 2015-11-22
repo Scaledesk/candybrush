@@ -10,17 +10,27 @@ namespace app\libraries\Transformers;
 
 
 use App\Booking;
+use App\Booking_Packages_Addons;
+use App\Booking_Packages_Installments;
+use App\Bookings_Package_Tags;
+use App\Bookings_Packages_Bonus;
 use Illuminate\Support\Facades\Input;
 use League\Fractal\TransformerAbstract;
 use App\libraries\Transformers\UserTransformer;
 use App\libraries\Transformers\PackagesTransformer;
+use App\libraries\Transformers\Booking_Packages_Installments_Transformer;
+use App\libraries\Transformers\Bookings_Package_Tags_TransFormer;
+use App\libraries\Transformers\Bookings_Packages_Bonus_Transformer;
+use App\libraries\Transformers\Booking_Packages_Addons_Transformer;
+
 
 class BookingTransformer extends TransformerAbstract{
-    protected $defaultIncludes=['Buyer','Package'];
+    protected $defaultIncludes=['Buyer','Package','bookingPackagesInstallments','bookingsPackagesBonus','bookingPackagesAddons','bookingPackagesTags'];
     public function transform(Booking $booking){
 
         return [
             'id'                           =>$booking[Booking::ID],
+            'package_id'                   =>$booking[Booking::PACKAGE_ID],
             'seller_id'                    =>$booking[Booking::SELLER_ID],
             'buyer_id'                     =>$booking[Booking::BUYER_ID],
             'price'                        =>$booking[Booking::PRICE],
@@ -81,5 +91,17 @@ class BookingTransformer extends TransformerAbstract{
      */
     public function includePackage(Booking $booking){
        // return $this->item($booking->package()->first(),new PackagesTransformer());
+    }
+    public function includeBookingPackagesInstallments(Booking $booking){
+        return $this->collection($booking->bookingPackagesInstallments()->get(),new Booking_Packages_Installments_Transformer());
+    }
+    public function includeBookingPackagesTags(Booking $booking){
+        return $this->collection($booking->bookingPackagesTags()->get(),new Bookings_Package_Tags_TransFormer());
+    }
+    public function includeBookingPackagesAddons(Booking $booking){
+        return $this->collection($booking->bookingPackagesAddons()->get(),new Booking_Packages_Addons_Transformer());
+    }
+    public function includeBookingsPackagesBonus(Booking $booking){
+        return $this->collection($booking->bookingsPackagesBonus()->get(),new Bookings_Packages_Bonus_Transformer());
     }
 }
