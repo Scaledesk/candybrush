@@ -75,10 +75,15 @@ class PackagesController extends BaseController
             $do_eager_loading();
             return $this->response()->collection(PackagesModel::where("candybrush_packages_status",$request->status)->get(),new FirstTimePackageTransformer());
         }
+        if($request->has('user_id')){
+           
+               return $this->response()->collection(PackagesModel::where("candybrush_packages_user_id",$request->user_id)->get(),new FirstTimePackageTransformer());
+        }
         //full text search to packages
        if($request->has('query')) {
            $do_eager_loading();
            $packages= new PackagesModel();
+
            if($request->has('category_id')){
                $packages=$packages->whereIn(PackagesModel::CATEGORY_ID,array(Input::get("category_id")));
            }
@@ -106,9 +111,7 @@ class PackagesController extends BaseController
                    $packages=$packages->orderBy('id','DESC');
                }
            }
-           if($request->has('user_id')){
-                $packages=$packages->where(PackagesModel::User_ID.'='.Input::get('user_id'));
-           }
+
            $packages = $packages->with(['tags','category','bonus','addons','seller'])->search(Input::get('query',''))->get()->unique();
            return $this->response()->collection($packages, new FirstTimePackageTransformer());
        }
