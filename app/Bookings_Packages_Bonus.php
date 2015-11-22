@@ -21,7 +21,7 @@ class Bookings_Packages_Bonus extends Model
     const BOOKING_ID="candybrush_bookings_bonus_bookings_id";
 
     public function bonus(){
-        return $this->belongsTo('App\Installment',self::BONUS_ID);
+        return $this->belongsTo('App\Bonus',self::BONUS_ID);
     }
     public function booking(){
         return $this->belongsTo('App\Booking',self::BOOKING_ID);

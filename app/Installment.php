@@ -21,4 +21,11 @@ class Installment extends Model
     public function package(){
         return $this->belongsTo('App\PackagesModel','candybrush_packages_installments_packages_id');
     }
+    /**
+     * relation with Booking_Packages_Installments
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function bookingPackagesInstallments(){
+        return $this->hasMany('App\Booking_Packages_Installments',Booking_Packages_Installments::INSTALLMENT_ID);
+    }
 }

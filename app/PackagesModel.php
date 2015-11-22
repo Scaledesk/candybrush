@@ -141,4 +141,27 @@ class PackagesModel extends Model
     public function installments(){
         return $this->hasMany('App\Installment','candybrush_packages_installments_packages_id');
     }
+    /**
+     * relation with booking packages addons
+     * has many as in case of booking of
+     * more than one addon of same package
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function bookingPackagesAddons(){
+        return $this->hasMany('App\Booking_Packages_Addons','candybrush_bookings_addons_package_id');
+    }
+    /**
+     * relation with BookingsPackagesBonus
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function bookingsPackagesBonus(){
+        return $this->hasMany('App\Bookings_Packages_Bonus','candybrush_bookings_bonus_package_id');
+    }
+    /**
+     * relation with Booking_Packages_Installments
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function Booking_Packages_Installments(){
+        return $this->hasMany('App\Booking_Packages_Installments','candybrush_bookings_packages_installments_packages_id');
+    }
 }

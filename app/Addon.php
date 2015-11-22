@@ -24,4 +24,14 @@ class Addon extends Model
     public function package(){
         return $this->belongsTo('App\PackagesModel','candybrush_addons_package_id');
     }
+
+    /**
+     * relation with Booking_packages_addons
+     * has many as many buyers can book same package with same addons leads to many records
+     * in corresponding table
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function bookingPackagesAddons(){
+        return $this->hasMany('App\Booking_Packages_Addons','candybrush_bookings_addons_addon_id');
+    }
 }

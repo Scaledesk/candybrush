@@ -21,4 +21,12 @@ class Bonus extends Model
     public function package(){
         return $this->belongsTo('App\PackagesModel','candybrush_bonus_package_id');
     }
+
+    /**
+     * relation with bookings packages bonus
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function bookingsPackagesBonus(){
+        return $this->hasMany('App\Bookings_Packages_Bonus',Bookings_Packages_Bonus::BONUS_ID);
+    }
 }

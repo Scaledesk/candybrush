@@ -71,4 +71,27 @@ class Booking extends Model
     public function bookingPackagesTags(){
         return $this->hasMany('App\Bookings_Package_Tags','candybrush_bookings_packages_tags_bookings_id');
     }
+    /**
+     * relation with Booking_packages_addons
+     * has many as in case of booking of more than one addon
+     * of same package
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function bookingPackagesAddons(){
+        return $this->hasMany('App\Booking_Packages_Addons','candybrush_bookings_addons_bookings_id');
+    }
+    /**
+     * relation with Bookings_Packages_Bonus
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function Bookings_Packages_Bonus(){
+        return $this->hasMany('App\Bookings_Packages_Bonus',Bookings_Packages_Bonus::BOOKING_ID);
+    }
+    /**
+     * relation with Booking_Packages_Installments
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function Booking_Packages_Installments(){
+        return $this->hasMany('App\Booking_Packages_Installments','candybrush_bookings_packages_installments_bookings_id');
+    }
 }
