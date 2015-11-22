@@ -18,10 +18,34 @@ use App\libraries\Transformers\PackagesTransformer;
 class BookingTransformer extends TransformerAbstract{
     protected $defaultIncludes=['Buyer','Package'];
     public function transform(Booking $booking){
+
         return [
-            'id'=>$booking[Booking::ID],
-            'payment_type'=>$booking[Booking::PAYMENT_TYPE],
-            'payment_status'=>$booking[Booking::PAYMENT_STATUS]
+            'id'                           =>$booking[Booking::ID],
+            'seller_id'                    =>$booking[Booking::SELLER_ID],
+            'buyer_id'                     =>$booking[Booking::BUYER_ID],
+            'price'                        =>$booking[Booking::PRICE],
+            'deal_price'                   =>$booking[Booking::DEAL_PRICE],
+            'package_duration'             =>$booking[Booking::PACKAGE_DURATION],
+            'package_description'          =>$booking[Booking::PACKAGE_DESCRIPTION],
+            'package_title'                =>$booking[Booking::PACKAGE_TITLE],
+            'package_category_id'          =>$booking[Booking::PACKAGE_CATEGORY_ID],
+            'package_available_dates'      =>$booking[Booking::PACKAGE_AVILABLE_DATES],
+            'package_term'                 =>$booking[Booking::PACKAGE_TERM_CONDITION],
+            'package_average_rating'       =>$booking[Booking::PACKAGE_AVERAGE_RATING],
+            'package_location'             =>$booking[Booking::PACKAGE_LOCATION],
+            'package_instruction'          =>$booking[Booking::PACKAGE_INSTRUCTIONS],
+            'package_delivery_time'        =>$booking[Booking::PACKAGE_DELIVERY_TIME],
+            'package_delivery_time_type'   =>$booking[Booking::PACKAGE_DELIVERY_TIME_TYPE],
+            'package_meeting_availability' =>$booking[Booking::PACKAGE_MEETING_AVAILABILITY],
+            'package_meeting_address'      =>$booking[Booking::PACKAGE_MEETING_ADDRESS],
+            'package_delivery_type_id'     =>$booking[Booking::PACKAGE_DELIVERY_TYPE_ID],
+            'package_delivery_type_name'   =>$booking[Booking::PACKAGE_DELIVERY_TYPE_NAME],
+            'package_type_id'              =>$booking[Booking::PACKAGE_TYPE_ID],
+            'package_type_name'            =>$booking[Booking::PACKAGE_TYPE_NAME],
+            'booking_status'               =>$booking[Booking::BOOKING_STATUS],
+            'package_timestamp'            =>$booking[Booking::PACKAGE_TIMESTAMP],
+            'payment_type'                 =>$booking[Booking::PAYMENT_TYPE],
+            'payment_status'               =>$booking[Booking::PAYMENT_STATUS]
         ];
     }
     public function requestAdaptor(){
@@ -46,7 +70,8 @@ class BookingTransformer extends TransformerAbstract{
      * @return \League\Fractal\Resource\Item
      */
     public function includeBuyer(Booking $booking){
-        return $this->item($booking->buyer()->first(),new UserTransformer());
+       // print_r($booking->buyer()->first());
+        //return $this->item($booking->buyer()->first(),new UserTransformer());
     }
 
     /**
@@ -55,6 +80,6 @@ class BookingTransformer extends TransformerAbstract{
      * @return \League\Fractal\Resource\Item
      */
     public function includePackage(Booking $booking){
-        return $this->item($booking->package()->first(),new PackagesTransformer());
+       // return $this->item($booking->package()->first(),new PackagesTransformer());
     }
 }

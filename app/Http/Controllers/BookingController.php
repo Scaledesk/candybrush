@@ -10,6 +10,7 @@ use App\Booking_Packages_Installments;
 use App\Bookings_Package_Tags;
 use App\Bookings_Packages_Bonus;
 use App\Installment;
+use App\Booking as BookingModel;
 use App\libraries\Transformers\BookingTransformer;
 use App\PackagesModel;
 use Illuminate\Http\Request;
@@ -35,10 +36,19 @@ class BookingController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        return $this->response()->collection(Booking::all(),$this->booking_transformer);
+        if($request->has('seller_id')){
+            
+            
+            return $this->response()->collection(BookingModel::where('candybrush_bookings_seller_id',$request->seller_id)->get(),$this->booking_transformer);
+
+        }else if($request->has('buyer_id')){
+
+             return $this->response()->collection(BookingModel::where('candybrush_bookings_buyer_id',$request->buyer_id)->get(),$this->booking_transformer);
+        }
+       
     }
 
     /**
