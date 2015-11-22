@@ -106,6 +106,9 @@ class PackagesController extends BaseController
                    $packages=$packages->orderBy('id','DESC');
                }
            }
+           if($request->has('user_id')){
+                $packages=$packages->where(PackagesModel::User_ID.'='.Input::get('user_id'));
+           }
            $packages = $packages->with(['tags','category','bonus','addons','seller'])->search(Input::get('query',''))->get()->unique();
            return $this->response()->collection($packages, new FirstTimePackageTransformer());
        }
