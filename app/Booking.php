@@ -63,4 +63,12 @@ class Booking extends Model
         //package sold
         return $this->belongsTo('App\PackagesModel','candybrush_bookings_package_id');
     }
+
+    /**
+     * retation with Booking packages tags
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function bookingPackagesTags(){
+        return $this->hasMany('App\Bookings_Package_Tags','candybrush_bookings_packages_tags_bookings_id');
+    }
 }

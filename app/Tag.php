@@ -25,5 +25,8 @@ class Tag extends Model
     public function requestFeatures(){
         return $this->belongsToMany('App\RequestFeature','candybrush_request_features_tags','candybrush_request_features_tags_tag_id','candybrush_request_features_tags_request_feature_id')->withTimestamps();
     }
+    public function bookingPackagesTags(){
+        return $this->hasMany('App\Bookings_Package_Tags','candybrush_bookings_packages_tags_tag_id');
+    }
 
 }
