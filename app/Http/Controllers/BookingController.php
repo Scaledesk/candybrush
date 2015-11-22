@@ -87,11 +87,9 @@ class BookingController extends BaseController
                     $package=PackagesModel::where('id',$data[Booking::PACKAGE_ID])->first();
                         $updated_at=DB::table('candybrush_packages')->where('id',$data[Booking::PACKAGE_ID])->select('updated_at')->first()->updated_at;
 
-                        if($data[Booking::PACKAGE_TIMESTAMP]!=$updated_at){
-                            
-
-                            return $this->error('Package updated before order placed',422);
-                        }
+//                        if($data[Booking::PACKAGE_TIMESTAMP]!=$updated_at){
+//                            return $this->error('Package updated before order placed',422);
+//                        }
                     $data['candybrush_bookings_seller_id']=$package->candybrush_packages_user_id;
                     $data['candybrush_bookings_price']=$package->candybrush_packages_price;
                     $data['candybrush_bookings_deal_price']=$package->candybrush_packages_deal_price;
