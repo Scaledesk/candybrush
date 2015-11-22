@@ -6,6 +6,7 @@
  * Time: 7:23 PM
  */
 namespace App\libraries\Transformers;
+use App\Booking;
 use App\UserProfile;
 use Dingo\Api\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -27,7 +28,10 @@ class UserProfileTransformer extends TransformerAbstract{
             'birth_date'=>$profile->candybrush_users_profiles_birth_date,
             'sex'=>$profile->candybrush_users_profiles_sex,
             'image'=>$profile->candybrush_users_profiles_image,
-            'id_proof'=>$profile->candybrush_users_profiles_id_proof        ];
+            'id_proof'=>$profile->candybrush_users_profiles_id_proof,
+            'sales'=>self::getTotalSales($profile),
+            'purchases'=>self::getTotalPurchases($profile)
+        ];
     }
     public function requestAdapter()
     {
@@ -48,4 +52,28 @@ class UserProfileTransformer extends TransformerAbstract{
             UserProfile::ID_PROOF => Input::get('id_proof')
         ];
     }
+    public function getTotalSales(UserProfile $userProfile){
+        $data=Booking::where('candybrush_bookings_seller_id',$userProfile->candybrush_users_profiles_users_id)->select(Booking::PRICE)->get();
+        $sum=0;
+        $count=0;
+        foreach($data as $price){
+            $sum+=$price->candybrush_bookings_price;
+            $count++;
+            }
+        unset($data,$price);
+        return ["amount"=>$sum,
+            "count"=>$count];
+        }
+    public function getTotalPurchases(UserProfile $userProfile){
+        $data=Booking::where('candybrush_bookings_buyer_id',$userProfile->candybrush_users_profiles_users_id)->select(Booking::PRICE)->get();
+        $sum=0;
+        $count=0;
+        foreach($data as $price){
+            $sum+=$price->candybrush_bookings_price;
+            $count++;
+        }
+        unset($data,$price);
+        return ["amount"=>$sum,
+                "count"=>$count];
+        }
 }
