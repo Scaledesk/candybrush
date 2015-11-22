@@ -36,6 +36,9 @@ class UserProfileController extends BaseController
     public function show($id)
     {
         $user=User::find($id);
+        if(is_null($user)){
+            return $this->error('user_id do not match any records');
+        }
         return $this->response()->item($user->userprofiles()->first(),new UserProfileTransformer());
     }
 
