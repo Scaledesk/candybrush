@@ -9,16 +9,16 @@
 namespace App\libraries\Transformers;
 
 
-use App\User;
+use App\User as USER;
 use Illuminate\Support\Facades\Input;
 use League\Fractal\TransformerAbstract;
 
 class UserTransformer extends TransformerAbstract{
     protected $availableIncludes=['Badges'];
-    public function transform(User $user){
+    public function transform(USER $user){
         return [
             'id'  =>$user->id,
-//            'name'=>$user->name,
+//           'name'=>$user->name,
             'email'=>$user->email,
             'status'=>$user->confirmed
         ];
