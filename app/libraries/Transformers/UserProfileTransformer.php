@@ -23,7 +23,7 @@ class UserProfileTransformer extends TransformerAbstract{
             'pin'=>$profile->candybrush_users_profiles_pin,
             'language_known'=>$profile->candybrush_users_profiles_language_known,
             'description'=>$profile->candybrush_users_profiles_description,
-            'custom_message'=>$profile->candybrush_users__profiles_custom_message,
+            'custom_message'=>$profile->candybrush_users_profiles_custom_message,
             'birth_date'=>$profile->candybrush_users_profiles_birth_date,
             'sex'=>$profile->candybrush_users_profiles_sex,
             'image'=>$profile->candybrush_users_profiles_image,

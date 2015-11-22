@@ -53,13 +53,15 @@ class UserProfileController extends BaseController
          */
        $data = $this->userProfileTransformer->requestAdapter();
         $data=array_filter($data,'strlen'); // filter blank or null array
+       /* print_r($data);
+        die;*/
         if(sizeof($data)){ 
             try{
-                $user_profile=UserProfile::where('candybrush_users_profiles_user_id',Input::get('user_id'))->first();
+                $user_profile=UserProfile::where('candybrush_users_profiles_users_id',Input::get('user_id'))->first();
                 $result=$user_profile->update($data);
                 }catch(\Exception $e){
-            return $this->error($e->getMessage(),$e->getCode());
-        }
+            return $this->error($e->getMessage(),422);
+            }
         }else{
             return $this->error('no adequate field passed',422);
         }
