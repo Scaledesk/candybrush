@@ -48,12 +48,13 @@ class UserProfileController extends BaseController
      */
     public function update()
     {
+         $user=User::find(Input::get('user_id'));
         /**
          * Update profile
          */
        $data = $this->userProfileTransformer->requestAdapter();
         $data=array_filter($data,'strlen'); // filter blank or null array
-        if(sizeof($data)){ try{$result=$this->auth()->user()->userprofiles()->update($data);}catch(\Exception $e){
+        if(sizeof($data)){ try{$result=$user->userprofiles()->update($data);}catch(\Exception $e){
             return $this->error($e->getMessage(),$e->getCode());
         }
         }else{
