@@ -37,12 +37,12 @@ return [
     'google'   => [
         'client_id'     => getenv('GOOGLE_CLIENT_ID'),
         'client_secret' => getenv('GOOGLE_CLIENT_SECRET'),
-        'redirect'      => getenv('GOOGLE_REDIRECT_URI'),
+        'redirect'      => /*getenv('GOOGLE_REDIRECT_URI')*/'http://goblindesignstudio.com/',
     ],
     'facebook' => [
         'client_id'     => getenv('FACEBOOK_CLIENT_ID'),
         'client_secret' => getenv('FACEBOOK_CLIENT_SECRET'),
-        'redirect'      => getenv('FACEBOOK_REDIRECT_URI'),
+        'redirect'      => /*getenv('GOOGLE_REDIRECT_URI')*/'http://goblindesignstudio.com/',
     ],
 
 
