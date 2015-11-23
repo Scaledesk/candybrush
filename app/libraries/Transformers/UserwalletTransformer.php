@@ -15,8 +15,10 @@ use League\Fractal\TransformerAbstract;
 
 class UserwalletTransformer extends TransformerAbstract{
     //for object transformation
-    public function transform(){
-        //return [];
+    public function transform(UserWallet $userWallet){
+        return [
+            'amount'=>$userWallet->candybrush_users_wallet_amount
+        ];
     }
     public function requestAdaptor(){
         /*

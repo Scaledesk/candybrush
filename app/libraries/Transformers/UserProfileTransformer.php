@@ -8,9 +8,12 @@
 namespace App\libraries\Transformers;
 use App\Booking;
 use App\UserProfile;
+use App\UserWallet;
 use Dingo\Api\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use League\Fractal\TransformerAbstract;
+use App\libraries\Transformers\UserwalletTransformer;
 
 class UserProfileTransformer extends TransformerAbstract{
     public function transform(UserProfile $profile){
@@ -30,7 +33,8 @@ class UserProfileTransformer extends TransformerAbstract{
             'image'=>$profile->candybrush_users_profiles_image,
             'id_proof'=>$profile->candybrush_users_profiles_id_proof,
             'sales'=>self::getTotalSales($profile),
-            'purchases'=>self::getTotalPurchases($profile)
+            'purchases'=>self::getTotalPurchases($profile),
+            'wallet'=>self::getWallet($profile)
         ];
     }
     public function requestAdapter()
@@ -75,5 +79,9 @@ class UserProfileTransformer extends TransformerAbstract{
         unset($data,$price);
         return ["amount"=>$sum,
                 "count"=>$count];
+        }
+        public function getWallet(UserProfile $userProfile){
+            $transformer=new UserwalletTransformer();
+            return $transformer->transform(UserWallet::where('candybrush_users_wallet_user_id',$userProfile->candybrush_users_profiles_users_id)->first());
         }
 }
