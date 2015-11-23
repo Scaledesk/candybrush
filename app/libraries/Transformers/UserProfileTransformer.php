@@ -82,6 +82,10 @@ class UserProfileTransformer extends TransformerAbstract{
         }
         public function getWallet(UserProfile $userProfile){
             $transformer=new UserwalletTransformer();
-            return $transformer->transform(UserWallet::where('candybrush_users_wallet_user_id',$userProfile->candybrush_users_profiles_users_id)->first());
+            $userWallet=UserWallet::where('candybrush_users_wallet_user_id',$userProfile->candybrush_users_profiles_users_id)->first();
+            if(is_null($userWallet)){
+                return null;
+            }
+            return $transformer->transform($userWallet);
         }
 }
