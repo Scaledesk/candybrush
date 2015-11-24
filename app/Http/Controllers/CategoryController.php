@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\libraries\Transformers\CategoryTransformer;
 use App\Tag;
-use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
 use Mockery\CountValidator\Exception;
 
@@ -27,9 +27,12 @@ class CategoryController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(/*Request $request*/)
     {
         //
+        /*if($request::has('category_id')){
+            return $this->response()->item(Category::where(Category::ID,$request::input('category_id'))->first(),$this->category_transformer);
+        }*/
         return $this->response()->collection(Category::all(),$this->category_transformer);
     }
 

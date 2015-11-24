@@ -10,7 +10,7 @@ namespace app\libraries\Transformers;
 
 
 use App\Category;
-use App\libraries\Transformers\PackagesTransformer;
+use App\libraries\Transformers\FirstTimePackageTransformer;
 use App\libraries\Transformers\RequestFeatureTransformer;
 use Illuminate\Support\Facades\Input;
 use League\Fractal\TransformerAbstract;
@@ -22,7 +22,8 @@ class CategoryTransformer extends TransformerAbstract{
         return [
             'id'=>$data[Category::ID],
             'name'=>$data[Category::NAME],
-            'parent_id'=>$data[Category::PARENT_ID]
+            'parent_id'=>$data[Category::PARENT_ID],
+            'image'=>self::getCategoryImage()
         ];
     }
     public function requestAdaptor(){
@@ -32,9 +33,12 @@ class CategoryTransformer extends TransformerAbstract{
         ];
     }
     public function includePackages(Category $category){
-        return $this->collection($category->packages()->get(),new PackagesTransformer());
+        return $this->collection($category->packages()->get(),new FirstTimePackageTransformer());
     }
     public function includeRequestFeature(Category $category){
         return $this->collection($category->requestFeature()->get(),new RequestFeatureTransformer());
+    }
+    public function getCategoryImage(){
+        return "http://lorempixel.com/1366/141/";
     }
 }
