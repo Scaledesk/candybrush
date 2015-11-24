@@ -39,6 +39,6 @@ class CategoryTransformer extends TransformerAbstract{
         return $this->collection($category->requestFeature()->get(),new RequestFeatureTransformer());
     }
     public function getCategoryImage(){
-        return "http://lorempixel.com/1366/141/";
+        return "http://lorempixel.com/1366/141/business/";
     }
 }
